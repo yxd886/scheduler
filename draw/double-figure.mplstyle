@@ -1,0 +1,13 @@
+### more options http://matplotlib.org/users/customizing.html
+axes.titlesize : 34
+axes.labelsize : 28
+lines.linewidth : 4
+lines.markersize : 8
+xtick.labelsize : 28
+ytick.labelsize : 28
+savefig.dpi : 1000
+legend.shadow : True
+legend.numpoints : 1
+legend.fontsize: 28
+pdf.fonttype : 42
+ps.fonttype : 42
