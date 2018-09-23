@@ -277,6 +277,7 @@ def get_gpu_request():
     cpus = [100*cpu/max_cpu for cpu in cpus]
     #mems = [100*mem/max_mem for mem in mems]
     x = [i*0.01 for i in range(2400)]
+    plt.style.use(["seaborn-bright", "double-figure.mplstyle"])
     fig, ax = plt.subplots()
     ax.plot(x, gpus, 'b-')
     # ax.plot(x, cpus, 'g--', label="CPU")
@@ -294,7 +295,7 @@ def get_gpu_request():
 
 
 
-job_arrival_day()
-job_length()
-get_number_of_models()
+# job_arrival_day()
+# job_length()
+# get_number_of_models()
 get_gpu_request()

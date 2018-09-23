@@ -1,5 +1,8 @@
 import os
 
+'''
+analyze trace in arnold
+'''
 
 def read_linearity_speed():
     dnns = ['resnet_50', 'resnet_152', 'vgg_16', 'inception-bn', 'alexnet']

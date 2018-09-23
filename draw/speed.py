@@ -4,10 +4,15 @@ import scipy.interpolate
 import matplotlib.pyplot as plt
 from matplotlib import cm
 from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.ticker import MaxNLocator
 
+'''
+analyze trace in testbed
+'''
 
 linear_scalability_maps = dict()
 ratio_maps =  dict()
+model_names = {"resnet-50":"ResNet", "vgg-16":"VGG", "resnext-110":"ResNeXt", "inception-bn":"Inception", "seq2seq":"Seq2Seq", "cnn-text-classification":"CTC", "dssm":"DSSM", "wlm":"WLM"}
 
 def ratio_fit():
 	# fit a speed function for each model
@@ -110,11 +115,13 @@ def draw(model):
 def draw_linearity():
 	# ps:worker=2:2, 4:4, ..., 10:10, 12:12
 	# draw a figure showing the scalability of 3 models
+	plt.style.use(["seaborn-bright", "double-figure.mplstyle"])
 	fig, ax = plt.subplots()
 	plt.xlabel('# of workers')
-	plt.ylabel('Norm. Speed')
+	plt.ylabel('Scalability')
 
-	styles = ["b-", "r*-", "c^-", "y--", "kD-", "g-", "m-", "b*-"]
+	styles = ["bD-", "r*-", "g>-", "y--", "kD-", "c-", "m-", "b*-"]
+	count = 0
 	for i in range(len(linear_scalability_maps)):
 		dnn = linear_scalability_maps.keys()[i]
 		if dnn != "resnet-50" and dnn != "vgg-16" and dnn != "seq2seq":
@@ -124,12 +131,15 @@ def draw_linearity():
 				linear_scalability_maps[dnn][j] = (linear_scalability_maps[dnn][j-1] + linear_scalability_maps[dnn][j+1])/2
 		x = np.array([2*_ for _ in range(1,len(linear_scalability_maps[dnn])+1)])
 		y = 2*np.array(linear_scalability_maps[dnn])/(linear_scalability_maps[dnn][0])
-		plt.plot(x, y, styles[i%len(styles)], label=dnn)
-	legend = ax.legend(loc='best', shadow=False)
+		plt.plot(x, y, styles[count%len(styles)], label=model_names[dnn])
+		count += 1
+	legend = ax.legend(loc=(0,0.48), shadow=False)
 	frame = legend.get_frame()
 	frame.set_facecolor('1')
-	plt.xlim(2,12.001)
-	plt.ylim(2,12.001)
+	plt.xlim(2,13)
+	plt.ylim(2,13)
+	ax.xaxis.set_major_locator(MaxNLocator(4))
+	ax.yaxis.set_major_locator(MaxNLocator(4))
 	# plt.title("PS:Worker=1:1")
 	plt.tight_layout()
 
@@ -140,15 +150,17 @@ def draw_linearity():
 def draw_ratio():
 	# ps:worker = 2:10, 3:9, 4:8, 6:6, 8:4, 9:3, 10:2
 	# draw a bar figure for 3 models under different ps/worker ratios
+	plt.style.use(["seaborn-bright", "single-figure.mplstyle"])
 	fig, ax = plt.subplots(figsize=(8,4))
 	plt.xlabel('# of workers')
 	plt.ylabel('Norm. Speed')
 
+
 	styles = ["b-", "r*-", "c^-", "y--", "kD-", "g-", "m-", "b*-"]
 	for i in range(len(ratio_maps)):
 		dnn = ratio_maps.keys()[i]
-		if dnn != "resnet-50" and dnn != "vgg-16" and dnn != "seq2seq":
-			continue
+		# if dnn != "resnet-50" and dnn != "vgg-16" and dnn != "seq2seq":
+		# 	continue
 		x = np.array([_ for _ in range(1,len(ratio_maps[dnn])+1)])
 		y = np.array(ratio_maps[dnn])/max((ratio_maps[dnn]))
 		plt.plot(x, y, styles[i%len(styles)], label=dnn)
@@ -165,7 +177,7 @@ def draw_ratio():
 
 
 if __name__ == '__main__':
-	draw_linearity()
+	# draw_linearity()
 	draw_ratio()
 	exit()
 	for model in speed_funcs.keys():
