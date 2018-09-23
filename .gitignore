@@ -1,2 +1,8 @@
+*.egg
+*.pyo
 *.pyc
 .DS_Store
+.env
+.venv
+env/
+venv/
