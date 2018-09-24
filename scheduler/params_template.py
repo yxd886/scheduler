@@ -85,6 +85,7 @@ NUM_RESR_SLOTS = 8  # number of available resource slots on each machine
 
 # dataset
 REAL_SPEED_TRACE = True  # whether to use real traces collected from experiment testbed
+JOB_LEN_PATTERN = "Normal"  # Ali_Trace, Normal
 JOB_ARRIVAL_PATTERN = "Uniform"  # Uniform, Google_Trace, Poisson
 TRAIN_EPOCH_SIZE = 100  # number of traces for training dataset
 TOT_NUM_JOBS = 60  # number of jobs in one trace
