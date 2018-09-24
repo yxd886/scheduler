@@ -2,6 +2,8 @@ import os
 import csv
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+import matplotlib.ticker as mtick
+import matplotlib.transforms
 import matplotlib
 import time
 import datetime
@@ -149,6 +151,7 @@ print "Total # of jobs:", sum([job.dist for job in jobs])
 #     plt.show()
 #
 def job_arrival_day():
+    plt.style.use(["seaborn-bright", "double-figure.mplstyle"])
     starts = []
     for job in jobs:
         start = Job.format_time(job.start)
@@ -164,13 +167,37 @@ def job_arrival_day():
     counts, bin_edges = np.histogram(relative_starts, bins=bins)
     dt_list = [datetime.datetime.fromtimestamp(_+ts) for _ in bins]
     dates = matplotlib.dates.date2num(dt_list)
+    # print "dates", dates
+    # print "counts", counts
     fig, ax = plt.subplots()
-    ax.plot_date(dates[1:], counts, 'g-')
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
+    ax.plot_date(dates[1:], counts, 'b-')
+    # from matplotlib.dates import MO, TU, WE, TH, FR, SA, SU
+    # loc = matplotlib.dates.WeekdayLocator(byweekday=(MO, TU, WE, TH, FR, SA, SU))
+    # print "loc", loc
+    # ax.xaxis.set_major_locator(loc)
+    index_ls = ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU']
+    # plt.xticks(loc, index_ls)
+    # ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
+    # ax.xaxis.set_major_formatter(mdates.DateFormatter('%A'))
+    # ax.tick_params(direction='out', pad=50)
+    ax.set_xticklabels(index_ls)
+    ax.yaxis.set_major_locator(mtick.MaxNLocator(5))
+    # ax.xaxis.set_major_locator(mtick.MaxNLocator(8))
     plt.ylabel("Job arrival rate")
-    plt.gcf().autofmt_xdate()
+    # plt.setp(ax.xaxis.get_majorticklabels(), ha="left")
+    # Create offset transform by 5 points in x direction
+    dx = 25 / 72.;
+    dy = 0 / 72.
+    offset = matplotlib.transforms.ScaledTranslation(dx, dy, fig.dpi_scale_trans)
+
+    # apply offset transform to all x ticklabels.
+    for label in ax.xaxis.get_majorticklabels():
+        label.set_transform(label.get_transform() + offset)
+    # plt.gcf().autofmt_xdate()
+    plt.tight_layout()
     plt.show()
     fig.savefig("job_arrival_rate.pdf")
+
 
 
 def job_length():
@@ -377,10 +404,10 @@ def job_length_pattern():
 
 
 
-# job_arrival_day()
+job_arrival_day()
 # job_length()
 # get_number_of_models()
 # get_gpu_request()
 # fit_resource_speed_curve()
 # job_arrival_pattern()
-job_length_pattern()
+# job_length_pattern()

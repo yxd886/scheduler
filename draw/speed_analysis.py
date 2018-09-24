@@ -18,7 +18,7 @@ def ratio_fit():
 	# fit a speed function for each model
 	speed_funcs = dict()
 	records = []
-	with open("../trace/testbed/ps-worker-ratio-v3.txt", "r") as f:
+	with open("../trace/testbed/ps-worker-ratio-v2.txt", "r") as f:
 		for line in f:
 			records.append(ast.literal_eval(line.replace('\n','')))
 	speed_maps = dict()
@@ -147,25 +147,41 @@ def draw_ratio():
 	# draw a bar figure for 3 models under different ps/worker ratios
 	plt.style.use(["seaborn-bright", "single-figure.mplstyle"])
 	fig, ax = plt.subplots(figsize=(8,4))
-	plt.xlabel('# of workers')
+	plt.xlabel('Models')
 	plt.ylabel('Norm. Speed')
 
-
+	index = np.array([1, 7, 13])
+	bar_width = 1
+	arr = [[] for col in range(0, 5)]
 	styles = ["b-", "r*-", "c^-", "y--", "kD-", "g-", "m-", "b*-"]
+	colors = ['blue', 'green', 'red', 'cyan', 'orange', 'yellow', 'lightgray', 'pink']
+	patterns = ["/", "\\", "-", '|', '.', 'x', '+']
+	labels = ['(2,10)', '(3,9)', '(4,8)', '(6,6)', '(8,4)', '(9,3)', '(10,2)']
 	for i in range(len(ratio_maps)):
 		dnn = ratio_maps.keys()[i]
 		if dnn != "resnet-50" and dnn != "vgg-16" and dnn != "seq2seq":
 			continue
+		print "model", dnn
 		x = np.array([_ for _ in range(1,len(ratio_maps[dnn])+1)])
 		y = np.array(ratio_maps[dnn])/max((ratio_maps[dnn]))
-		print dnn,y
-		plt.plot(x, y, styles[i%len(styles)], label=dnn)
-	legend = ax.legend(loc='best', shadow=False)
+		print "x", x
+		print "y", y
+		for i in range(1, 6):
+			arr[i - 1].append(y[i])
+		# plt.plot(x, y, styles[i%len(styles)], label=dnn)
+	for i in range(0, len(arr)):
+		print i, arr[i]
+	for i in range(0, len(arr)):
+		plt.bar(index + i * bar_width, height=arr[i], width=bar_width, color=colors[i], hatch=patterns[i], label=labels[i+1])
+	legend = ax.legend(loc='lower center', shadow=False, ncol=3, borderaxespad=0)
 	frame = legend.get_frame()
 	frame.set_facecolor('1')
-	ax.set_xticklabels(['','(2,10)','(3,9)','(4,8)','(6,6)','(8,4)','(9,3)','(10,2)'])
-	# plt.xlim(1,7)
-	# plt.ylim(1,7)
+	# ax.set_xticklabels(['','(2,10)','(3,9)','(4,8)','(6,6)','(8,4)','(9,3)','(10,2)'])
+	ax.set_xticks(index + 2.5 * bar_width)
+	ax.set_xticklabels([model_names["resnet-50"], model_names["seq2seq"], model_names["vgg-16"]])
+
+	plt.xlim(0, 19)
+	# plt.ylim(0, 1)
 	# plt.title("PS:Worker=1:1")
 	plt.tight_layout()
 	plt.savefig('ps_worker_ratio.pdf',format='pdf', dpi=1000)
@@ -175,6 +191,3 @@ def draw_ratio():
 if __name__ == '__main__':
 	# draw_linearity()
 	draw_ratio()
-	exit()
-	for model in speed_funcs.keys():
-		draw(model)

@@ -69,7 +69,8 @@ class Trace:
 		# ali trace, JCT 147 minutes on average
 		self.ali_trace_arrv_pattern = [23, 8, 10, 13, 24, 21, 17, 29, 11, 16, 39, 61, 25, 28, 59, 50, 82, 59, 35, 46, 46, 32, 28, 16]
 		self.ali_trace_job_probs = [0.6812080536912751, 0.15962740106456838, 0.054096274010645685, 0.024704929414487386, 0.02048137005322842, 0.018051376996065724, 0.012959962971534367, 0.02887063179819486]
-		self.ali_trace_job_lengths = [35, 180, 300, 436, 559, 679, 806, 1155]
+		ali_trace_job_lengths = np.array([35.0, 180.0, 300.0, 436.0, 559.0, 679.0, 806.0, 1155.0])
+		self.ali_trace_num_epochs = ali_trace_job_lengths/np.max(ali_trace_job_lengths)*pm.MAX_NUM_EPOCHS
 
 	def _get_pattern(self, max_arrvs_per_ts):
 		if pm.JOB_ARRIVAL_PATTERN == "Uniform":
@@ -134,7 +135,11 @@ class Trace:
 			job_list = []
 			for j in range(num_jobs):
 				assert num_type <= self.num_types
-				type = np.random.randint(0, num_type)
+				if pm.JOB_LEN_PATTERN == "Normal":
+					type = np.random.randint(0, num_type)
+				elif pm.JOB_LEN_PATTERN == "Ali_Trace":
+					cumsum = np.cumsum(self.ali_trace_job_probs)
+					type = (cumsum > np.random.random()).argmax()
 				job = Job(id, type+1, self.logger)  # type start from 1
 				id += 1
 
@@ -151,10 +156,15 @@ class Trace:
 				job.speed_func = self.speed_funcs[job.model]
 
 				if pm.FIX_JOB_LEN:
-					job.num_epochs = int(self.num_epochs[type])
+					if pm.JOB_LEN_PATTERN == "Normal":
+						job.num_epochs = int(self.num_epochs[type])
+					else:
+						job.num_epochs = int(self.ali_trace_num_epochs[type])
 				else:
-					job.num_epochs = int(self.num_epochs[type])*np.random.randint(90,110)/100.0  # self._weibull_dist()
-
+					if pm.JOB_LEN_PATTERN == "Normal":
+						job.num_epochs = int(self.num_epochs[type])*np.random.randint(90,110)/100.0  # self._weibull_dist()
+					else:
+						job.num_epochs = int(self.ali_trace_num_epochs[type])*np.random.randint(90,110)/100.0
 				job_list.append(job)
 
 				count_num_jobs += 1

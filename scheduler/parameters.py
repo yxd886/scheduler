@@ -119,6 +119,8 @@ NUM_RESR_SLOTS = 8  # number of available resource slots on each machine
 
 # dataset
 REAL_SPEED_TRACE = True  # whether to use real traces collected from experiment testbed
+FIX_JOB_LEN = True
+JOB_LEN_PATTERN = "Normal"  # Ali_Trace, Normal
 JOB_ARRIVAL_PATTERN = "Uniform"  # Ali_Trace, Uniform, Google_Trace, Poisson
 TRAIN_EPOCH_SIZE = 100  # number of traces for training dataset
 TOT_NUM_JOBS = 60  # number of jobs in one trace
@@ -137,7 +139,7 @@ if TESTBED:
 	TS_DURATION = 600.0
 VAL_DATASET = 10  # number of traces for validation in each agent
 MAX_TS_LEN = 1000  # maximal timeslot length for one trace
-FIX_JOB_LEN = True
+
 
 # neural network
 JOB_ORDER_SHUFFLE = False  # whether to shuffle the order of the jobs in the scheduling window, can also be used for data augmentation

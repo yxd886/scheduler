@@ -8,6 +8,6 @@ ytick.labelsize : 16
 savefig.dpi : 1000
 legend.shadow : True
 legend.numpoints : 1
-legend.fontsize: 15
+legend.fontsize: 18
 pdf.fonttype : 42
 ps.fonttype : 42
