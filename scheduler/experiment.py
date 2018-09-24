@@ -13,7 +13,7 @@ sl_config_dict = {"TRAINING_MODE":"SL", "VALUE_NET":False, \
 				  "POLICY_NN_MODEL":None, "VALUE_NN_MODEL":None, "CHECKPOINT_INTERVAL":50, \
 				  "LEARNING_RATE":0.005, "TOT_NUM_STEPS":200, "VAL_INTERVAL":50, \
 				  "NUM_TS_PER_UPDATE":5, "JOB_ORDER_SHUFFLE":True}
-NUM_TEST = 10
+NUM_TEST = 1
 PARALLELISM = 10
 
 def replace_params(map, dir):
@@ -213,7 +213,7 @@ def main(id):
 		test_values = [False, True]
 	elif id == 5:
 		exp_name = "job_arrival_distribution"
-		test_values = ["Uniform", "Poisson", "Google_Trace"]
+		test_values = ["Ali_Trace", "Uniform", "Poisson", "Google_Trace"]
 	elif id == 6:
 		exp_name = "batch_normalization"
 		test_values = [False, True]
@@ -234,16 +234,16 @@ def main(id):
 		test_values = [False, True]
 	elif id == 12:
 		exp_name = "DRF_baseline"
-		test_values = ["Uniform", "Poisson", "Google_Trace"]
+		test_values = ["Ali_Trace", "Uniform", "Poisson", "Google_Trace"]
 	elif id == 13:
 		exp_name = "SRTF_baseline"
-		test_values = ["Uniform", "Poisson", "Google_Trace"]
+		test_values = ["Ali_Trace", "Uniform", "Poisson", "Google_Trace"]
 	elif id == 14:
 		exp_name = "Tetris_baseline"
-		test_values = ["Uniform", "Poisson", "Google_Trace"]
+		test_values = ["Ali_Trace", "Uniform", "Poisson", "Google_Trace"]
 	elif id == 15:
 		exp_name = "Optimus_baseline"
-		test_values = ["Uniform", "Poisson", "Google_Trace"]
+		test_values = ["Ali_Trace", "Uniform", "Poisson", "Google_Trace"]
 	elif id == 16:
 		exp_name = "SL_heuristics"
 		test_values = ["FIFO", "SRTF"]

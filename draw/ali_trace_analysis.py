@@ -9,7 +9,7 @@ import numpy as np
 import ast
 import yaml
 
-plt.style.use(["seaborn-bright", "single-figure.mplstyle"])
+from matplotlib.ticker import MaxNLocator
 
 
 trace_dir = "../trace/ali-v2/"
@@ -53,6 +53,10 @@ class Job(object):
     @staticmethod
     def format_time(ts):
         return time.localtime(ts)
+
+    def print_resr_length(self):
+        print "model:", self.model, "duration:", self.duration, "num_ps:", self.num_ps, "num_worker:", self.num_worker, \
+            "ps_cpu:", self.ps_cpu, "worker_cpu:", self.worker_gpu, "worker_gpu:", self.worker_gpu
 
 
 jobs = []
@@ -170,10 +174,12 @@ def job_arrival_day():
 
 
 def job_length():
+    plt.style.use(["seaborn-bright", "double-figure.mplstyle"])
     durations = []
     for job in jobs:
         if job.dist:
             durations.append(job.duration/60)
+    print "average job duration: ", sum(durations)/len(durations), "min"
     # plt.hist(durations, bins=20, cumulative=True, label='CDF', normed=True, histtype='step')
     bins = [_ for _ in range(0, max(durations), max(durations)/1000)]
     counts, bin_edges = np.histogram(durations, bins=bins)
@@ -181,14 +187,16 @@ def job_length():
     cdf /= cdf[-1]
     cdf = np.append(np.array([0.0]), cdf)
     fig, ax = plt.subplots()
-    ax.plot(bin_edges, cdf)
+    ax.plot(bin_edges, cdf*100, 'b-')
+    ax.xaxis.set_major_locator(MaxNLocator(40))
     plt.xlabel("Duration (min)")
-    plt.ylabel("CDF")
-    plt.ylim(0,1)
+    plt.ylabel("CDF (%)")
+    plt.ylim(0,100)
     plt.xlim(left=1)
 
     plt.xscale('log')
-    plt.gcf().subplots_adjust(bottom=0.2, left=0.2)
+    plt.gcf().subplots_adjust(bottom=0.2, left=0.18)
+    plt.tight_layout()
     plt.show()
     fig.savefig("job_length_cdf.pdf")
 
@@ -203,6 +211,8 @@ def get_number_of_models():
                 models[job.model] += 1
     print "# of models", len(models)
     print "# of models trained for more than once", sum([m>1 for m in models.values()])
+    print "# of models trained for more than five", sum([m > 5 for m in models.values()])
+    print "# of models trained for more than ten", sum([m >= 10 for m in models.values()])
     # plt.hist(models.values(), bins=20)
     # plt.show()
 
@@ -213,6 +223,35 @@ def get_number_of_models():
 
     plt.hist(more_models.values(), bins=50)
     plt.show()
+
+
+def fit_resource_speed_curve():
+    models = dict()
+    cand_models = set()
+    for job in jobs:
+        if job.dist:
+            if job.model not in models.keys():
+                models[job.model] = 1
+            else:
+                models[job.model] += 1
+            if models[job.model] >= 10 and job.model not in cand_models:
+                cand_models.add(job.model)
+    print cand_models
+    cand_jobs = dict()
+    for job in jobs:
+        if job.dist and job.model in cand_models:
+            if job.model not in cand_jobs.keys():
+                cand_jobs[job.model] = []
+            cand_jobs[job.model].append(job)
+
+    for k, v in cand_jobs.items():
+        # print  k, v
+        for job in v:
+            job.print_resr_length()
+        print '--------------------------'
+
+
+
 
 def get_gpu_request():
     candidates = []
@@ -293,9 +332,55 @@ def get_gpu_request():
 
 
 
+def job_arrival_pattern():
+    starts = []
+    for job in jobs:
+        start = Job.format_time(job.start)
+        if start.tm_year == 2018 and start.tm_mon == 8 and start.tm_mday == 20:
+            starts.append(job.start)
+    dt_obj = datetime.datetime(2018, 8, 20, 0, 0, 0)
+    ts = time.mktime(dt_obj.timetuple())
+    relative_starts = [_ - ts for _ in starts]
+    arrival = [0 for _ in range(24)]
+    for start in relative_starts:
+        hour = int(start/3600)
+        print hour
+        arrival[hour] += 1
+    print arrival
+
+
+def job_length_pattern():
+    max_length = 1000
+    durations = dict()
+
+    for job in jobs:
+        if job.dist:
+            duration = job.duration/60
+            index = min([7, duration/(max_length/8)])
+            if index not in durations.keys():
+                durations[index] =[]
+            durations[index].append(duration)
+
+    tot_num = 0
+    job_length_dist = [0 for _ in range(8)]
+    for k, v in durations.items():
+        job_length_dist[k] = sum(v)/len(v)
+        tot_num += len(v)
+    job_length_prob = [len(v)/float(tot_num) for k, v in durations.items()]
+    print job_length_prob, job_length_dist
+
+    sum_length = 0
+    for i in range(8):
+        sum_length += (job_length_dist[i] * job_length_prob[i])
+    print sum_length
+
+
 
 
 # job_arrival_day()
 # job_length()
 # get_number_of_models()
-get_gpu_request()
+# get_gpu_request()
+# fit_resource_speed_curve()
+# job_arrival_pattern()
+job_length_pattern()

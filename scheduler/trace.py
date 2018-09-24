@@ -2,6 +2,7 @@ import numpy as np
 import parameters as pm
 from job import Job
 import speed
+import math
 
 class Trace:
 	def __init__(self, logger=None):
@@ -65,6 +66,10 @@ class Trace:
 							   24, 30, 29, 30, 28, 18, 23, 22, 34, 36, 35, 39, 37, 38, 34, 34, 30, 34, 36, 31, 21, 34,
 							   21, 26, 24, 34, 29, 30, 26, 36, 31]
 
+		# ali trace, JCT 147 minutes on average
+		self.ali_trace_arrv_pattern = [23, 8, 10, 13, 24, 21, 17, 29, 11, 16, 39, 61, 25, 28, 59, 50, 82, 59, 35, 46, 46, 32, 28, 16]
+		self.ali_trace_job_probs = [0.6812080536912751, 0.15962740106456838, 0.054096274010645685, 0.024704929414487386, 0.02048137005322842, 0.018051376996065724, 0.012959962971534367, 0.02887063179819486]
+		self.ali_trace_job_lengths = [35, 180, 300, 436, 559, 679, 806, 1155]
 
 	def _get_pattern(self, max_arrvs_per_ts):
 		if pm.JOB_ARRIVAL_PATTERN == "Uniform":
@@ -97,6 +102,12 @@ class Trace:
 			else:
 				self.logger.error("unrecognizable arrival pattern!")
 				exit(-1)
+		elif pm.JOB_ARRIVAL_PATTERN == "Ali_Trace":
+			ratio = max(self.ali_trace_arrv_pattern)/float(max_arrvs_per_ts)
+			trace = []
+			for arrv in self.ali_trace_arrv_pattern:
+				trace.append(int(math.ceil(arrv/ratio)))
+			return trace
 
 
 	def _weibull_dist(self):

@@ -18,7 +18,7 @@ def ratio_fit():
 	# fit a speed function for each model
 	speed_funcs = dict()
 	records = []
-	with open("../trace/testbed/ps-worker-ratio.txt", "r") as f:
+	with open("../trace/testbed/ps-worker-ratio-v3.txt", "r") as f:
 		for line in f:
 			records.append(ast.literal_eval(line.replace('\n','')))
 	speed_maps = dict()
@@ -27,11 +27,11 @@ def ratio_fit():
 		if model not in speed_maps:
 			speed_maps[model] = []
 		speed_maps[model].append((num_ps, num_worker, sum(speeds)))
-	print speed_maps['resnet-50']
+	# print speed_maps['resnet-50']
 	for model in speed_maps.keys():
 		x = []; y = []; z = []
 		for _num_ps, _num_worker, _speed in speed_maps[model]:
-			print model, _num_ps, _speed
+			# print model, _num_ps, _speed
 			if model not in ratio_maps:
 				ratio_maps[model] = []
 			ratio_maps[model].append(_speed)
@@ -57,12 +57,12 @@ def linear_fit():
 		if model not in speed_maps:
 			speed_maps[model] = []
 		speed_maps[model].append((num_ps, num_worker, sum(speeds)))
-	print speed_maps['resnet-50']
+	# print speed_maps['resnet-50']
 	for model in speed_maps.keys():
 		x = []; y = []; z = []
 		for _num_ps, _num_worker, _speed in speed_maps[model]:
 			if _num_ps == _num_worker and _num_ps%2==0:
-				print model, _num_ps, _speed
+				# print model, _num_ps, _speed
 				if model not in linear_scalability_maps:
 					linear_scalability_maps[model] = []
 				linear_scalability_maps[model].append(_speed)
@@ -76,11 +76,6 @@ def linear_fit():
 
 speed_funcs = linear_fit()
 ratio_fit()
-
-
-def get_speed(self, model, num_ps, num_worker):
-	assert model in self.speed_funcs.keys() and num_ps <= pm.MAX_NUM_WORKERS+1 and num_worker <= pm.MAX_NUM_WORKERS+1
-	return self.speed_funcs[model](num_ps, num_worker)
 
 
 # draw the 3D figure to have some basic understanding of training speed and resources
@@ -159,10 +154,11 @@ def draw_ratio():
 	styles = ["b-", "r*-", "c^-", "y--", "kD-", "g-", "m-", "b*-"]
 	for i in range(len(ratio_maps)):
 		dnn = ratio_maps.keys()[i]
-		# if dnn != "resnet-50" and dnn != "vgg-16" and dnn != "seq2seq":
-		# 	continue
+		if dnn != "resnet-50" and dnn != "vgg-16" and dnn != "seq2seq":
+			continue
 		x = np.array([_ for _ in range(1,len(ratio_maps[dnn])+1)])
 		y = np.array(ratio_maps[dnn])/max((ratio_maps[dnn]))
+		print dnn,y
 		plt.plot(x, y, styles[i%len(styles)], label=dnn)
 	legend = ax.legend(loc='best', shadow=False)
 	frame = legend.get_frame()
