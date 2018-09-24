@@ -11,7 +11,7 @@ def fit():
 	# fit a speed function for each model
 	speed_funcs = dict()
 	records = []
-	with open("../trace/testbed/ps-worker-linearity.txt", "r") as f:
+	with open("config_speed.txt", "r") as f:
 		for line in f:
 			records.append(ast.literal_eval(line.replace('\n','')))
 	speed_maps = dict()
