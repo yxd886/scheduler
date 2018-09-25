@@ -163,7 +163,7 @@ def job_arrival_day():
     print ts, min(starts), time.localtime(min(starts)), time.localtime(max(starts))
     # exit()
     relative_starts = [_-ts for _ in starts]
-    bins = [_*3600 for _ in range(0,24*7)]
+    bins = [_*3600/3 for _ in range(0,24*3*7)]
     counts, bin_edges = np.histogram(relative_starts, bins=bins)
     dt_list = [datetime.datetime.fromtimestamp(_+ts) for _ in bins]
     dates = matplotlib.dates.date2num(dt_list)
@@ -278,6 +278,30 @@ def fit_resource_speed_curve():
         print '--------------------------'
 
 
+def est_interference():
+    models = dict()
+    cand_models = set()
+    for job in jobs:
+        if job.dist:
+            if job.model not in models.keys():
+                models[job.model] = 1
+            else:
+                models[job.model] += 1
+            if models[job.model] >= 2 and job.model not in cand_models:
+                cand_models.add(job.model)
+    #print cand_models
+    cand_jobs = dict()
+    for job in jobs:
+        if job.dist and job.model in cand_models:
+            if job.model not in cand_jobs.keys():
+                cand_jobs[job.model] = []
+            cand_jobs[job.model].append(job.duration)
+
+    errors = []
+    for k, v in cand_jobs.items():
+        error = np.abs(np.std(np.array(v))/np.average(np.array(v)))
+        errors.append(error)
+    print np.average(errors)
 
 
 def get_gpu_request():
@@ -403,10 +427,11 @@ def job_length_pattern():
 
 
 
-# job_arrival_day()
+job_arrival_day()
 # job_length()
 # get_number_of_models()
 # get_gpu_request()
 # fit_resource_speed_curve()
-job_arrival_pattern()
+# job_arrival_pattern()
 # job_length_pattern()
+# est_interference()

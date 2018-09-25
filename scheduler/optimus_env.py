@@ -5,10 +5,12 @@ import parameters as pm
 from scheduler_base import Scheduler
 
 
-EST_ERROR = 0.1
+EST_ERROR = 0.0 # change to 0.05 with estimation error
 
 
 class Optimus_Env(Scheduler):
+	# can negatively impact performance when 1. local minimum 2. EST_ERROR make the utility negative,
+	# need to use curve fitting for correct implementation of optimus
 	def est_util(self, job):
 		if job.num_workers == 0:
 			return (-np.iinfo(np.int32).max, "worker")

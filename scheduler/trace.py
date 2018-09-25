@@ -19,8 +19,10 @@ class Trace:
 		self.inter_bws = [91.875, 233.0, 59.5, 145.875, 120.125, 60.75, 92.125, 10.375]  # MB/s
 		self.intra_bws = [306.5, 427.75, 63.0, 1082.125, 181.125, 159.625, 65.625, 22.875]  # MB/s
 
-		self.resr_workers = [[2, 4], [2, 4], [2, 4], [2, 4], [4, 0], [2, 4], [4, 0], [1, 4]]  # cpu, gpu, 1 cpu = 1 slot, 1 gpu = 4 slots
-		self.resr_ps = [[3, 0], [4, 0], [3, 0], [3, 0], [1, 0], [3, 0], [1, 0], [1, 0]]
+		# self.resr_workers = [[2, 4], [2, 4], [2, 4], [2, 4], [4, 0], [2, 4], [4, 0], [1, 4]]  # cpu, gpu, 1 cpu = 1 slot, 1 gpu = 4 slots
+		self.resr_workers = [[2, 2], [2, 2], [2, 2], [2, 2], [4, 0], [2, 2], [4, 0], [1, 2]]
+		# self.resr_ps = [[3, 0], [4, 0], [3, 0], [3, 0], [1, 0], [3, 0], [1, 0], [1, 0]]
+		self.resr_ps = [[4, 0], [4, 0], [4, 0], [4, 0], [4, 0], [4, 0], [4, 0], [4, 0]]
 		self.num_epochs = np.array([0.3, 0.96, 0.05, 0.54, 0.95, 0.46, 0.33, 0.23]) * pm.MAX_NUM_EPOCHS
 		# self.num_epochs = np.array([0.39, 0.6, 0.05, 0.54, 0.99, 0.76, 0.93, 0.23]) * pm.MAX_NUM_EPOCHS
 
@@ -75,6 +77,10 @@ class Trace:
 		self.ali_trace_job_probs = [0.6812080536912751, 0.15962740106456838, 0.054096274010645685, 0.024704929414487386, 0.02048137005322842, 0.018051376996065724, 0.012959962971534367, 0.02887063179819486]
 		ali_trace_job_lengths = np.array([35.0, 180.0, 300.0, 436.0, 559.0, 679.0, 806.0, 1155.0])
 		self.ali_trace_num_epochs = ali_trace_job_lengths/np.max(ali_trace_job_lengths)*pm.MAX_NUM_EPOCHS
+		# importance: [ 23.84228188,  28.73293219,  16.2288822 ,  10.77134922, 11.44908586,  12.25688498,  10.44573016,  33.34557973]
+		# speedup: [1.21, 1.11, 1.18, 1.50, 1.48, 1.09, 1.33, 0.88]
+		# ["resnet-50", "vgg-16", "resnext-110", "inception-bn", "seq2seq", "cnn-text-classification", "dssm", "wlm"]
+		self.importance_map = [6, 4, 0, 5, 1, 2, 7, 3]
 
 	def _get_pattern(self, max_arrvs_per_ts):
 		if pm.JOB_ARRIVAL_PATTERN == "Uniform":
@@ -144,6 +150,8 @@ class Trace:
 				elif pm.JOB_LEN_PATTERN == "Ali_Trace":
 					cumsum = np.cumsum(self.ali_trace_job_probs)
 					type = (cumsum > np.random.random()).argmax()
+					index = type
+					type = self.importance_map[type]
 				job = Job(id, type+1, self.logger)  # type start from 1
 				id += 1
 
@@ -162,8 +170,8 @@ class Trace:
 				if pm.FIX_JOB_LEN:
 					if pm.JOB_LEN_PATTERN == "Normal":
 						job.num_epochs = int(self.num_epochs[type])
-					else:
-						job.num_epochs = int(self.ali_trace_num_epochs[type])
+					elif pm.JOB_LEN_PATTERN == "Ali_Trace":
+						job.num_epochs = int(self.ali_trace_num_epochs[index])
 				else:
 					if pm.JOB_LEN_PATTERN == "Normal":
 						job.num_epochs = int(self.num_epochs[type])*np.random.randint(90,110)/100.0  # self._weibull_dist()

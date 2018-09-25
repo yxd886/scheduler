@@ -22,7 +22,7 @@ if TRAINING_MODE == "RL":
 else:
 	VALUE_NET = False
 
-POLICY_NN_MODEL = "Models/policy_sl_ps_worker_100.ckpt"  # path of the checkpointed model, or None
+POLICY_NN_MODEL = None #"Models/policy_sl_ps_worker_100.ckpt"  # path of the checkpointed model, or None
 VALUE_NN_MODEL = None  # "Models/value_rl_ps_worker_1000.ckpt"  # path of value network model
 SAVE_VALUE_MODEL = True
 if TRAINING_MODE == "SL" or VALUE_NN_MODEL is not None:
@@ -54,7 +54,7 @@ if TRAINING_MODE == "SL":
 else:
 	LEARNING_RATE = 0.0001
 
-MINI_BATCH_SIZE = 200
+MINI_BATCH_SIZE = 256/NUM_AGENTS
 EPSILON_GREEDY = False  # whether to enable epsilon greedy policy for exploration
 VARYING_EPSILON = True  # different values of epsilon for agents
 EPSILON = 0.1  # not used
@@ -109,24 +109,24 @@ CHANGING_JOB_TYPES = False
 TESTBED = False
 LARGE_SCALE = False
 assert TESTBED+LARGE_SCALE < 2
-CLUSTER_NUM_NODES = 32  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160
+CLUSTER_NUM_NODES = 100  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160
 if TESTBED:
 	CLUSTER_NUM_NODES = 6
 elif LARGE_SCALE:
-	CLUSTER_NUM_NODES = 100
+	CLUSTER_NUM_NODES = 500
 NUM_RESR_TYPES = 2  # number of resource types, e.g., cpu,gpu
 NUM_RESR_SLOTS = 8  # number of available resource slots on each machine
 
 # dataset
 REAL_SPEED_TRACE = True  # whether to use real traces collected from experiment testbed
 FIX_JOB_LEN = True
-JOB_LEN_PATTERN = "Normal"  # Ali_Trace, Normal
-JOB_ARRIVAL_PATTERN = "Uniform"  # Ali_Trace, Uniform, Google_Trace, Poisson
+JOB_LEN_PATTERN = "Ali_Trace"  # Ali_Trace, Normal
+JOB_ARRIVAL_PATTERN = "Ali_Trace"  # Ali_Trace, Uniform, Google_Trace, Poisson
 TRAIN_EPOCH_SIZE = 100  # number of traces for training dataset
-TOT_NUM_JOBS = 60  # number of jobs in one trace
-MAX_ARRVS_PER_TS = 3  # max number of jobs arrived in one time slot
-MAX_NUM_EPOCHS = 4000   # maximum duration of jobs, epochs. default 200
-MAX_NUM_WORKERS = 16
+TOT_NUM_JOBS = 120  # number of jobs in one trace
+MAX_ARRVS_PER_TS = 6  # max number of jobs arrived in one time slot
+MAX_NUM_EPOCHS = 80000   # maximum duration of jobs, epochs. default 200
+MAX_NUM_WORKERS = 32
 TS_DURATION = 1200.0
 if LARGE_SCALE:
 	TOT_NUM_JOBS = 180  # number of jobs in one trace
@@ -146,7 +146,7 @@ JOB_ORDER_SHUFFLE = False  # whether to shuffle the order of the jobs in the sch
 if TRAINING_MODE == "SL":
 	JOB_ORDER_SHUFFLE = True
 JOB_SORT_PRIORITY = "Arrival" # or Arrival, Resource, Progress, sort job based on resource or arrival
-SCHED_WINDOW_SIZE = 20  # maximum allowed number of jobs for NN input
+SCHED_WINDOW_SIZE = 30  # maximum allowed number of jobs for NN input
 if LARGE_SCALE:
 	SCHED_WINDOW_SIZE = 40
 PS_WORKER = True  # whether consider ps and worker tasks separately or not
@@ -191,7 +191,7 @@ BATCH_NORMALIZATION = True
 
 # single agent
 # NUM_AGENTS = 1
-# MINI_BATCH_SIZE = 200
+# MINI_BATCH_SIZE = 256
 # VAL_INTERVAL = 25
 # LEARNING_RATE = 0.01
 # REPLAY_MEMORY_SIZE = 8192

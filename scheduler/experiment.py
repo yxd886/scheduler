@@ -13,8 +13,8 @@ sl_config_dict = {"TRAINING_MODE":"SL", "VALUE_NET":False, \
 				  "POLICY_NN_MODEL":None, "VALUE_NN_MODEL":None, "CHECKPOINT_INTERVAL":50, \
 				  "LEARNING_RATE":0.005, "TOT_NUM_STEPS":200, "VAL_INTERVAL":50, \
 				  "NUM_TS_PER_UPDATE":5, "JOB_ORDER_SHUFFLE":True}
-NUM_TEST = 1
-PARALLELISM = 10
+NUM_TEST = 3
+PARALLELISM = 4
 
 def replace_params(map, dir):
 	pm_md = globals().get('pm', None)
@@ -207,7 +207,7 @@ def main(id):
 		test_values = [16, 32, 64, 96, 128, 164, 196, 256]
 	elif id == 3:
 		exp_name = "number_of_hidden_layers"
-		test_values = [1, 2, 3, 4, 5]
+		test_values = [1, 2, 3, 5, 7]
 	elif id == 4:
 		exp_name = "bundle_action"
 		test_values = [False, True]

@@ -42,7 +42,7 @@ def draw(model):
 	ax = Axes3D(fig)
 	ax.invert_xaxis()
 
-	xi = yi = np.linspace(0, 16, 50)
+	xi = yi = np.linspace(0, 32, 50)
 	xi, yi = np.meshgrid(xi, yi)
 	zi = speed_funcs[model](xi, yi)
 	ax.plot_surface(xi, yi, zi, cmap=cm.coolwarm, linewidth=0, antialiased=False)
@@ -59,8 +59,13 @@ def draw(model):
 	plt.show()
 	# plt.savefig(model + '-speed.pdf', format='pdf', dpi=1000)
 
+def point():
 
+	for model in speed_funcs.keys():
+		print model, speed_funcs[model](2,30), speed_funcs[model](16,16), speed_funcs[model](2,30)/speed_funcs[model](16,16)
 
 if __name__ == '__main__':
-	for model in speed_funcs.keys():
-		draw(model)
+	point()
+	exit()
+	# for model in speed_funcs.keys():
+	# 	draw(model)

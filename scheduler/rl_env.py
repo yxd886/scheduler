@@ -79,9 +79,9 @@ class RL_Env(Scheduler):
 		else:
 			self.skip_num_workers = 8 #np.random.randint(0,pm.MAX_NUM_WORKERS)
 		if pm.VARYING_PS_WORKER_RATIO:
-			self.ps_worker_ratio = np.random.randint(1,6)
+			self.ps_worker_ratio = np.random.randint(5,10)
 		else:
-			self.ps_worker_ratio = 5
+			self.ps_worker_ratio = 8
 
 	def _move(self):
 		self._progress()
@@ -196,6 +196,7 @@ class RL_Env(Scheduler):
 							job = self.window_jobs[i]
 							if job:
 								if pm.BUNDLE_ACTION:
+									# if one of three actions: ps/worker/bundle has low probability, enforce to select it
 									if min(self.action_freq) > 0 and min(self.action_freq)*1.0/sum(self.action_freq) < 0.05:
 										index = np.argmin(self.action_freq)
 										if mask[3*i+index] > 0 and masked_output[0][3*i+index] > pm.MIN_ACTION_PROB_FOR_SKIP:
@@ -211,10 +212,16 @@ class RL_Env(Scheduler):
 										action = 3*i
 										self.logger.debug("Got 2.")
 										break
-									elif job.num_workers >= job.num_ps*self.ps_worker_ratio and mask[3*i+2] > 0 and masked_output[0][3*i+2] > pm.MIN_ACTION_PROB_FOR_SKIP and np.random.rand() < 0.5:
-										# increase this job's bundle
-										action = 3*i+2
-										self.logger.debug("Got 3.")
+									elif job.num_workers >= job.num_ps*self.ps_worker_ratio and np.random.rand() < 0.75:
+										if mask[3*i+2] > 0 and masked_output[0][3*i+2] > pm.MIN_ACTION_PROB_FOR_SKIP and mask[3*i+1] > 0 and masked_output[0][3*i+1] > pm.MIN_ACTION_PROB_FOR_SKIP:
+											if np.random.rand() < 0.5:
+												# increase this job's bundle
+												action = 3*i+2
+												self.logger.debug("Got 3.")
+											else:
+												# incrase ps
+												action = 3*i+1
+												self.logger.debug("Got 4.")
 										break
 								else:
 									if job.num_workers == 0 and mask[2*i] > 0 and masked_output[0][2*i] > pm.MIN_ACTION_PROB_FOR_SKIP and np.random.rand() < 0.01:
