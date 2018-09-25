@@ -106,7 +106,7 @@ STEP_TRAIN_CRITIC_NET = 0  # number of steps for pretraining critic network, def
 CHANGING_JOB_TYPES = False
 
 # cluster
-TESTBED = True
+TESTBED = False
 LARGE_SCALE = False
 assert TESTBED+LARGE_SCALE < 2
 CLUSTER_NUM_NODES = 32  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160

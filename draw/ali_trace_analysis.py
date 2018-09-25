@@ -363,15 +363,14 @@ def job_arrival_pattern():
     starts = []
     for job in jobs:
         start = Job.format_time(job.start)
-        if start.tm_year == 2018 and start.tm_mon == 8 and start.tm_mday == 20:
+        if start.tm_year == 2018 and start.tm_mon == 8 and start.tm_mday >= 20 and start.tm_mday <=22:
             starts.append(job.start)
     dt_obj = datetime.datetime(2018, 8, 20, 0, 0, 0)
     ts = time.mktime(dt_obj.timetuple())
     relative_starts = [_ - ts for _ in starts]
-    arrival = [0 for _ in range(24)]
+    arrival = [0 for _ in range(24*3)]
     for start in relative_starts:
         hour = int(start/3600)
-        print hour
         arrival[hour] += 1
     print arrival
 
@@ -404,10 +403,10 @@ def job_length_pattern():
 
 
 
-job_arrival_day()
+# job_arrival_day()
 # job_length()
 # get_number_of_models()
 # get_gpu_request()
 # fit_resource_speed_curve()
-# job_arrival_pattern()
+job_arrival_pattern()
 # job_length_pattern()

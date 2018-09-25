@@ -67,7 +67,11 @@ class Trace:
 							   21, 26, 24, 34, 29, 30, 26, 36, 31]
 
 		# ali trace, JCT 147 minutes on average
-		self.ali_trace_arrv_pattern = [23, 8, 10, 13, 24, 21, 17, 29, 11, 16, 39, 61, 25, 28, 59, 50, 82, 59, 35, 46, 46, 32, 28, 16]
+		self.ali_trace_arrv_pattern = [23, 8, 10, 13, 24, 21, 17, 29, 11, 16, 39, 61, 25, 28, 59, 50, 82, 59, 35, 46, 46, \
+		                               32, 28, 16, 19, 8, 22, 10, 19, 17, 24, 16, 29, 30, 47, 63, 39, 48, 42, 42, 57, 64, \
+		                               22, 46, 42, 23, 17, 68, 24, 3, 8, 10, 13, 18, 16, 28, 17, 47, 54, 54, 42, 36, 72, \
+		                               46, 53, 77, 27, 44, 68, 25, 10, 43]
+
 		self.ali_trace_job_probs = [0.6812080536912751, 0.15962740106456838, 0.054096274010645685, 0.024704929414487386, 0.02048137005322842, 0.018051376996065724, 0.012959962971534367, 0.02887063179819486]
 		ali_trace_job_lengths = np.array([35.0, 180.0, 300.0, 436.0, 559.0, 679.0, 806.0, 1155.0])
 		self.ali_trace_num_epochs = ali_trace_job_lengths/np.max(ali_trace_job_lengths)*pm.MAX_NUM_EPOCHS
@@ -174,9 +178,10 @@ class Trace:
 			trace[ts] = job_list
 			if done:
 				break
-
+		assert count_num_jobs==pm.TOT_NUM_JOBS
 		return trace
 
 
 if __name__ == '__main__':
 	print "Generate job traces..."
+	Trace().get_trace()
