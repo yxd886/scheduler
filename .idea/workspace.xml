@@ -2,16 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a768f3df-9e02-487b-9dd4-748d8495d82c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/job_arrival_rate.pdf" afterPath="$PROJECT_DIR$/draw/job_arrival_rate.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/ali_trace_analysis.py" afterPath="$PROJECT_DIR$/draw/ali_trace_analysis.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/experiment.py" afterPath="$PROJECT_DIR$/scheduler/experiment.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/optimus_env.py" afterPath="$PROJECT_DIR$/scheduler/optimus_env.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/parameters.py" afterPath="$PROJECT_DIR$/scheduler/parameters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/params_template.py" afterPath="$PROJECT_DIR$/scheduler/params_template.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/rl_env.py" afterPath="$PROJECT_DIR$/scheduler/rl_env.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/speed.py" afterPath="$PROJECT_DIR$/scheduler/speed.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/trace.py" afterPath="$PROJECT_DIR$/scheduler/trace.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,8 +18,8 @@
       <file leaf-file-name="ali_trace_analysis.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/draw/ali_trace_analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6910">
-              <caret line="425" column="0" lean-forward="true" selection-start-line="425" selection-start-column="0" selection-end-line="425" selection-end-column="0" />
+            <state relative-caret-position="392">
+              <caret line="90" column="36" lean-forward="true" selection-start-line="90" selection-start-column="36" selection-end-line="90" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -36,8 +28,8 @@
       <file leaf-file-name="trace.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scheduler/trace.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1394">
-              <caret line="82" column="32" lean-forward="false" selection-start-line="82" selection-start-column="32" selection-end-line="82" selection-end-column="32" />
+            <state relative-caret-position="374">
+              <caret line="22" column="27" lean-forward="true" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -58,8 +50,8 @@
       <file leaf-file-name="parameters.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scheduler/parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-239">
-              <caret line="126" column="40" lean-forward="false" selection-start-line="126" selection-start-column="40" selection-end-line="126" selection-end-column="40" />
+            <state relative-caret-position="453">
+              <caret line="139" column="25" lean-forward="true" selection-start-line="135" selection-start-column="4" selection-end-line="139" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -68,18 +60,18 @@
       <file leaf-file-name="run-all-experiments.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scheduler/run-all-experiments.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="11" column="52" lean-forward="false" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
+            <state relative-caret-position="170">
+              <caret line="12" column="42" lean-forward="true" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="experiment.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="experiment.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scheduler/experiment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="181">
-              <caret line="216" column="17" lean-forward="true" selection-start-line="216" selection-start-column="17" selection-end-line="216" selection-end-column="17" />
+            <state relative-caret-position="-1608">
+              <caret line="55" column="17" lean-forward="true" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -88,14 +80,14 @@
       <file leaf-file-name="params_template.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scheduler/params_template.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="71" column="24" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="24" />
+            <state relative-caret-position="289">
+              <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="rl_env.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="rl_env.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scheduler/rl_env.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="607">
@@ -138,28 +130,16 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>config_speed</find>
-      <find>round</find>
-      <find>FIX_JOB_LEN</find>
-      <find>TEST</find>
-      <find>VAL_DATASET</find>
-      <find>MAX_N</find>
-      <find>Ali</find>
-      <find>16</find>
-      <find>NUM_AGENT</find>
-      <find>BATCH</find>
       <find>BUFFER</find>
       <find>memo</find>
       <find>VAL</find>
       <find>MINI</find>
       <find>TOT</find>
       <find>MINI_BATCH_SIZE</find>
-      <find>MAX</find>
       <find>WIN</find>
       <find>SCHE</find>
       <find>ARRI</find>
       <find>FI</find>
-      <find>JOB_A</find>
       <find>CRITIC</find>
       <find>REAL_SPEED_TRACE</find>
       <find>BUNDLE_ACTION</find>
@@ -168,6 +148,18 @@
       <find>ps_worker_ratio</find>
       <find>VARYING_SKIP_NUM_WORKERS</find>
       <find>skip_num_workers</find>
+      <find>JOB_A</find>
+      <find>Ali</find>
+      <find>SCH</find>
+      <find>SCHEDU</find>
+      <find>MAX</find>
+      <find>6000</find>
+      <find>JOB_ARRIVAL_PATTERN</find>
+      <find>replace</find>
+      <find>TESTB</find>
+      <find>TESTBED</find>
+      <find>replace_params</find>
+      <find>SL</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -200,10 +192,10 @@
         <option value="$PROJECT_DIR$/draw/ali_trace_analysis.py" />
         <option value="$PROJECT_DIR$/scheduler/optimus_env.py" />
         <option value="$PROJECT_DIR$/scheduler/trace.py" />
-        <option value="$PROJECT_DIR$/scheduler/parameters.py" />
         <option value="$PROJECT_DIR$/scheduler/params_template.py" />
-        <option value="$PROJECT_DIR$/scheduler/experiment.py" />
         <option value="$PROJECT_DIR$/scheduler/rl_env.py" />
+        <option value="$PROJECT_DIR$/scheduler/parameters.py" />
+        <option value="$PROJECT_DIR$/scheduler/experiment.py" />
       </list>
     </option>
   </component>
@@ -443,8 +435,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20457797" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20457797" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -833,60 +826,60 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scheduler/rl_env.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="607">
+          <caret line="229" column="45" lean-forward="true" selection-start-line="229" selection-start-column="45" selection-end-line="229" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scheduler/trace.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1394">
-          <caret line="82" column="32" lean-forward="false" selection-start-line="82" selection-start-column="32" selection-end-line="82" selection-end-column="32" />
+        <state relative-caret-position="374">
+          <caret line="22" column="27" lean-forward="true" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scheduler/run-all-experiments.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="12" column="42" lean-forward="true" selection-start-line="12" selection-start-column="42" selection-end-line="12" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/draw/ali_trace_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6910">
-          <caret line="425" column="0" lean-forward="true" selection-start-line="425" selection-start-column="0" selection-end-line="425" selection-end-column="0" />
+        <state relative-caret-position="392">
+          <caret line="90" column="36" lean-forward="true" selection-start-line="90" selection-start-column="36" selection-end-line="90" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scheduler/parameters.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-239">
-          <caret line="126" column="40" lean-forward="false" selection-start-line="126" selection-start-column="40" selection-end-line="126" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scheduler/run-all-experiments.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="11" column="52" lean-forward="false" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scheduler/experiment.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="216" column="17" lean-forward="true" selection-start-line="216" selection-start-column="17" selection-end-line="216" selection-end-column="17" />
+        <state relative-caret-position="453">
+          <caret line="139" column="25" lean-forward="true" selection-start-line="135" selection-start-column="4" selection-end-line="139" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/scheduler/params_template.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="71" column="24" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="24" />
+        <state relative-caret-position="289">
+          <caret line="17" column="15" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="15" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scheduler/rl_env.py">
+    <entry file="file://$PROJECT_DIR$/scheduler/experiment.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="607">
-          <caret line="229" column="45" lean-forward="true" selection-start-line="229" selection-start-column="45" selection-end-line="229" selection-end-column="45" />
+        <state relative-caret-position="-1608">
+          <caret line="55" column="17" lean-forward="true" selection-start-line="55" selection-start-column="17" selection-end-line="55" selection-end-column="17" />
           <folding />
         </state>
       </provider>

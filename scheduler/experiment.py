@@ -99,6 +99,14 @@ def get_config(id, exp_name, test_value):
 		config["CHANGING_JOB_TYPES"] = test_value
 	elif id == 19:
 		config["REAL_SPEED_TRACE"] = test_value
+	elif id == 20:
+		config["TESTBED"] = test_value
+		config["CLUSTER_NUM_NODES"] = 6
+		config["TOT_NUM_JOBS"] = 10
+		config["MAX_NUM_EPOCHS"] = 1000
+		config["MAX_ARRVS_PER_TS"] = 5
+		config["TS_DURATION"] = 300.0
+		config["SCHED_WINDOW_SIZE"] = 4
 	return config
 
 
@@ -201,7 +209,7 @@ def run(id, exp_name, test_values):
 def main(id):
 	if id == 1:
 		exp_name = "sched_window_size"
-		test_values = [10, 15, 20, 25, 30]
+		test_values = [10, 20, 30, 40, 50]
 	elif id == 2:
 		exp_name = "number_of_neurons"
 		test_values = [16, 32, 64, 96, 128, 164, 196, 256]
@@ -256,6 +264,9 @@ def main(id):
 	elif id == 19:
 		exp_name = "analytical_model"
 		test_values = [False]
+	elif id == 20:
+		exp_name = "testbed"
+		test_values = [True]
 
 	run(id, exp_name, test_values)
 
@@ -283,5 +294,6 @@ if __name__ == "__main__":
 		print "17: a3c, change train_a3c.py to train.py, change parallelism"
 		print "18: changing job types during training"
 		print "19: training on analytical model"
+		print "20: testbed"
 		exit(1)
 	main(int(sys.argv[1]))
