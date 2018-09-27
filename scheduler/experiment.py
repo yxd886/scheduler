@@ -14,7 +14,7 @@ sl_config_dict = {"TRAINING_MODE":"SL", "VALUE_NET":False, \
 				  "LEARNING_RATE":0.005, "TOT_NUM_STEPS":200, "VAL_INTERVAL":50, \
 				  "NUM_TS_PER_UPDATE":5, "JOB_ORDER_SHUFFLE":True}
 NUM_TEST = 3
-PARALLELISM = 4
+PARALLELISM = 9
 
 def replace_params(map, dir):
 	pm_md = globals().get('pm', None)
@@ -228,6 +228,7 @@ def run(id, exp_name, test_values):
 
 
 def main(id):
+	global PARALLELISM
 	if id == 1:
 		exp_name = "sched_window_size"
 		test_values = [10, 20, 30, 40, 50]
@@ -235,6 +236,7 @@ def main(id):
 		exp_name = "number_of_neurons"
 		test_values = [16, 32, 64, 96, 128, 164, 196, 256]
 	elif id == 3:
+		PARALLELISM = 3
 		exp_name = "number_of_hidden_layers"
 		test_values = [1, 2, 3, 5, 7]
 	elif id == 4:
