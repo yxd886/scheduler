@@ -6,4 +6,4 @@ with open("tasks.txt", 'r') as f:
 
 for task in tasks:
 	print "starting task ", task
-	os.system("cd ~/exp/ && python experiment.py " + str(task))
+	os.system("python experiment.py " + str(task))
