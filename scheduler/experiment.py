@@ -15,6 +15,7 @@ sl_config_dict = {"TRAINING_MODE":"SL", "VALUE_NET":False, \
 				  "NUM_TS_PER_UPDATE":5, "JOB_ORDER_SHUFFLE":True}
 NUM_TEST = 3
 PARALLELISM = 9
+TASK_ID = -1
 
 def replace_params(map, dir):
 	pm_md = globals().get('pm', None)
@@ -179,12 +180,18 @@ def _sl_rl(dir, config, device):
 	os.system("mkdir -p " + dir)
 	os.system("cp *.py *.txt " + dir)
 	replace_params(sl_config, dir)
-	os.system("cd " + dir + " && CUDA_VISIBLE_DEVICES=" + str(device) + " python train.py")
+	if TASK_ID != 17:
+		os.system("cd " + dir + " && CUDA_VISIBLE_DEVICES=" + str(device) + " python train.py")
+	else:
+		os.system("cd " + dir + " && python train.py")
 
 	time.sleep(3)
 	# RL
 	replace_params(config, dir)
-	os.system("cd " + dir + " && CUDA_VISIBLE_DEVICES=" + str(device) + " python train.py")
+	if TASK_ID != 17:
+		os.system("cd " + dir + " && CUDA_VISIBLE_DEVICES=" + str(device) + " python train.py")
+	else:
+		os.system("cd " + dir + " && python train.py")
 
 
 def _baseline(dir, config):
@@ -232,7 +239,8 @@ def run(id, exp_name, test_values):
 
 
 def main(id):
-	global PARALLELISM
+	global PARALLELISM, TASK_ID
+	TASK_ID = id
 	if id == 1:
 		exp_name = "sched_window_size"
 		test_values = [10, 20, 30, 40, 50]
@@ -283,6 +291,7 @@ def main(id):
 		exp_name = "SL_heuristics"
 		test_values = ["FIFO", "SRTF"]
 	elif id == 17:
+		PARALLELISM = 3
 		exp_name = "a3c"
 		test_values = [4, 3, 2, 1]
 	elif id == 18:
