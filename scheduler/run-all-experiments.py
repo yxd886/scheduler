@@ -40,5 +40,5 @@ for server in servers:
 		cmd = "'cd " + dir_name + "/scheduler/ && nohup python run-experiments.py > /dev/null 2>&1 &'"
 	else:
 		cmd = "'pkill -9 python; sleep 1; cd " + dir_name + "/scheduler/ && nohup python run-experiments.py > /dev/null 2>&1 &'"
-	cmd = "ssh " + server + " " + cmd
+	cmd = "ssh -f " + server + " " + cmd
 	os.system(cmd)
