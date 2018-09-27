@@ -8,6 +8,7 @@ class Job:
 		self.logger = logger
 
 		self.num_epochs = None
+		self.real_num_epochs = None
 		self.progress = 0.0
 
 		self.arrv_time = None
@@ -37,7 +38,7 @@ class Job:
 
 
 	def step(self, flag=True):
-		assert self.progress < self.num_epochs
+		assert self.progress < self.real_num_epochs
 		assert self.num_workers == len(self.curr_worker_placement)
 		try:
 			if flag:
@@ -108,9 +109,9 @@ class Job:
 					epoch = max((12-self.num_workers/2.0) * pm.TS_DURATION / iter_time / self.epoch_size, pm.TS_DURATION / iter_time / self.epoch_size)
 
 		if flag:
-			if self.progress + epoch > self.num_epochs:
-				epoch = self.num_epochs - self.progress
-				self.progress = float(self.num_epochs)
+			if self.progress + epoch > self.real_num_epochs:
+				epoch = self.real_num_epochs - self.progress
+				self.progress = float(self.real_num_epochs)
 			else:
 				self.progress += epoch
 		return epoch
@@ -131,7 +132,7 @@ class Job:
 
 	def info(self):
 		return "Job id: " + str(self.id) + " type: " + str(self.type) + " arrv time: " + str(self.arrv_time) \
-						 + " progress: " + str(self.progress) + " total epochs: " + str(self.num_epochs)
+						 + " progress: " + str(self.progress) + " total epochs: " + str(self.real_num_epochs)
 
 
 def main():
@@ -148,6 +149,7 @@ def main():
 	job.resr_ps = np.array([3, 0])
 	job.resr_worker = np.array([2, 4])
 	job.num_epochs = 120
+	job.real_num_epochs = 118
 
 
 

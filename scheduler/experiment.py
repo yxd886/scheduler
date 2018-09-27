@@ -128,6 +128,8 @@ def get_config(id, exp_name, test_value):
 	elif id == 22:
 		if not test_value:
 			config["POLICY_NN_MODEL"] = None
+	elif id == 23:
+		config["JOB_EPOCH_EST_ERROR"] = test_value
 	return config
 
 
@@ -234,11 +236,11 @@ def main(id):
 		test_values = [10, 20, 30, 40, 50]
 	elif id == 2:
 		exp_name = "number_of_neurons"
-		test_values = [16, 32, 64, 96, 128, 164, 196, 256]
+		test_values = [16, 32, 64, 96, 128, 196, 256]
 	elif id == 3:
 		PARALLELISM = 3
 		exp_name = "number_of_hidden_layers"
-		test_values = [1, 2, 3, 5, 7]
+		test_values = [1, 2, 3, 4, 5, 6, 7]
 	elif id == 4:
 		exp_name = "bundle_action"
 		test_values = [False, True]
@@ -296,6 +298,9 @@ def main(id):
 	elif id == 22:
 		exp_name = "enable_SL_or_not"
 		test_values = [True, False]
+	elif id == 23:
+		exp_name = "estimation_error_num_epoch"
+		test_values = [0.05, 0.1, 0.15, 0.2, 0.25]
 
 	run(id, exp_name, test_values)
 
@@ -326,5 +331,6 @@ if __name__ == "__main__":
 		print "20: cluster scale"
 		print "21: job resource balance"
 		print "22: enable SL or not"
+		print "23: estimation error of epoch number"
 		exit(1)
 	main(int(sys.argv[1]))

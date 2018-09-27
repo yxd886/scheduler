@@ -279,6 +279,7 @@ def fit_resource_speed_curve():
 
 
 def est_interference():
+    plt.style.use(["seaborn-bright", "double-figure.mplstyle"])
     models = dict()
     cand_models = set()
     for job in jobs:
@@ -302,6 +303,27 @@ def est_interference():
         error = np.abs(np.std(np.array(v))/np.average(np.array(v)))
         errors.append(error)
     print np.average(errors)
+    print max(errors)
+    print sum([error>=1 for error in errors])/float(len(errors))
+
+    bins = 1000
+    counts, bin_edges = np.histogram(errors, bins=bins)
+    cdf = np.cumsum(counts, dtype=float)
+    cdf /= cdf[-1]
+    cdf = np.append(np.array([0.0]), cdf)
+    fig, ax = plt.subplots()
+    ax.plot(bin_edges*100, cdf*100, 'b-')
+    # ax.xaxis.set_major_locator(MaxNLocator(5))
+    plt.xlabel("std/avg (%)")
+    plt.ylabel("CDF (%)")
+    plt.ylim(0,100)
+    # plt.xlim(left=0)
+
+    plt.xscale('log')
+    plt.gcf().subplots_adjust(bottom=0.2, left=0.18)
+    plt.tight_layout()
+    plt.show()
+    fig.savefig("job_interference_cdf.pdf")
 
 
 def get_gpu_request():
@@ -427,11 +449,11 @@ def job_length_pattern():
 
 
 
-job_arrival_day()
+# job_arrival_day()
 # job_length()
 # get_number_of_models()
 # get_gpu_request()
 # fit_resource_speed_curve()
 # job_arrival_pattern()
 # job_length_pattern()
-# est_interference()
+est_interference()

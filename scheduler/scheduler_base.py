@@ -77,7 +77,7 @@ class Scheduler(object):
 		for job in self.running_jobs.copy():
 			epoch = job.step()
 			reward += epoch / job.num_epochs
-			if job.progress >= job.num_epochs:
+			if job.progress >= job.real_num_epochs:
 				job.end_time = self.curr_ts
 				# self.running_jobs.remove(job)
 				self.uncompleted_jobs.remove(job)

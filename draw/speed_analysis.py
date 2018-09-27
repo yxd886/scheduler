@@ -145,42 +145,45 @@ def draw_linearity():
 def draw_ratio():
 	# ps:worker = 2:10, 3:9, 4:8, 6:6, 8:4, 9:3, 10:2
 	# draw a bar figure for 3 models under different ps/worker ratios
-	plt.style.use(["seaborn-bright", "single-figure.mplstyle"])
-	fig, ax = plt.subplots(figsize=(8,4))
-	plt.xlabel('Models')
+	plt.style.use(["seaborn-bright", "double-figure.mplstyle"])
+	# fig, ax = plt.subplots(figsize=(8,4))
+	fig, ax = plt.subplots()
+	# plt.xlabel('Models')
 	plt.ylabel('Norm. Speed')
 
-	index = np.array([1, 7, 13])
+	index = np.array([1, 5])
 	bar_width = 1
-	arr = [[] for col in range(0, 5)]
+	arr = [[] for col in range(0, 3)]
 	styles = ["b-", "r*-", "c^-", "y--", "kD-", "g-", "m-", "b*-"]
 	colors = ['blue', 'green', 'red', 'cyan', 'orange', 'yellow', 'lightgray', 'pink']
 	patterns = ["/", "\\", "-", '|', '.', 'x', '+']
 	labels = ['(2,10)', '(3,9)', '(4,8)', '(6,6)', '(8,4)', '(9,3)', '(10,2)']
 	for i in range(len(ratio_maps)):
 		dnn = ratio_maps.keys()[i]
-		if dnn != "resnet-50" and dnn != "vgg-16" and dnn != "seq2seq":
+		if  dnn != "vgg-16" and dnn != "seq2seq":
 			continue
 		print "model", dnn
 		x = np.array([_ for _ in range(1,len(ratio_maps[dnn])+1)])
 		y = np.array(ratio_maps[dnn])/max((ratio_maps[dnn]))
 		print "x", x
 		print "y", y
-		for i in range(1, 6):
-			arr[i - 1].append(y[i])
+		for i in range(2, 5):
+			arr[i - 2].append(y[i])
 		# plt.plot(x, y, styles[i%len(styles)], label=dnn)
 	for i in range(0, len(arr)):
 		print i, arr[i]
 	for i in range(0, len(arr)):
-		plt.bar(index + i * bar_width, height=arr[i], width=bar_width, color=colors[i], hatch=patterns[i], label=labels[i+1])
-	legend = ax.legend(loc='lower center', shadow=False, ncol=3, borderaxespad=0)
+		plt.bar(index + i * bar_width, height=arr[i], width=bar_width, color=colors[i], hatch=patterns[i], label=labels[i+2])
+	# legend = ax.legend(loc='lower center', shadow=False, ncol=3, borderaxespad=0)
+	legend = ax.legend(loc='lower center', shadow=False)
+
 	frame = legend.get_frame()
 	frame.set_facecolor('1')
 	# ax.set_xticklabels(['','(2,10)','(3,9)','(4,8)','(6,6)','(8,4)','(9,3)','(10,2)'])
-	ax.set_xticks(index + 2.5 * bar_width)
-	ax.set_xticklabels([model_names["resnet-50"], model_names["seq2seq"], model_names["vgg-16"]])
-
-	plt.xlim(0, 19)
+	ax.set_xticks(index + 1.2 * bar_width)
+	ax.set_xticklabels([model_names["seq2seq"], model_names["vgg-16"]])
+	ax.yaxis.set_major_locator(MaxNLocator(6))
+	# plt.xlim(0, 19)
 	# plt.ylim(0, 1)
 	# plt.title("PS:Worker=1:1")
 	plt.tight_layout()

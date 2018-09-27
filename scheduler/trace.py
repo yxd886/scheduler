@@ -148,8 +148,9 @@ class Trace:
 				if pm.JOB_LEN_PATTERN == "Normal":
 					type = np.random.randint(0, num_type)
 				elif pm.JOB_LEN_PATTERN == "Ali_Trace":
-					cumsum = np.cumsum(self.ali_trace_job_probs)
-					type = (cumsum > np.random.random()).argmax()
+					prob_sum = self.ali_trace_job_probs[:num_type]
+					cumsum = np.cumsum(self.ali_trace_job_probs[:num_type])
+					type = (cumsum > prob_sum*np.random.random()).argmax()
 					index = type
 					type = self.importance_map[type]
 				job = Job(id, type+1, self.logger)  # type start from 1
@@ -177,6 +178,9 @@ class Trace:
 						job.num_epochs = int(self.num_epochs[type])*np.random.randint(90,110)/100.0  # self._weibull_dist()
 					else:
 						job.num_epochs = int(self.ali_trace_num_epochs[type])*np.random.randint(90,110)/100.0
+
+				num_epoch_error = pm.JOB_EPOCH_EST_ERROR*(2*np.random.rand()-1)
+				job.real_num_epochs = (1+num_epoch_error)*job.num_epochs
 				job_list.append(job)
 
 				count_num_jobs += 1
