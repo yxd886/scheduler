@@ -291,7 +291,7 @@ def main(id):
 		exp_name = "SL_heuristics"
 		test_values = ["FIFO", "SRTF"]
 	elif id == 17:
-		PARALLELISM = 3
+		PARALLELISM = 6
 		exp_name = "a3c"
 		test_values = [4, 3, 2, 1]
 	elif id == 18:
