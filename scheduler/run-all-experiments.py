@@ -17,9 +17,10 @@ import datetime
 # tasks = [[], [], [], [], [], []]
 servers = ["net-g1"]
 tasks = [[3]]
-source = "/home/net/git-DL2"
+source = "/home/net/DL2"
 msg = "make sure " + source + " is latest!"
 print msg
+msg = "make sure the localhost is net-g1!"
 time.sleep(3)
 
 for server in servers:
@@ -35,6 +36,9 @@ for server in servers:
 	os.system(cmd)
 	os.system("rm tasks.txt")
 	# start in background
-	cmd = "'pkill -9 python; sleep 1; cd " + dir_name + "/scheduler/ && nohup python run-experiments.py > /dev/null 2>&1 &'"
+	if server == "net-g1":
+		cmd = "'cd " + dir_name + "/scheduler/ && nohup python run-experiments.py > /dev/null 2>&1 &'"
+	else:
+		cmd = "'pkill -9 python; sleep 1; cd " + dir_name + "/scheduler/ && nohup python run-experiments.py > /dev/null 2>&1 &'"
 	cmd = "ssh " + server + " " + cmd
 	os.system(cmd)
