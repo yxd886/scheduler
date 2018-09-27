@@ -148,7 +148,7 @@ class Trace:
 				if pm.JOB_LEN_PATTERN == "Normal":
 					type = np.random.randint(0, num_type)
 				elif pm.JOB_LEN_PATTERN == "Ali_Trace":
-					prob_sum = self.ali_trace_job_probs[:num_type]
+					prob_sum = np.sum(self.ali_trace_job_probs[:num_type])
 					cumsum = np.cumsum(self.ali_trace_job_probs[:num_type])
 					type = (cumsum > prob_sum*np.random.random()).argmax()
 					index = type
