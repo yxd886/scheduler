@@ -100,13 +100,34 @@ def get_config(id, exp_name, test_value):
 	elif id == 19:
 		config["REAL_SPEED_TRACE"] = test_value
 	elif id == 20:
-		config["TESTBED"] = test_value
-		config["CLUSTER_NUM_NODES"] = 6
-		config["TOT_NUM_JOBS"] = 10
-		config["MAX_NUM_EPOCHS"] = 1000
-		config["MAX_ARRVS_PER_TS"] = 5
-		config["TS_DURATION"] = 300.0
-		config["SCHED_WINDOW_SIZE"] = 4
+		if test_value == "testbed":
+			config["TESTBED"] = True
+			config["CLUSTER_NUM_NODES"] = 6
+			config["TOT_NUM_JOBS"] = 10
+			config["MAX_NUM_EPOCHS"] = 1000
+			config["MAX_ARRVS_PER_TS"] = 5
+			config["TS_DURATION"] = 300.0
+			config["SCHED_WINDOW_SIZE"] = 4
+		elif test_value == "large":
+			config["LARGE_SCALE"] = True
+			config["CLUSTER_NUM_NODES"] = 100
+			config["TOT_NUM_JOBS"] = 120
+			config["MAX_NUM_EPOCHS"] = 80000
+			config["MAX_ARRVS_PER_TS"] = 6
+			config["TS_DURATION"] = 1200.0
+			config["SCHED_WINDOW_SIZE"] = 30
+		elif test_value == "small":
+			config["CLUSTER_NUM_NODES"] = 48
+			config["TOT_NUM_JOBS"] = 60
+			config["MAX_NUM_EPOCHS"] = 80000
+			config["MAX_ARRVS_PER_TS"] = 3
+			config["TS_DURATION"] = 1200.0
+			config["SCHED_WINDOW_SIZE"] = 20
+	elif id == 21:
+		config["JOB_RESR_BALANCE"] = test_value
+	elif id == 22:
+		if not test_value:
+			config["POLICY_NN_MODEL"] = None
 	return config
 
 
@@ -265,8 +286,14 @@ def main(id):
 		exp_name = "analytical_model"
 		test_values = [False]
 	elif id == 20:
-		exp_name = "testbed"
-		test_values = [True]
+		exp_name = "cluster_scale"
+		test_values = ["testbed", "small", "large"]
+	elif id == 21:
+		exp_name = "job_resr_balance"
+		test_values = [True, False]
+	elif id == 22:
+		exp_name = "enable_SL_or_not"
+		test_values = [True, False]
 
 	run(id, exp_name, test_values)
 
@@ -291,9 +318,11 @@ if __name__ == "__main__":
 		print "14: Tetris baseline"
 		print "15: Optimus baseline"
 		print "16: SL heuristics"
-		print "17: a3c, change train_a3c.py to train.py, change parallelism"
+		print "17: a3c, change train_a3c.py to train.py, change parallelism, make sure a correct total batch size before running"
 		print "18: changing job types during training"
 		print "19: training on analytical model"
-		print "20: testbed"
+		print "20: cluster scale"
+		print "21: job resource balance"
+		print "22: enable SL or not"
 		exit(1)
 	main(int(sys.argv[1]))

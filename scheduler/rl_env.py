@@ -79,9 +79,9 @@ class RL_Env(Scheduler):
 		else:
 			self.skip_num_workers = 8 #np.random.randint(0,pm.MAX_NUM_WORKERS)
 		if pm.VARYING_PS_WORKER_RATIO:
-			self.ps_worker_ratio = np.random.randint(5,10)
+			self.ps_worker_ratio = np.random.randint(3,6)
 		else:
-			self.ps_worker_ratio = 8
+			self.ps_worker_ratio = 5
 
 	def _move(self):
 		self._progress()
@@ -191,13 +191,33 @@ class RL_Env(Scheduler):
 							self.logger.debug("Got 1.")
 					elif pm.REAL_SPEED_TRACE and pm.PS_WORKER:
 						# shuffle = np.random.choice(len(self.window_jobs), len(self.window_jobs), replace=False)  # shuffle is a must, otherwise NN selects only the first several actions!!!
+						if pm.JOB_RESR_BALANCE:
+							max_num_ps_worker = 0
+							min_num_ps_worker = 10**10
+							index_min_job = -1
+							for i in range(len(self.window_jobs)):
+								job = self.window_jobs[i]
+								if job:
+									num_ps_worker = job.num_ps + job.num_workers
+									if num_ps_worker > max_num_ps_worker:
+										max_num_ps_worker = num_ps_worker
+									if num_ps_worker < min_num_ps_worker:
+										min_num_ps_worker = num_ps_worker
+										index_min_job = i
+							if max_num_ps_worker and index_min_job != -1 and max_num_ps_worker/min_num_ps_worker > np.random.randint(3,6):
+								if masked_output[0][3*index_min_job+2] > pm.MIN_ACTION_PROB_FOR_SKIP and masked_output[0][3*index_min_job] > pm.MIN_ACTION_PROB_FOR_SKIP:
+									if np.random.rand() < 0.5:
+										action = 3*index_min_job+2
+									else:
+										action = 3*index_min_job
+
 						shuffle = [_ for _ in range(len(self.window_jobs))]
 						for i in shuffle:
 							job = self.window_jobs[i]
 							if job:
 								if pm.BUNDLE_ACTION:
 									# if one of three actions: ps/worker/bundle has low probability, enforce to select it
-									if min(self.action_freq) > 0 and min(self.action_freq)*1.0/sum(self.action_freq) < 0.05:
+									if min(self.action_freq) > 0 and min(self.action_freq)*1.0/sum(self.action_freq) < 0.02:
 										index = np.argmin(self.action_freq)
 										if mask[3*i+index] > 0 and masked_output[0][3*i+index] > pm.MIN_ACTION_PROB_FOR_SKIP:
 											action = 3 * i + index
@@ -212,9 +232,9 @@ class RL_Env(Scheduler):
 										action = 3*i
 										self.logger.debug("Got 2.")
 										break
-									elif job.num_workers >= job.num_ps*self.ps_worker_ratio and np.random.rand() < 0.75:
+									elif job.num_workers >= job.num_ps*self.ps_worker_ratio and np.random.rand() < 0.5:
 										if mask[3*i+2] > 0 and masked_output[0][3*i+2] > pm.MIN_ACTION_PROB_FOR_SKIP and mask[3*i+1] > 0 and masked_output[0][3*i+1] > pm.MIN_ACTION_PROB_FOR_SKIP:
-											if np.random.rand() < 0.5:
+											if np.random.rand() < 0.33:
 												# increase this job's bundle
 												action = 3*i+2
 												self.logger.debug("Got 3.")
@@ -360,6 +380,8 @@ class RL_Env(Scheduler):
 				job_reward.append(self.job_prog_in_ts[job])
 		self.sched_seq = []
 		self.job_prog_in_ts.clear()
+
+		self.logger.info("Action Frequency: " + str(self.action_freq))
 		return job_reward
 
 

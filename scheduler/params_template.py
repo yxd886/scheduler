@@ -75,11 +75,12 @@ NUM_TS_PER_UPDATE = 1  # update once after passing x timeslot(s), default 1, i.e
 VARYING_PS_WORKER_RATIO = True  # explore different ratio of ps over worker
 STEP_TRAIN_CRITIC_NET = 0  # number of steps for pretraining critic network, default 0, not functional
 CHANGING_JOB_TYPES = False
+JOB_RESR_BALANCE = True
 
 # cluster
 TESTBED = False
 LARGE_SCALE = False
-CLUSTER_NUM_NODES = 100  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160
+CLUSTER_NUM_NODES = 48  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160
 NUM_RESR_TYPES = 2  # number of resource types, e.g., cpu,gpu
 NUM_RESR_SLOTS = 8  # number of available resource slots on each machine
 
@@ -90,7 +91,7 @@ JOB_ARRIVAL_PATTERN = "Ali_Trace"  # Ali_Trace, Uniform, Google_Trace, Poisson
 FIX_JOB_LEN = True
 TRAIN_EPOCH_SIZE = 100  # number of traces for training dataset
 TOT_NUM_JOBS = 60  # number of jobs in one trace
-MAX_ARRVS_PER_TS = 6  # max number of jobs arrived in one time slot
+MAX_ARRVS_PER_TS = 3  # max number of jobs arrived in one time slot
 MAX_NUM_EPOCHS = 80000   # maximum duration of jobs, epochs. default 200
 MAX_NUM_WORKERS = 32
 TS_DURATION = 1200
@@ -100,7 +101,7 @@ MAX_TS_LEN = 1000  # maximal timeslot length for one trace
 # neural network
 JOB_ORDER_SHUFFLE = False  # whether to shuffle the order of the jobs in the scheduling window, can also be used for data augmentation
 JOB_SORT_PRIORITY = "Arrival" # or Arrival, Resource, Progress, sort job based on resource or arrival
-SCHED_WINDOW_SIZE = 30  # maximum allowed number of jobs for NN input
+SCHED_WINDOW_SIZE = 20  # maximum allowed number of jobs for NN input
 PS_WORKER = True  # whether consider ps and worker tasks separately or not
 INPUTS_GATE= [("TYPE",True), ("STAY",True), ("PROGRESS",True), ("DOM_RESR",True), ("WORKERS",True), ("PS", True)]
 BUNDLE_ACTION = True  # add a 'bundle' action to each job, i.e., selecting a ps and a worker by one action

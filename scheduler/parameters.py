@@ -39,7 +39,7 @@ if TRAINING_MODE == "SL":
 DISP_INTERVAL = 2  # display frequency
 VISUAL_GW_INTERVAL = 100  # tf log gradients/weights frequency
 NUM_RECORD_AGENTS = 2  # log details of 2 agents in tensorboard and ignore others for saved space
-SKIP_FIRST_VAL = False  # if False, the central agent will test the initialized model at first before training
+SKIP_FIRST_VAL = True  # if False, the central agent will test the initialized model at first before training
 SELECT_ACTION_MAX_PROB = False  # whether to select the action with the highest probability or select based on distribution, default based on distribution
 MASK_PROB = 1.  # whether to mask actions mapped None jobs, set it to be lower seems to be worse
 ASSIGN_BUNDLE = True  # assign 1 ps and 1 worker for each in the beginning of each timeslot to avoid starvation
@@ -104,16 +104,17 @@ NUM_TS_PER_UPDATE = 1  # update once after passing x timeslot(s), default 1, i.e
 VARYING_PS_WORKER_RATIO = True  # explore different ratio of ps over worker
 STEP_TRAIN_CRITIC_NET = 0  # number of steps for pretraining critic network, default 0, not functional
 CHANGING_JOB_TYPES = False
+JOB_RESR_BALANCE = True
 
 # cluster
 TESTBED = False
 LARGE_SCALE = False
 assert TESTBED+LARGE_SCALE < 2
-CLUSTER_NUM_NODES = 100  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160
+CLUSTER_NUM_NODES = 48  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160
 if TESTBED:
 	CLUSTER_NUM_NODES = 6
 elif LARGE_SCALE:
-	CLUSTER_NUM_NODES = 500
+	CLUSTER_NUM_NODES = 100
 NUM_RESR_TYPES = 2  # number of resource types, e.g., cpu,gpu
 NUM_RESR_SLOTS = 8  # number of available resource slots on each machine
 
@@ -123,21 +124,21 @@ FIX_JOB_LEN = True
 JOB_LEN_PATTERN = "Ali_Trace"  # Ali_Trace, Normal
 JOB_ARRIVAL_PATTERN = "Ali_Trace"  # Ali_Trace, Uniform, Google_Trace, Poisson
 TRAIN_EPOCH_SIZE = 100  # number of traces for training dataset
-TOT_NUM_JOBS = 120  # number of jobs in one trace
-MAX_ARRVS_PER_TS = 6  # max number of jobs arrived in one time slot
+TOT_NUM_JOBS = 60  # number of jobs in one trace
+MAX_ARRVS_PER_TS = 3  # max number of jobs arrived in one time slot
 MAX_NUM_EPOCHS = 80000   # maximum duration of jobs, epochs. default 200
 MAX_NUM_WORKERS = 32
 TS_DURATION = 1200.0
 if LARGE_SCALE:
-	TOT_NUM_JOBS = 180  # number of jobs in one trace
-	MAX_ARRVS_PER_TS = 9  # max number of jobs arrived in one time slot
-	MAX_NUM_EPOCHS = 4000  # maximum duration of jobs, epochs. default 200
+	TOT_NUM_JOBS = 120  # number of jobs in one trace
+	MAX_ARRVS_PER_TS = 6  # max number of jobs arrived in one time slot
+	MAX_NUM_EPOCHS = 80000  # maximum duration of jobs, epochs. default 200
 if TESTBED:
 	TOT_NUM_JOBS = 10
-	MAX_NUM_EPOCHS = 100
-	MAX_ARRVS_PER_TS = 1
-	TS_DURATION = 600.0
-	SCHED_WINDOW_SIZE = 5
+	MAX_NUM_EPOCHS = 1000
+	MAX_ARRVS_PER_TS = 5
+	TS_DURATION = 300.0
+	SCHED_WINDOW_SIZE = 4
 VAL_DATASET = 10  # number of traces for validation in each agent
 MAX_TS_LEN = 1000  # maximal timeslot length for one trace
 
@@ -147,9 +148,9 @@ JOB_ORDER_SHUFFLE = False  # whether to shuffle the order of the jobs in the sch
 if TRAINING_MODE == "SL":
 	JOB_ORDER_SHUFFLE = True
 JOB_SORT_PRIORITY = "Arrival" # or Arrival, Resource, Progress, sort job based on resource or arrival
-SCHED_WINDOW_SIZE = 30  # maximum allowed number of jobs for NN input
+SCHED_WINDOW_SIZE = 20  # maximum allowed number of jobs for NN input
 if LARGE_SCALE:
-	SCHED_WINDOW_SIZE = 40
+	SCHED_WINDOW_SIZE = 30
 PS_WORKER = True  # whether consider ps and worker tasks separately or not
 INPUTS_GATE=[("TYPE",True), ("STAY",True), ("PROGRESS",True), ("DOM_RESR",True), ("WORKERS",True)]
 if PS_WORKER:
