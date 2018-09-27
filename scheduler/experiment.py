@@ -69,7 +69,8 @@ def get_config(id, exp_name, test_value):
 			config["TS_REWARD_PLUS_JOB_REWARD"] = False
 			config["NUM_UNCOMPLETED_JOB_REWARD"] = True
 	elif id == 9:
-		config["PRIORITY_REPLAY"] = test_value
+		if not test_value:
+			config["REPLAY_MEMORY_SIZE"] = config["MINI_BATCH_SIZE"]
 	elif id == 10:
 		config["VALUE_NET"] = test_value
 	elif id == 11:
@@ -95,6 +96,7 @@ def get_config(id, exp_name, test_value):
 		config["HEURISTIC"] = test_value
 	elif id == 17:
 		config["NUM_AGENTS"] = test_value
+		config["MINI_BATCH_SIZE"] /= test_value
 	elif id == 18:
 		config["CHANGING_JOB_TYPES"] = test_value
 	elif id == 19:
@@ -257,11 +259,11 @@ def main(id):
 		exp_name = "job_reward_function"
 		test_values = ["Norm_Progress", "Job_Progress", "Num_Uncompleted_Jobs"]
 	elif id == 9:
-		exp_name = "priority_experience_replay"
+		exp_name = "experience_replay"
 		test_values = [False, True]
 	elif id == 10:
 		exp_name = "critic_network"
-		test_values = [True, False]
+		test_values = [False, True]
 	elif id == 11:
 		exp_name = "exploration"
 		test_values = [False, True]
@@ -282,7 +284,7 @@ def main(id):
 		test_values = ["FIFO", "SRTF"]
 	elif id == 17:
 		exp_name = "a3c"
-		test_values = [1, 2, 3, 4]
+		test_values = [4, 3, 2, 1]
 	elif id == 18:
 		exp_name = "changing_job_types"
 		test_values = [True]
@@ -317,7 +319,7 @@ if __name__ == "__main__":
 		print "6: batch normalization"
 		print "7: sl loss function"
 		print "8: job reward function"
-		print "9: priority experience replay"
+		print "9: experience replay"
 		print "10: critic network"
 		print "11: exploration"
 		print "12: DRF baseline"

@@ -13,10 +13,10 @@ import datetime
 # print "finishing backup, dir:", backup_dir
 
 
-# servers = ["net-g1", "net-g2", "net-g3", "net-g6", "net-g7", "net-g8"]
-# tasks = [[], [], [], [], [], []]
-servers = ["net-g1"]
-tasks = [[3]]
+servers = ["net-g1", "net-g2", "net-g3", "net-g6", "net-g7", "net-g8"]
+tasks = [[3], [2], [4,10,11], [8,16,18], [1,19,20], [17,22]]
+# servers = ["net-g1"]
+# tasks = [[3]]
 source = "/home/net/DL2"
 msg = "make sure " + source + " is latest!"
 print msg
