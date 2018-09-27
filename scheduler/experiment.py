@@ -70,7 +70,7 @@ def get_config(id, exp_name, test_value):
 			config["NUM_UNCOMPLETED_JOB_REWARD"] = True
 	elif id == 9:
 		if not test_value:
-			config["REPLAY_MEMORY_SIZE"] = config["MINI_BATCH_SIZE"]
+			config["REPLAY_MEMORY_SIZE"] = 256
 	elif id == 10:
 		config["VALUE_NET"] = test_value
 	elif id == 11:
@@ -96,7 +96,7 @@ def get_config(id, exp_name, test_value):
 		config["HEURISTIC"] = test_value
 	elif id == 17:
 		config["NUM_AGENTS"] = test_value
-		config["MINI_BATCH_SIZE"] /= test_value
+		config["MINI_BATCH_SIZE"] = 256/test_value
 	elif id == 18:
 		config["CHANGING_JOB_TYPES"] = test_value
 	elif id == 19:
