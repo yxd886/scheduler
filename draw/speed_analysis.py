@@ -173,16 +173,15 @@ def draw_ratio():
 	for i in range(0, len(arr)):
 		print i, arr[i]
 	for i in range(0, len(arr)):
-		plt.bar(index + i * bar_width, height=arr[i], width=bar_width, color=colors[i], hatch=patterns[i], label=labels[i+2])
-	# legend = ax.legend(loc='lower center', shadow=False, ncol=3, borderaxespad=0)
+		plt.bar(index + i * bar_width, height=arr[i], width=bar_width, color=colors[i], hatch=patterns[i], label=labels[i+1])
+	# legend = ax.legend(loc='lower center', shadow=False,? ncol=3, borderaxespad=0)
 	legend = ax.legend(loc='lower center', shadow=False)
-
 	frame = legend.get_frame()
 	frame.set_facecolor('1')
 	# ax.set_xticklabels(['','(2,10)','(3,9)','(4,8)','(6,6)','(8,4)','(9,3)','(10,2)'])
-	ax.set_xticks(index + 1.2 * bar_width)
+	ax.set_xticks(index + 1 * bar_width)
 	ax.set_xticklabels([model_names["seq2seq"], model_names["vgg-16"]])
-	ax.yaxis.set_major_locator(MaxNLocator(6))
+
 	# plt.xlim(0, 19)
 	# plt.ylim(0, 1)
 	# plt.title("PS:Worker=1:1")
