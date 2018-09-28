@@ -191,7 +191,7 @@ class RL_Env(Scheduler):
 							self.logger.debug("Got 1.")
 					elif pm.REAL_SPEED_TRACE and pm.PS_WORKER:
 						# shuffle = np.random.choice(len(self.window_jobs), len(self.window_jobs), replace=False)  # shuffle is a must, otherwise NN selects only the first several actions!!!
-						if pm.JOB_RESR_BALANCE:
+						if pm.JOB_RESR_BALANCE and pm.BUNDLE_ACTION:
 							max_num_ps_worker = 0
 							min_num_ps_worker = 10**10
 							index_min_job = -1
@@ -396,8 +396,7 @@ class RL_Env(Scheduler):
 			norm_prog = job.step()/job.num_epochs
 			self.job_prog_in_ts[job] = norm_prog
 			reward += norm_prog
-			self.logger.debug(str(self.curr_ts) + "job id " + str(job.id) + " " + str(job.progress) + " " + str(job.num_epochs) + " " + str(job.progress>=job.num_epochs))
-			if job.progress >= job.num_epochs:
+			if job.progress >= job.real_num_epochs:
 				job.end_time = self.curr_ts
 				# self.running_jobs.remove(job) # it means running in this ts, so no need to delete
 				self.uncompleted_jobs.remove(job)

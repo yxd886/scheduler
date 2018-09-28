@@ -96,7 +96,6 @@ class Job:
 					iter_time = self.local_comp_time + max(inter_trans_time, intra_trans_time)  # training time of one step at a worker
 					iter_times.append(iter_time)
 				epoch = self.num_workers * pm.TS_DURATION / max(iter_times) / self.epoch_size  # each time slot is 20 minutes
-				print epoch
 			else:
 				colocations = collections.Counter(self.curr_worker_placement)
 				max_inter_trans_time = 2.0 * (1 - min(colocations.values())/len(self.curr_worker_placement)) * self.model_size / self.inter_bw

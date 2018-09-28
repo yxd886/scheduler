@@ -13,8 +13,8 @@ sl_config_dict = {"TRAINING_MODE":"SL", "VALUE_NET":False, \
 				  "POLICY_NN_MODEL":None, "VALUE_NN_MODEL":None, "CHECKPOINT_INTERVAL":50, \
 				  "LEARNING_RATE":0.005, "TOT_NUM_STEPS":200, "VAL_INTERVAL":50, \
 				  "NUM_TS_PER_UPDATE":5, "JOB_ORDER_SHUFFLE":True}
-NUM_TEST = 3
-PARALLELISM = 9
+NUM_TEST = 5
+PARALLELISM = 10
 TASK_ID = -1
 
 def replace_params(map, dir):
@@ -45,9 +45,9 @@ def get_config(id, exp_name, test_value):
 	elif id == 2:
 		config["NUM_FCN_LAYERS"] = 1
 		config["NUM_NEURONS_PER_FCN"] = test_value
-	elif id == 3:
+	elif id == 3 or id == 24:
 		config["NUM_FCN_LAYERS"] = test_value
-		config["NUM_NEURONS_PER_FCN"] = pm.STATE_DIM[0]*pm.STATE_DIM[1]
+		config["NUM_NEURONS_PER_FCN"] = pm.STATE_DIM[0]*pm.STATE_DIM[1]*2/3
 	elif id == 4:
 		config["BUNDLE_ACTION"] = test_value
 		if test_value == False:
@@ -111,7 +111,7 @@ def get_config(id, exp_name, test_value):
 			config["MAX_ARRVS_PER_TS"] = 5
 			config["TS_DURATION"] = 300.0
 			config["SCHED_WINDOW_SIZE"] = 4
-		elif test_value == "large":
+		elif test_value == "large-1":
 			config["LARGE_SCALE"] = True
 			config["CLUSTER_NUM_NODES"] = 100
 			config["TOT_NUM_JOBS"] = 120
@@ -119,7 +119,23 @@ def get_config(id, exp_name, test_value):
 			config["MAX_ARRVS_PER_TS"] = 6
 			config["TS_DURATION"] = 1200.0
 			config["SCHED_WINDOW_SIZE"] = 30
-		elif test_value == "small":
+		elif test_value == "large-2":
+			config["LARGE_SCALE"] = True
+			config["CLUSTER_NUM_NODES"] = 100
+			config["TOT_NUM_JOBS"] = 180
+			config["MAX_NUM_EPOCHS"] = 80000
+			config["MAX_ARRVS_PER_TS"] = 9
+			config["TS_DURATION"] = 1200.0
+			config["SCHED_WINDOW_SIZE"] = 30
+		elif test_value == "large-3":
+			config["LARGE_SCALE"] = True
+			config["CLUSTER_NUM_NODES"] = 120
+			config["TOT_NUM_JOBS"] = 180
+			config["MAX_NUM_EPOCHS"] = 80000
+			config["MAX_ARRVS_PER_TS"] = 9
+			config["TS_DURATION"] = 1200.0
+			config["SCHED_WINDOW_SIZE"] = 30
+		elif test_value == "small": # by default
 			config["CLUSTER_NUM_NODES"] = 48
 			config["TOT_NUM_JOBS"] = 60
 			config["MAX_NUM_EPOCHS"] = 80000
@@ -243,16 +259,16 @@ def main(id):
 	TASK_ID = id
 	if id == 1:
 		exp_name = "sched_window_size"
-		test_values = [10, 20, 30, 40, 50]
+		test_values = [10, 20, 30, 40, 50, 60]
 	elif id == 2:
 		exp_name = "number_of_neurons"
-		test_values = [16, 32, 64, 96, 128, 196, 256]
+		test_values = [16, 32, 64, 96, 128, 160, 192, 256]
 	elif id == 3:
-		PARALLELISM = 3
+		PARALLELISM = 5
 		exp_name = "number_of_hidden_layers"
-		test_values = [1, 2, 3, 4, 5, 6, 7]
+		test_values = [1, 2, 3, 4]
 	elif id == 4:
-		exp_name = "bundle_action"
+		exp_name = "bundle_action" # bundle false error
 		test_values = [False, True]
 	elif id == 5:
 		exp_name = "job_arrival_distribution"
@@ -291,9 +307,9 @@ def main(id):
 		exp_name = "SL_heuristics"
 		test_values = ["FIFO", "SRTF"]
 	elif id == 17:
-		PARALLELISM = 6
+		PARALLELISM = 5
 		exp_name = "a3c"
-		test_values = [4, 3, 2, 1]
+		test_values = [5, 4, 3, 2, 1]
 	elif id == 18:
 		exp_name = "changing_job_types"
 		test_values = [True]
@@ -302,7 +318,7 @@ def main(id):
 		test_values = [False]
 	elif id == 20:
 		exp_name = "cluster_scale"
-		test_values = ["testbed", "small", "large"]
+		test_values = ["testbed", "small", "large-1", "large-2", "large-3"]
 	elif id == 21:
 		exp_name = "job_resr_balance"
 		test_values = [True, False]
@@ -310,8 +326,12 @@ def main(id):
 		exp_name = "enable_SL_or_not"
 		test_values = [True, False]
 	elif id == 23:
-		exp_name = "estimation_error_num_epoch"
+		exp_name = "estimation_error_num_epoch" # error
 		test_values = [0.05, 0.1, 0.15, 0.2, 0.25]
+	elif id == 24:
+		PARALLELISM = 3
+		exp_name = "number_of_hidden_layers"
+		test_values = [5, 6, 7]
 
 	run(id, exp_name, test_values)
 

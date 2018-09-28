@@ -14,7 +14,7 @@ import datetime
 
 
 servers = ["net-g1", "net-g2", "net-g3", "net-g6", "net-g7", "net-g8"]
-tasks = [[3], [2], [4,10,11], [8,16,18], [1,19,20], [17,22]]
+tasks = [[3], [2], [4,10,11], [8,16,18], [1,20], [17,22]]
 # servers = ["net-g1"]
 # tasks = [[3]]
 source = "/home/net/DL2"
