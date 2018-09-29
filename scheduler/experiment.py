@@ -111,7 +111,11 @@ def get_config(id, exp_name, test_value):
 			config["MAX_NUM_EPOCHS"] = 1000
 			config["MAX_ARRVS_PER_TS"] = 5
 			config["TS_DURATION"] = 300.0
-			config["SCHED_WINDOW_SIZE"] = 4
+			window_size = 4
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
 		elif test_value == "large-1":
 			config["LARGE_SCALE"] = True
 			config["CLUSTER_NUM_NODES"] = 100
@@ -119,7 +123,11 @@ def get_config(id, exp_name, test_value):
 			config["MAX_NUM_EPOCHS"] = 80000
 			config["MAX_ARRVS_PER_TS"] = 6
 			config["TS_DURATION"] = 1200.0
-			config["SCHED_WINDOW_SIZE"] = 30
+			window_size = 30
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
 		elif test_value == "large-2":
 			config["LARGE_SCALE"] = True
 			config["CLUSTER_NUM_NODES"] = 100
@@ -127,7 +135,11 @@ def get_config(id, exp_name, test_value):
 			config["MAX_NUM_EPOCHS"] = 80000
 			config["MAX_ARRVS_PER_TS"] = 9
 			config["TS_DURATION"] = 1200.0
-			config["SCHED_WINDOW_SIZE"] = 30
+			window_size = 36
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
 		elif test_value == "large-3":
 			config["LARGE_SCALE"] = True
 			config["CLUSTER_NUM_NODES"] = 120
@@ -135,14 +147,22 @@ def get_config(id, exp_name, test_value):
 			config["MAX_NUM_EPOCHS"] = 80000
 			config["MAX_ARRVS_PER_TS"] = 9
 			config["TS_DURATION"] = 1200.0
-			config["SCHED_WINDOW_SIZE"] = 30
+			window_size = 36
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
 		elif test_value == "small": # by default
 			config["CLUSTER_NUM_NODES"] = 48
 			config["TOT_NUM_JOBS"] = 60
 			config["MAX_NUM_EPOCHS"] = 80000
 			config["MAX_ARRVS_PER_TS"] = 3
 			config["TS_DURATION"] = 1200.0
-			config["SCHED_WINDOW_SIZE"] = 20
+			window_size = 20
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
 	elif id == 21:
 		config["JOB_RESR_BALANCE"] = test_value
 	elif id == 22:
