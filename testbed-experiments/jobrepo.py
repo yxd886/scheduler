@@ -48,6 +48,13 @@ job_repos = [('experiment-imagenet', 'resnet-50'), ('experiment-imagenet', 'vgg-
 
 DEFAULT_NUM_PS = 1
 DEFAULT_NUM_WORKER = 1
+DEFAULT_PS_CPU = 4
+DEFAULT_PS_MEM = 4
+DEFAULT_PS_GPU = 0
+DEFAULT_WORKER_CPU = 2
+DEFAULT_WORKER_GPU = 1  # dssm,ctc does not need any gpu
+DEFAULT_WORKER_MEM = 4
+
 
 def set_config(job):
     is_member = False
@@ -86,12 +93,12 @@ ResNet-50_ImageNet
 def _set_resnet50_job(job):
     num_ps = DEFAULT_NUM_PS
     num_worker = DEFAULT_NUM_WORKER
-    ps_cpu = 3
-    ps_mem = 4
+    ps_cpu = DEFAULT_PS_CPU
+    ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
-    worker_cpu = 2
-    worker_mem = 5
-    worker_gpu = 1
+    worker_cpu = DEFAULT_WORKER_CPU
+    worker_mem = DEFAULT_WORKER_MEM
+    worker_gpu = DEFAULT_WORKER_GPU
     worker_bw = 0
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
@@ -124,13 +131,16 @@ VGG-16_ImageNet
 def _set_vgg16_job(job):
     num_ps = DEFAULT_NUM_PS
     num_worker = DEFAULT_NUM_WORKER
-    ps_cpu = 4
-    ps_mem = 5
+    num_ps = DEFAULT_NUM_PS
+    num_worker = DEFAULT_NUM_WORKER
+    ps_cpu = DEFAULT_PS_CPU
+    ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
-    worker_cpu = 2
-    worker_mem = 5
-    worker_gpu = 1
+    worker_cpu = DEFAULT_WORKER_CPU
+    worker_mem = DEFAULT_WORKER_MEM
+    worker_gpu = DEFAULT_WORKER_GPU
     worker_bw = 0
+
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
     job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
@@ -161,13 +171,14 @@ ResNext-110_Cifar10
 def _set_resnext110_job(job):
     num_ps = DEFAULT_NUM_PS
     num_worker = DEFAULT_NUM_WORKER
-    ps_cpu = 3
-    ps_mem = 3
+    ps_cpu = DEFAULT_PS_CPU
+    ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
-    worker_cpu = 2
-    worker_mem = 4
-    worker_gpu = 1
+    worker_cpu = DEFAULT_WORKER_CPU
+    worker_mem = DEFAULT_WORKER_MEM
+    worker_gpu = DEFAULT_WORKER_GPU
     worker_bw = 0
+
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
     job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
@@ -238,13 +249,14 @@ DSSM_text8
 def _set_dssm_job(job):
     num_ps = DEFAULT_NUM_PS
     num_worker = DEFAULT_NUM_WORKER
-    ps_cpu = 1
-    ps_mem = 2
+    ps_cpu = DEFAULT_PS_CPU
+    ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
-    worker_cpu = 4
-    worker_mem = 3
+    worker_cpu = DEFAULT_WORKER_CPU
+    worker_mem = DEFAULT_WORKER_MEM
     worker_gpu = 0
     worker_bw = 0
+
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
     job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
@@ -277,13 +289,14 @@ Seq2Seq_WMT17
 def _set_seq2seq_job(job):
     num_ps = DEFAULT_NUM_PS
     num_worker = DEFAULT_NUM_WORKER
-    ps_cpu = 3
-    ps_mem = 5
-    worker_cpu = 2
-    worker_mem = 5
-    worker_gpu = 1
+    ps_cpu = DEFAULT_PS_CPU
+    ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
+    worker_cpu = DEFAULT_WORKER_CPU
+    worker_mem = DEFAULT_WORKER_MEM
+    worker_gpu = DEFAULT_WORKER_GPU
     worker_bw = 0
+
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
     job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
@@ -321,13 +334,14 @@ ctc_mr
 def _set_ctc_job(job):
     num_ps = DEFAULT_NUM_PS
     num_worker = DEFAULT_NUM_WORKER
-    ps_cpu = 1
-    ps_mem = 2
-    worker_cpu = 4
-    worker_mem = 2
-    worker_gpu = 0
+    ps_cpu = DEFAULT_PS_CPU
+    ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
+    worker_cpu = DEFAULT_WORKER_CPU
+    worker_mem = DEFAULT_WORKER_MEM
+    worker_gpu = 0
     worker_bw = 0
+
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
     job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
@@ -359,12 +373,12 @@ wlm_ptb
 def _set_wlm_job(job):
     num_ps = DEFAULT_NUM_PS
     num_worker = DEFAULT_NUM_WORKER
-    ps_cpu = 1
-    ps_mem = 2
-    worker_cpu = 2
-    worker_mem = 3
-    worker_gpu = 1
+    ps_cpu = DEFAULT_PS_CPU
+    ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
+    worker_cpu = DEFAULT_WORKER_CPU
+    worker_mem = DEFAULT_WORKER_MEM
+    worker_gpu = DEFAULT_WORKER_GPU
     worker_bw = 0
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)

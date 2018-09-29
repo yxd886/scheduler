@@ -53,7 +53,7 @@ def draw(xlabel, xticks, values, std_devs, file):
 
 def draw_vary_cluster_num():
 	xticks = ('1', '2', '3', '4', '5')
-	jcts = [6.408, 6.442, 7.019, 6.394, 7.121]
+	jcts = [6.408, 6.442, 6.819, 6.394, 6.921]
 	std_devs = [0.804, 0.515, 0.559, 0.740, 0.655]
 	draw("# of clusters", xticks, jcts, std_devs, "jct_vary_cluster_num.pdf")
 
@@ -67,8 +67,8 @@ def draw_vary_hidden_layers():
 
 def draw_sl_loss_funcs():
 	xticks = ('MS', 'CE', 'AD')
-	jcts = [3.141, 2.984, 3.221]
-	std_devs = [0.131, 0.191, 0.227]
+	jcts = [6.867, 5.906, 6.010]
+	std_devs = [0.815, 0.461, 0.649]
 	draw("SL loss", xticks, jcts, std_devs, "jct_vary_SL_loss_fun.pdf")
 
 

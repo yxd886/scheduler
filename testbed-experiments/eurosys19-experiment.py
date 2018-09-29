@@ -2,9 +2,10 @@ import os
 import sys
 import time
 import ast
-from job import Job
+from k8s_job import K8SJob
+import trace
 import jobrepo
-import logger
+import log
 
 
 NODE_LIST=["10.28.1.18", "10.28.1.19", "10.28.1.20", "10.28.1.21", "10.28.1.22", "10.28.1.23", ]
@@ -28,26 +29,33 @@ def measure(testfile):
     f = open(txt, 'w')  # clear txt
     f.close()
 
-    # parse txt
-    arrivals = dict() # ts : job id
-    arrival_ts = dict() # job id : ts
-    finished = dict() # job id : finished ts
-    runnings = dict() # ts : job id set
-    jobs = dict()  # job id: job object
-    with open(testfile,'r') as f:
-        for line in f:
-            if 'curr' in line:
-                line = line.replace("curr ",'') # other baselines
-            words = line.replace('\n','').split(' ')
-            ts = int(words[3])
-            if ts not in arrivals.keys():
-                arrivals[ts] = []
-            machine = int(words[5])
-            allocs = ast.literal_eval(''.join(words[7:]).replace(' ',''))
-            for task in allocs:
-                id = (task-2)/2
-                if id not in jobs.keys():
-                    # create a new job
+    traces = trace.Trace(None).get_trace()
+    ts = 0
+    id = 1
+    while True:
+        jobs = traces[ts] # only consider one trace so far
+        k8s_jobs = []
+        for job in jobs:
+            model = job.model
+            for i in range(len(jobrepo.job_repos)):
+                _type, _model = jobrepo.job_repos[i]
+                if model == _model:
+                    k8s_job = Job(id, _type, _model, i, cwd, logger)
+                    jobrepo.set_config(k8s_job)
+                    k8s_job.num_epochs = job.num_epochs # here specify total number of trained epochs
+                    k8s_job.arrv_time = time.time()
+                    k8s_job.arrival_slot = ts
+                    k8s_job.num_worker = 0
+                    k8s_job.num_ps = 0
+                    k8s_job.worker_placement = []
+                    k8s_job.ps_placement = []
+                    k8s_jobs.append(k8s_job)
+                    break
+        assert len(k8s_jobs) == len(jobs)
+
+
+
+
                     job_id = id
                     model_id = id
                     (type, model) = jobrepo.job_repos[model_id]
@@ -215,20 +223,16 @@ def prepare_env():
     os.system("kubectl delete jobs --all")
 
 
-def run(testfile):
+def run():
     global logger
 
-    logger = logger.getLogger(testfile)
+    logger = log.getLogger("eurosys19-experiment")
     logger.info("AFTER UPDATING SCRIPTS IN CONTAINER, REBUILD THE IMAGE!!!")
     prepare_env()
-    measure(testfile)
+    measure()
 
-    logger.info("Testing is over!")
+    logger.info("Experiment is over!")
     
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print "Description: measure training speed of each kind of job under interference in k8s cluster"
-        print "Usage: python measure-interference.py testfile"
-        sys.exit(1)
-    run(sys.argv[1])
+    run()

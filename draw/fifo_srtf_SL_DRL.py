@@ -63,7 +63,7 @@ def draw(fifo_values, fifo_devs, srtf_values, srtf_devs, figure_name):
 
 	ax.yaxis.set_major_locator(mtick.MaxNLocator(4))
 	ax.set_xlim([0, index[i]+0.8])
-	# ax.set_ylim([0., 7])
+	ax.set_ylim([0., 25])
 	#plt.ylabel('Norm. Avg. JCT')
 	plt.xticks([0.7,2.2], xticks, fontsize=32, weight='medium')
 	legend = ax.legend(loc='best', shadow=False)

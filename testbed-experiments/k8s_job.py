@@ -8,7 +8,7 @@ from multiprocessing.pool import ThreadPool
 from threads import Threads
 from k8s_task import Task
 
-class Job(object):
+class K8SJob(object):
 	'''job description.
 	Parameters
 	----------
@@ -78,7 +78,12 @@ class Job(object):
 
 		self.running_time = 0.0
 		self.tic = None
-	
+		self.training = True
+
+	def info(self):
+		return "Job id: " + str(self.id) + " type: " + str(self.type) + " arrival_slot: " + str(self.arrival_slot) \
+						 + " progress: " + str(self.progress) + " total epochs: " + str(self.num_epochs)
+
 	def set_ps_resources(self, num_ps, ps_cpu, ps_mem, ps_bw=0, ps_gpu=0):
 		'''resource requirements of parameter servers'''
 		self.num_ps = num_ps

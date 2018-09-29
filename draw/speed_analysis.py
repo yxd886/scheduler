@@ -191,5 +191,5 @@ def draw_ratio():
 
 
 if __name__ == '__main__':
-	# draw_linearity()
+	draw_linearity()
 	draw_ratio()

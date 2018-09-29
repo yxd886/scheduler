@@ -4,12 +4,18 @@ import numpy as np
 import parameters as pm
 from cluster import Cluster
 import log
+import os
 from scheduler_base import Scheduler
+import jobrepo
+from k8s_job import K8SJob
 
 
 class RL_Env(Scheduler):
 	def __init__(self, name, trace, logger, training_mode=True):
 		Scheduler.__init__(self, name, trace, logger)
+
+		self.cwd = os.getcwd() + '/'
+		self.job_id = 0
 
 		self.epsilon = 0.0
 		self.training_mode = training_mode
@@ -27,14 +33,38 @@ class RL_Env(Scheduler):
 	def _prepare(self):
 		# admit new jobs
 		num_arrv_jobs = 0
+		k8s_jobs = []
 		if self.curr_ts in self.trace:
 			for job in self.trace[self.curr_ts]:
 				job.reset()
-				self.uncompleted_jobs.add(job)
-				if not self.training_mode:
-					job.training = False
-				num_arrv_jobs += 1
-				self.logger.debug(job.info())
+				model = job.model
+				for i in range(len(jobrepo.job_repos)):
+					_type, _model = jobrepo.job_repos[i]
+					if model == _model:
+						self.job_id += 1
+						k8s_job = K8SJob(self.job_id, _type, _model, i, self.cwd, self.logger)
+						jobrepo.set_config(k8s_job)
+						k8s_job.num_epochs = job.num_epochs  # here specify total number of trained epochs
+						k8s_job.arrv_time = time.time()
+						k8s_job.arrival_slot = self.curr_ts
+						k8s_job.num_worker = 0
+						k8s_job.num_ps = 0
+						k8s_job.worker_placement = []
+						k8s_job.ps_placement = []
+						cpu, gpu = job.resr_worker  # do not care memory and bandwidth
+						k8s_job.worker_cpu = cpu
+						k8s_job.worker_gpu = gpu/4
+						cpu, gpu = job.resr_ps
+						k8s_job.ps_cpu = cpu
+						k8s_job.ps_gpu = gpu/4
+						k8s_jobs.append(k8s_job)
+						self.uncompleted_jobs.add(k8s_job) # map job to k8s job
+						if not self.training_mode:
+							k8s_job.training = False
+						num_arrv_jobs += 1
+						self.logger.debug(job.info())
+						break
+			assert len(k8s_jobs) == len(self.trace[self.curr_ts])
 		self.jobstats["arrival"].append(num_arrv_jobs)
 		self.jobstats["total"].append(len(self.completed_jobs)+len(self.uncompleted_jobs))
 		self.jobstats["backlog"].append(max(len(self.uncompleted_jobs)-pm.SCHED_WINDOW_SIZE,0))
@@ -42,6 +72,7 @@ class RL_Env(Scheduler):
 		# reset
 		self._sched_states() # get scheduling states in this ts
 		self.running_jobs.clear()
+		# load balancing placement
 		self.node_used_resr_queue = Queue.PriorityQueue()
 		for i in range(pm.CLUSTER_NUM_NODES):
 			self.node_used_resr_queue.put((0, i))
