@@ -95,6 +95,7 @@ def get_config(id, exp_name, test_value):
 		config["HEURISTIC"] = "Optimus"
 	elif id == 16:
 		config["HEURISTIC"] = test_value
+		config["MAX_NUM_WORKERS"] = 8
 	elif id == 17:
 		config["NUM_AGENTS"] = test_value
 		config["MINI_BATCH_SIZE"] = 256/test_value

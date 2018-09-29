@@ -22,7 +22,7 @@ if TRAINING_MODE == "RL":
 else:
 	VALUE_NET = False
 
-POLICY_NN_MODEL = None #"Models/policy_sl_ps_worker_100.ckpt"  # path of the checkpointed model, or None
+POLICY_NN_MODEL = "Models/policy_sl_ps_worker_100.ckpt"  # path of the checkpointed model, or None
 VALUE_NN_MODEL = None  # "Models/value_rl_ps_worker_1000.ckpt"  # path of value network model
 SAVE_VALUE_MODEL = True
 if TRAINING_MODE == "SL" or VALUE_NN_MODEL is not None:
@@ -39,7 +39,7 @@ if TRAINING_MODE == "SL":
 DISP_INTERVAL = 2  # display frequency
 VISUAL_GW_INTERVAL = 100  # tf log gradients/weights frequency
 NUM_RECORD_AGENTS = 2  # log details of 2 agents in tensorboard and ignore others for saved space
-SKIP_FIRST_VAL = True  # if False, the central agent will test the initialized model at first before training
+SKIP_FIRST_VAL = False  # if False, the central agent will test the initialized model at first before training
 SELECT_ACTION_MAX_PROB = False  # whether to select the action with the highest probability or select based on distribution, default based on distribution
 MASK_PROB = 1.  # whether to mask actions mapped None jobs, set it to be lower seems to be worse
 ASSIGN_BUNDLE = True  # assign 1 ps and 1 worker for each in the beginning of each timeslot to avoid starvation
@@ -71,7 +71,7 @@ TOT_TRAIN_EPOCHS = 2000  # number of training epochs
 TOT_NUM_STEPS = 100000
 if TRAINING_MODE == "SL":
 	TOT_NUM_STEPS = 100000
-VAL_INTERVAL = 100  # validation interval
+VAL_INTERVAL = 50  # validation interval
 if TRAINING_MODE == "SL":
 	VAL_INTERVAL = 50
 VAL_ON_MASTER = True  # validation on agent uses CPU instead of GPU, and may cause use up all memory, do not know why, so far it must be set true
@@ -140,7 +140,7 @@ if TESTBED:
 	MAX_ARRVS_PER_TS = 5
 	TS_DURATION = 300.0
 	SCHED_WINDOW_SIZE = 4
-VAL_DATASET = 10  # number of traces for validation in each agent
+VAL_DATASET = 100  # number of traces for validation in each agent
 MAX_TS_LEN = 1000  # maximal timeslot length for one trace
 
 

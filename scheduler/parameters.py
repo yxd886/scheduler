@@ -18,7 +18,7 @@ TRAINING_MODE = "RL"  # or "RL"
 if TRAINING_MODE == "SL":
 	HEURISTIC = "DRF"  # the heuristic algorithm used for supervised learning
 if TRAINING_MODE == "RL":
-	VALUE_NET = False  # disable/enable critic network
+	VALUE_NET = True  # disable/enable critic network
 else:
 	VALUE_NET = False
 
@@ -39,7 +39,7 @@ if TRAINING_MODE == "SL":
 DISP_INTERVAL = 2  # display frequency
 VISUAL_GW_INTERVAL = 100  # tf log gradients/weights frequency
 NUM_RECORD_AGENTS = 2  # log details of 2 agents in tensorboard and ignore others for saved space
-SKIP_FIRST_VAL = True  # if False, the central agent will test the initialized model at first before training
+SKIP_FIRST_VAL = False  # if False, the central agent will test the initialized model at first before training
 SELECT_ACTION_MAX_PROB = False  # whether to select the action with the highest probability or select based on distribution, default based on distribution
 MASK_PROB = 1.  # whether to mask actions mapped None jobs, set it to be lower seems to be worse
 ASSIGN_BUNDLE = True  # assign 1 ps and 1 worker for each in the beginning of each timeslot to avoid starvation

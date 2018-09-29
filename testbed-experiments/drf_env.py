@@ -23,7 +23,7 @@ class DRF_Env(Scheduler):
 			succ, node_used_resrs = self.cluster.alloc(resr_reqs, node)
 			self.node_used_resr_queue.put((np.sum(node_used_resrs), node))
 			if succ:
-				if pm.PS_WORKER and pm.BUNDLE_ACTION and False:
+				if pm.PS_WORKER and pm.BUNDLE_ACTION and False: # notice that here is false
 					self._state(job.id, "bundle")
 					job.num_workers += 1
 					job.curr_worker_placement.append(node)

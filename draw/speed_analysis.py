@@ -113,7 +113,7 @@ def draw_linearity():
 	plt.style.use(["seaborn-bright", "double-figure.mplstyle"])
 	fig, ax = plt.subplots()
 	plt.xlabel('# of workers')
-	plt.ylabel('Scalability')
+	plt.ylabel('Speedup')
 
 	styles = ["bD-", "r*-", "g>-", "y--", "kD-", "c-", "m-", "b*-"]
 	count = 0

@@ -33,7 +33,7 @@ def draw(fifo_values, fifo_devs, srtf_values, srtf_devs, figure_name):
 	patterns = ["/", "\\", "-", 'o', '.', '*']
 
 	colors = ['p', 'g', 'r', 'orange', 'r', 'b', 'm', 'y', 'steelblue', 'gold', 'lightcoral', 'chocolate']
-	colors = ['pink', 'green','#e1e4ff' ,'1']
+	colors = ['#e1e4ff', 'green','#e1e4ff' ,'1']
 	#colors = [str(1-i) for i in np.linspace(0,1,len(times))]
 
 	for i in range(len(fifo_values)):
@@ -63,13 +63,13 @@ def draw(fifo_values, fifo_devs, srtf_values, srtf_devs, figure_name):
 
 	ax.yaxis.set_major_locator(mtick.MaxNLocator(4))
 	ax.set_xlim([0, index[i]+0.8])
-	ax.set_ylim([0., 7])
+	# ax.set_ylim([0., 7])
 	#plt.ylabel('Norm. Avg. JCT')
 	plt.xticks([0.7,2.2], xticks, fontsize=32, weight='medium')
-	legend = ax.legend(loc=(0.4,0.65), shadow=False)
+	legend = ax.legend(loc='best', shadow=False)
 	for label in legend.get_texts():
 		label.set_fontsize(22)
-	plt.ylabel('JCT')
+	plt.ylabel('Avg. Job Completion Time')
 	plt.gcf().subplots_adjust(bottom=0.15, left=0.2)
 
 	frame = legend.get_frame()
@@ -81,14 +81,14 @@ def draw(fifo_values, fifo_devs, srtf_values, srtf_devs, figure_name):
 
 
 
-fifo_values = (4.315, 3.203)
-fifo_devs = (0.168, 0.160)
-srtf_values = (4.158, 3.384)
-srtf_devs = (0.092, 0.235)
+fifo_values = (14.219, 7.118)
+fifo_devs = (1.220, 0.386)
+srtf_values = (13.609, 8.557)
+srtf_devs = (1.342, 0.247)
 draw(fifo_values, fifo_devs, srtf_values, srtf_devs, "fifo_srtf_sl_rl.pdf")
 
 
 #FIFO: 4.315+-0.168
 #SRTF: 4.158+-0.092
-#('SRTF', ('3.3836666666669997+-0.23537062971722988', '27.04+-1.0781465577554843', '2.256119197387836+-0.08819649011752724'))
-#('FIFO', ('3.203166666667+-0.16030950966474233', '26.340000000000003+-0.7031358332498776', '2.3145120467934097+-0.05578133609871989'))
+# ('SRTF', ('7.55733333333+-0.247701881751', '63.68+-0.64', '0.943517751775+-0.00921247471239'))
+# ('FIFO', ('7.11866666667+-0.386740510192', '60.74+-1.11642285896', '1.00578585414+-0.0168249917616'))

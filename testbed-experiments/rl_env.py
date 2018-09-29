@@ -234,7 +234,7 @@ class RL_Env(Scheduler):
 										break
 									elif job.num_workers >= job.num_ps*self.ps_worker_ratio and np.random.rand() < 0.5:
 										if mask[3*i+2] > 0 and masked_output[0][3*i+2] > pm.MIN_ACTION_PROB_FOR_SKIP and mask[3*i+1] > 0 and masked_output[0][3*i+1] > pm.MIN_ACTION_PROB_FOR_SKIP:
-											if np.random.rand() < 0.33:
+											if np.random.rand() < 0.5:
 												# increase this job's bundle
 												action = 3*i+2
 												self.logger.debug("Got 3.")

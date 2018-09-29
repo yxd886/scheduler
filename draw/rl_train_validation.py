@@ -18,12 +18,13 @@ def process_results(file):
 	rewards = []
 	steps = []
 	for line in f:
+		if line == '\n':
+			break
 		segs = line.replace("\n", '').split(" ")
 		steps.append(int(segs[1].replace(":","")))
 		jcts.append(float(segs[2]))
 		# makespans.append(float(segs[3]))
 		# rewards.append(float(segs[4]))
-
 	# smoothing jct by averaging results
 	temp_jcts = []
 	for i in range(len(jcts)):
@@ -58,10 +59,10 @@ def draw(data1, data2, data3):
 	frame.set_facecolor('1')
 
 	ax.set_xlabel('Step')
-	ax.set_ylabel('JCT')
-	ax.set_ylim([2,5])
+	ax.set_ylabel('Avg. Job Completion Time')
+	ax.set_ylim(bottom=0)
 	# plt.locator_params(axis='y', nticks=4, tight=True)
-	ax.xaxis.set_major_locator(mtick.MaxNLocator(4))
+	ax.xaxis.set_major_locator(mtick.MaxNLocator(6))
 	ax.yaxis.set_major_locator(mtick.MaxNLocator(4))
 	ax.ticklabel_format(style='sci', axis='x', scilimits=(0, 0))
 
@@ -71,15 +72,17 @@ def draw(data1, data2, data3):
 
 
 def draw_jct():
-	train_steps, train_jcts, _, _ = process_results("./data/rl_train_jct_changing_workload.txt")
+	# train_steps, train_jcts, _, _ = process_results("./data/rl_train_jct_changing_workload.txt")
 	valid_steps, valid_jcts, _, _ = process_results("./data/rl_validation_changing_workload.txt")
 
 	# aim (True, ('2.8825+-0.216790028984', '25.34+-0.564269439187', '2.40165523761+-0.0481009935628'))
-	aim_steps = train_steps
-	aim_jcts = [2.883 for _ in range(len(train_steps))]
+	aim_steps = valid_steps
+	aim_jcts = [5.7 for _ in range(len(valid_steps))]
 
-	drf_steps = train_steps
-	drf_jcts = [4.031 for _ in range(len(train_steps))]
+	drf_steps = valid_steps
+	drf_jcts = [9.731 for _ in range(len(valid_steps))]
+
+	print valid_steps
 
 	draw((drf_steps, drf_jcts, ""),(valid_steps, valid_jcts, "DL2"), (aim_steps, aim_jcts, "Ideal"))
 
