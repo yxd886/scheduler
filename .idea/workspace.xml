@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a768f3df-9e02-487b-9dd4-748d8495d82c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testbed-experiments/k8s-mxnet-template.jinja" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testbed-experiments/render-template.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testbed-experiments/check-jinja.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testbed-experiments/k8s-mxnet-task-template.jinja" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/run-all-experiments.py" afterPath="$PROJECT_DIR$/scheduler/run-all-experiments.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testbed-experiments/k8s_job.py" afterPath="$PROJECT_DIR$/testbed-experiments/k8s_job.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py" afterPath="$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testbed-experiments/parameters.py" afterPath="$PROJECT_DIR$/testbed-experiments/parameters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testbed-experiments/params_template.py" afterPath="$PROJECT_DIR$/testbed-experiments/params_template.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -64,18 +59,28 @@
       <file leaf-file-name="k8s_task.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_task.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2465">
-              <caret line="151" column="42" lean-forward="false" selection-start-line="151" selection-start-column="35" selection-end-line="151" selection-end-column="42" />
+            <state relative-caret-position="451">
+              <caret line="167" column="32" lean-forward="false" selection-start-line="167" selection-start-column="32" selection-end-line="167" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="k8s_job.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="k8s_job.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_job.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="248" column="41" lean-forward="true" selection-start-line="248" selection-start-column="41" selection-end-line="248" selection-end-column="41" />
+            <state relative-caret-position="318">
+              <caret line="241" column="41" lean-forward="true" selection-start-line="241" selection-start-column="41" selection-end-line="241" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="check-jinja.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/testbed-experiments/check-jinja.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -92,7 +97,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>rewards</find>
       <find>progress</find>
       <find>start</find>
       <find>rot</find>
@@ -119,9 +123,10 @@
       <find>tic</find>
       <find>job_dir</find>
       <find>Task</find>
-      <find>jin</find>
       <find>GPU</find>
       <find>MAX_NUM</find>
+      <find>jinja</find>
+      <find>jin</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -488,13 +493,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/scheduler/comparison.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="132" column="17" lean-forward="true" selection-start-line="132" selection-start-column="17" selection-end-line="132" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scheduler/train.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="719">
@@ -849,14 +847,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2465">
-          <caret line="151" column="42" lean-forward="false" selection-start-line="151" selection-start-column="35" selection-end-line="151" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s-mxnet-template.jinja">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1690">
@@ -865,10 +855,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="167" column="32" lean-forward="false" selection-start-line="167" selection-start-column="32" selection-end-line="167" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_job.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="248" column="41" lean-forward="true" selection-start-line="248" selection-start-column="41" selection-end-line="248" selection-end-column="41" />
+        <state relative-caret-position="318">
+          <caret line="241" column="41" lean-forward="true" selection-start-line="241" selection-start-column="41" selection-end-line="241" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/check-jinja.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

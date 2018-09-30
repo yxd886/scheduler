@@ -1,0 +1,109 @@
+{%- set job_name = "$JOB_NAME" -%}
+{%- set num_worker = "$NUM_WORKER" -%}
+{%- set num_ps = "$NUM_PS" -%}
+
+{%- set task_name = "$TASK_NAME" -%}
+{%- set task_role = "$TASK_ROLE" -%}
+{%- set task_id = "$TASK_ID" -%}
+{%- set task_node = "$TASK_NODE" -%}
+{%- set cpu = "$CPU" -%}
+{%- set mem = "$MEM" -%}
+{%- set gpu = "$GPU" -%}
+
+{%- set image = "$IMAGE" -%}
+{%- set script = "$SCRIPT" -%}
+{%- set prog = "$PROG" -%}
+{%- set work_dir = "$WORK_DIR" -%}
+{%- set host_work_dir = "$HOST_WORK_DIR" -%}
+{%- set work_volume = "$WORK_VOLUME" -%}
+{%- set data_dir = "$DATA_DIR" -%}
+{%- set host_data_dir = "$HOST_DATA_DIR" -%}
+{%- set data_volume = "$DATA_VOLUME" -%}
+
+{%- set kv_store = "$KV_STORE" -%}
+{%- set batch_size = "$BATCH_SIZE" -%}
+{%- set mxnet_kvstore_bigarray_bound = "$MXNET_KVSTORE_BIGARRAY_BOUND" -%}
+{%- set ps_verbose = "$PS_VERBOSE" -%}
+
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: {{ task_name }}
+spec:
+  template:
+    metadata:
+      labels:
+        job: {{ job_name }}
+        task_name: {{ task_name }}
+        task_role: {{ task_role }}
+        task_id: "{{ task_id }}"
+    spec:
+      nodeSelector:
+        gpu: gtx1080ti
+        kubernetes.io/hostname: {{ task_node }}
+      containers:
+      - name: {{ job_name }}
+        image: {{ image }}
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/bash"]
+        args: ["{{ script }}"]
+        env:
+        - name: JOB_NAME
+          value: "{{ job_name }}"
+        - name: DMLC_NUM_WORKER
+          value: "{{ num_worker }}"
+        - name: DMLC_NUM_SERVER
+          value: "{{ num_ps }}"
+        - name: ROLE
+          value: "{{ task_role }}"
+        - name: PROG
+          value: "{{ prog }}"
+        - name: WORK_DIR
+          value: "{{ work_dir }}"
+        - name: DATA_DIR
+          value: "{{ data_dir }}"
+        - name: KV_STORE
+          value: "{{ kv_store }}"
+        - name: BATCH_SIZE
+          value: "{{ batch_size }}"
+        - name: MXNET_KVSTORE_BIGARRAY_BOUND
+          value: "{{ mxnet_kvstore_bigarray_bound }}"
+        - name: PS_VERBOSE
+          value: "{{ ps_verbose }}"
+        resources:
+          limits:
+            cpu: {{ cpu }}
+            memory: {{ mem }}
+            alpha.kubernetes.io/nvidia-gpu: {{ gpu }}
+          requests:
+            cpu: {{ cpu }}
+            memory: {{ mem }}
+            alpha.kubernetes.io/nvidia-gpu: {{ gpu }}
+        ports:
+        - containerPort: 6006
+        volumeMounts:
+        - mountPath: {{ work_dir }}
+          name: {{ work_volume }}
+        - mountPath: {{ data_dir }}
+          name: {{ data_volume }}
+        - mountPath: /usr/local/nvidia/lib
+          name: "nvidia-lib"
+        - mountPath: /usr/local/nvidia/lib64
+          name: "nvidia-lib64"
+      volumes:
+      - name: {{ work_volume }}
+        hostPath:
+          path: {{ host_work_dir }}
+      - name: {{ data_volume }}
+        hostPath:
+          path: {{ host_data_dir }}
+      - name: "nvidia-lib"
+        hostPath:
+          path: /usr/lib/nvidia-384/
+      - name: "nvidia-lib64"
+        hostPath:
+          path: /usr/lib/x86_64-linux-gnu/
+
+      restartPolicy: Never
+---
+
