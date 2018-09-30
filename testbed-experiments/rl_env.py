@@ -434,7 +434,7 @@ class RL_Env(Scheduler):
 				job.start_time = time.time()
 				job.start_slot = self.curr_ts
 
-		reward = 0
+		rewards = dict()
 		num_ts_completed = 0
 		counter = 0
 		ts_finished_jobs = set()
@@ -475,6 +475,8 @@ class RL_Env(Scheduler):
 				for epoch, batch in progress_list:
 					progress += epoch
 					progress += 1.0 * batch / job.epoch_size
+				rewards[job.id] = progress/job.num_epochs
+				self.job_prog_in_ts[job] = rewards[job.id]
 				job.progress += progress
 
 				self.logger.info("job name: " + job.name + " model name: " + job.model_name + ", kv_store: " + job.kv_store + \
@@ -488,35 +490,20 @@ class RL_Env(Scheduler):
 				            ", ps cpu usage: " + str(ps_cpu_usage_list) + \
 				            ", worker cpu usage: " + str(worker_cpu_usage_list)
 				            )
-
 				if job.progress >= job.num_epochs:
 					self.logger.info("job " + str(job.name) + " finished!")
 					job.end_time = time.time()
 					job.end_slot = self.curr_ts
 					job.delete(True)
-					ts_finished_jobs.add(job)
+					self.running_jobs.remove(job)
+					self.uncompleted_jobs.remove(job)
+					self.completed_jobs.add(job)
+					num_ts_completed += 1
 
 			counter += 1
 			if counter == pm.TS_DURATION/60:
-
-
-
 				break
-
-			for job in ts_finished_jobs:
-				self.running_jobs.remove(job)
-				self.uncompleted_jobs.remove(job)
-				self.completed_jobs.add(job)
-				num_ts_completed += 1
-
-
-
-
-
-
-			norm_prog = job.step()/job.num_epochs
-			self.job_prog_in_ts[job] = norm_prog
-			reward += norm_prog
+		reward = sum(rewards.values())
 		self.rewards.append(reward)
 
 		self.jobstats["running"].append(len(self.running_jobs))

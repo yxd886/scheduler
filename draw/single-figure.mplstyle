@@ -3,8 +3,8 @@ axes.titlesize : 22
 axes.labelsize : 20
 lines.linewidth : 2
 lines.markersize : 6
-xtick.labelsize : 16
-ytick.labelsize : 16
+xtick.labelsize : 18
+ytick.labelsize : 18
 savefig.dpi : 1000
 legend.shadow : True
 legend.numpoints : 1

@@ -102,12 +102,12 @@ def draw_vary_reward():
 
 if __name__ == "__main__":
 	draw_vary_sched_window()
-	draw_vary_num_neurons()
-	draw_vary_hidden_layers()
-	draw_sl_loss_funcs()
-	draw_vary_cluster_num()
-	draw_vary_reward()
-	sys.exit(0)
+	# draw_vary_num_neurons()
+	# draw_vary_hidden_layers()
+	# draw_sl_loss_funcs()
+	# draw_vary_cluster_num()
+	# draw_vary_reward()
+	# sys.exit(0)
 	# if len(sys.argv) != 2:
 	# 	print "please input job arrival distribution"
 	# 	exit(1)
