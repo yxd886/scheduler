@@ -27,10 +27,11 @@ class K8S_RL_Env(Scheduler):
 			self.jobstats[stats_name] = []
 		if pm.PS_WORKER and pm.BUNDLE_ACTION:
 			self.action_freq = [0 for _ in range(3)]
+		self.tic = time.time()
 		self._init_k8s()
 		# prepare for the first timeslot
 		self._prepare()
-		self.tic = time.time()
+
 
 	def _init_k8s(self):
 		self.logger.info("clear all existing jobs...")

@@ -142,7 +142,7 @@ if TESTBED:
 	MAX_ARRVS_PER_TS = 5
 	TS_DURATION = 300.0
 	SCHED_WINDOW_SIZE = 4
-	MAX_NUM_WORKERS = 3
+	MAX_NUM_WORKERS = 6
 VAL_DATASET = 100  # number of traces for validation in each agent
 MAX_TS_LEN = 1000  # maximal timeslot length for one trace
 

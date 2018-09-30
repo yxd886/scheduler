@@ -233,8 +233,8 @@ class K8SJob(object):
 		self.logger.info("starting job " + self.name + "...")
 		os.system('mkdir -p ' + self.dir)  # job working dir
 		self.task_template = self.dir + "k8s-mxnet-task-template.jinja"
-		os.system("cp ../templates/k8s-mxnet-task-template.jinja " + self.task_template)
-		os.system("cp ../templates/render-template.py " + self.dir)
+		os.system("cp ./k8s-mxnet-task-template.jinja " + self.task_template)
+		os.system("cp ./render-template.py " + self.dir)
 		for i in range(self.num_ps):
 			task = self._create_task("ps")
 			task.set_placement(self.ps_placement[i])
