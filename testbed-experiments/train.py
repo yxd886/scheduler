@@ -571,7 +571,7 @@ def rl_agent(net_weights_q, net_gradients_q, stats_q, id):
 							traces.append(job_trace)
 						logger.info("Changing job types 8")
 				tic = time.time()
-				if mem_store.full():
+				if mem_store.full() and pm.ENABLE_K8S:
 					logger.info("Switching to k8s environment!!!")
 					env = k8s_rl_env.K8S_RL_Env("RL", copy.deepcopy(traces[episode]), logger)
 				else:
