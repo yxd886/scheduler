@@ -14,7 +14,7 @@ class K8SJob(object):
 	----------
 	id: int
 	num_ps: int
-	num_worker: int
+	num_workers: int
 	other parameters: string or list of strings
 	work to be done on Tuesday 8/8/2017: 
 		(1) modify template file, worker and server mount different dirs
@@ -42,7 +42,7 @@ class K8SJob(object):
 		self.ps_mem = None
 		self.ps_bw = None
 		
-		self.num_worker = None
+		self.num_workers = None
 		self.worker_cpu = None
 		self.worker_mem = None
 		self.ps_bw = None
@@ -60,11 +60,13 @@ class K8SJob(object):
 		# for experiment
 		self.arrival_slot = None
 		self.arrival_time = None
+		self.start_slot = None
+		self.start_time = None
 		self.end_slot = None
 		self.end_time = None
 		self.status = 'initialized'
 		self.progress = 0
-		self.training_speeds = dict()  #(num_ps, num_worker): speed
+		self.training_speeds = dict()  #(num_ps, num_workers): speed
 		self.val_losses = dict() # epoch : validation_loss
 		self.num_epochs = 0
 		self.epoch_size = 0
@@ -79,6 +81,7 @@ class K8SJob(object):
 		self.running_time = 0.0
 		self.tic = None
 		self.training = True
+		self.dom_share = 0
 
 	def info(self):
 		return "Job id: " + str(self.id) + " type: " + str(self.type) + " arrival_slot: " + str(self.arrival_slot) \
@@ -92,9 +95,9 @@ class K8SJob(object):
 		self.ps_bw = ps_bw
 		self.ps_gpu = ps_gpu
 	
-	def set_worker_resources(self, num_worker, worker_cpu, worker_mem, worker_bw=0, worker_gpu=0):
+	def set_worker_resources(self, num_workers, worker_cpu, worker_mem, worker_bw=0, worker_gpu=0):
 		'''resource requirements of workers'''
-		self.num_worker = num_worker
+		self.num_workers = num_workers
 		self.worker_cpu = worker_cpu
 		self.worker_mem = worker_mem
 		self.worker_bw = worker_bw
@@ -113,10 +116,10 @@ class K8SJob(object):
 	def set_worker_placement(self, worker_placement):
 		'''the placement of workers'''
 		if isinstance(worker_placement, list):
-			if len(worker_placement) == self.num_worker:
+			if len(worker_placement) == self.num_workers:
 				self.worker_placement = worker_placement
 			else:
-				raise RuntimeError('worker_placement length' + str(len(worker_placement)) + ' is not consistent with num_worker ' + str(len(self.num_worker)))
+				raise RuntimeError('worker_placement length' + str(len(worker_placement)) + ' is not consistent with num_workers ' + str(len(self.num_workers)))
 		else:
 			raise TypeError('worker_placement is not a list')
 
@@ -197,7 +200,7 @@ class K8SJob(object):
 
 	def _create_task(self, role):
 		if role == "ps":
-			job_meta = (self.name, self.dir, self.task_template, self.num_ps, self.num_worker)
+			job_meta = (self.name, self.dir, self.task_template, self.num_ps, self.num_workers)
 			self.ps_task_id += 1
 			task = Task(job_meta, "ps", self.ps_task_id, "Initializing", self.logger)
 			task.set_resource_spec(self.ps_cpu, self.ps_mem, self.ps_bw, self.ps_gpu)
@@ -209,7 +212,7 @@ class K8SJob(object):
 			task.set_mxnet_env(self.kv_store_big_array_bound, self.ps_verbose)
 			self.ps_tasks[self.ps_task_id] = task
 		else:
-			job_meta = (self.name, self.dir, self.task_template, self.num_ps, self.num_worker)
+			job_meta = (self.name, self.dir, self.task_template, self.num_ps, self.num_workers)
 			self.worker_task_id += 1
 			task = Task(job_meta, "worker", self.worker_task_id, "Initializing", self.logger)
 			task.set_resource_spec(self.worker_cpu, self.worker_mem, self.worker_bw, self.worker_gpu)
@@ -224,7 +227,7 @@ class K8SJob(object):
 
 	def start(self):
 		'''start the job in k8s'''
-		if self.num_worker == 0 and self.num_ps == 0:
+		if self.num_workers == 0 and self.num_ps == 0:
 			return
 
 		self.logger.info("starting job " + self.name + "...")
@@ -236,7 +239,7 @@ class K8SJob(object):
 			task = self._create_task("ps")
 			task.set_placement(self.ps_placement[i])
 
-		for i in range(self.num_worker):
+		for i in range(self.num_workers):
 			task = self._create_task("worker")
 			task.set_placement(self.worker_placement[i])
 
@@ -263,7 +266,7 @@ class K8SJob(object):
 		if self.progress >= self.num_epochs:
 			os.system("mkdir -p job_time/")
 			f = open('job_time/job_'+str(self.id), 'w')
-			f.write(str(self.running_time))
+			f.write(self.name + ": " + str(self.running_time))
 			f.close()
 		def run(task, del_all):
 			task.delete(del_all)
@@ -290,7 +293,7 @@ class K8SJob(object):
 		if self.scale_ps_placement is None or self.scale_worker_placement is None:
 			raise RuntimeError("Job:: " + "did not set scale_ps_placement or scale_worker_placement")
 		assert len(self.scale_ps_placement)==self.num_ps
-		assert len(self.scale_worker_placement)==self.num_worker
+		assert len(self.scale_worker_placement)==self.num_workers
 
 		self.logger.info("previous placement: " + str(self.ps_placement) + str(self.worker_placement))
 		self.logger.info("next placement: " + str(self.scale_ps_placement) + str(self.scale_worker_placement))

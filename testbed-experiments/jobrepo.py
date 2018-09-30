@@ -92,7 +92,7 @@ ResNet-50_ImageNet
 '''
 def _set_resnet50_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = DEFAULT_PS_CPU
     ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
@@ -102,7 +102,7 @@ def _set_resnet50_job(job):
     worker_bw = 0
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -130,9 +130,7 @@ VGG-16_ImageNet
 '''
 def _set_vgg16_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
-    num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = DEFAULT_PS_CPU
     ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
@@ -143,7 +141,7 @@ def _set_vgg16_job(job):
 
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -170,7 +168,7 @@ ResNext-110_Cifar10
 '''
 def _set_resnext110_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = DEFAULT_PS_CPU
     ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
@@ -181,7 +179,7 @@ def _set_resnext110_job(job):
 
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -209,7 +207,7 @@ Inception-BN_Caltech256
 '''
 def _set_inceptionbn_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = 3
     ps_mem = 4
     ps_bw = 0
@@ -219,7 +217,7 @@ def _set_inceptionbn_job(job):
     worker_bw = 0
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -248,7 +246,7 @@ DSSM_text8
 '''
 def _set_dssm_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = DEFAULT_PS_CPU
     ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
@@ -258,7 +256,7 @@ def _set_dssm_job(job):
     worker_bw = 0
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -288,7 +286,7 @@ Seq2Seq_WMT17
 '''
 def _set_seq2seq_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = DEFAULT_PS_CPU
     ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
@@ -299,7 +297,7 @@ def _set_seq2seq_job(job):
 
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -333,7 +331,7 @@ ctc_mr
 '''
 def _set_ctc_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = DEFAULT_PS_CPU
     ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
@@ -344,7 +342,7 @@ def _set_ctc_job(job):
 
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -372,7 +370,7 @@ wlm_ptb
 '''
 def _set_wlm_job(job):
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = DEFAULT_PS_CPU
     ps_mem = DEFAULT_PS_MEM
     ps_bw = 0
@@ -382,7 +380,7 @@ def _set_wlm_job(job):
     worker_bw = 0
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'
@@ -413,7 +411,7 @@ def _set_ds2_job(job):
     raise RuntimeError
 
     num_ps = DEFAULT_NUM_PS
-    num_worker = DEFAULT_NUM_WORKER
+    num_workers = DEFAULT_NUM_WORKER
     ps_cpu = 4
     ps_mem = 10
     worker_cpu = 2
@@ -423,7 +421,7 @@ def _set_ds2_job(job):
     worker_bw = 0
 
     job.set_ps_resources(num_ps, ps_cpu, ps_mem, ps_bw)
-    job.set_worker_resources(num_worker, worker_cpu, worker_mem, worker_bw, worker_gpu)
+    job.set_worker_resources(num_workers, worker_cpu, worker_mem, worker_bw, worker_gpu)
 
     image = 'yhpeng/k8s-mxnet-gpu-experiment'
     script = '/init.sh'

@@ -32,6 +32,7 @@ class RL_Env(Scheduler):
 
 	def _prepare(self):
 		# admit new jobs
+		self.logger.info("Timeslot " + str(self.curr_ts) + " ...")
 		num_arrv_jobs = 0
 		k8s_jobs = []
 		if self.curr_ts in self.trace:
@@ -45,7 +46,7 @@ class RL_Env(Scheduler):
 						k8s_job = K8SJob(self.job_id, _type, _model, i, self.cwd, self.logger)
 						jobrepo.set_config(k8s_job)
 						k8s_job.num_epochs = job.num_epochs  # here specify total number of trained epochs
-						k8s_job.arrv_time = time.time()
+						k8s_job.arrival_time = time.time()
 						k8s_job.arrival_slot = self.curr_ts
 						k8s_job.num_worker = 0
 						k8s_job.num_ps = 0
@@ -71,6 +72,10 @@ class RL_Env(Scheduler):
 
 		# reset
 		self._sched_states() # get scheduling states in this ts
+
+		# killing all running jobs
+		for k8s_job in self.running_jobs:
+			k8s_job.delete(True) # True or False?
 		self.running_jobs.clear()
 		# load balancing placement
 		self.node_used_resr_queue = Queue.PriorityQueue()
@@ -78,32 +83,34 @@ class RL_Env(Scheduler):
 			self.node_used_resr_queue.put((0, i))
 		self.cluster.clear()
 
-		for job in self.uncompleted_jobs:
+		for k8s_job in self.uncompleted_jobs:
 			if pm.ASSIGN_BUNDLE and pm.PS_WORKER:  # assign each job a bundle of ps and worker first to avoid job starvation
 				_, node = self.node_used_resr_queue.get()
-				resr_reqs = job.resr_worker + job.resr_ps
+				resr_worker = np.array([k8s_job.worker_cpu, k8s_job.worker_gpu*4])
+				resr_ps = np.array([k8s_job.ps_cpu, k8s_job.ps_gpu*4])
+				resr_reqs = resr_worker + resr_ps
 				succ, node_used_resrs = self.cluster.alloc(resr_reqs, node)
 				if succ:
-					job.num_ps = 1
-					job.curr_ps_placement=[node]
-					job.num_workers = 1
-					job.curr_worker_placement=[node]
-					job.dom_share = np.max(1.0 * (job.num_workers * job.resr_worker + job.num_ps * job.resr_ps) / self.cluster.CLUSTER_RESR_CAPS)
-					self.running_jobs.add(job)
+					k8s_job.num_ps = 1
+					k8s_job.ps_placement= [pm.CLUSTER_NODES[node]]
+					k8s_job.num_workers = 1
+					k8s_job.worker_placement= [pm.CLUSTER_NODES[node]]
+					k8s_job.dom_share = np.max(1.0 * (resr_worker + resr_ps) / self.cluster.CLUSTER_RESR_CAPS)
+					self.running_jobs.add(k8s_job)
 				else:
-					job.num_workers = 0
-					job.curr_worker_placement = []
-					job.num_ps = 0
-					job.curr_ps_placement = []
-					job.dom_share = 0
+					k8s_job.num_ps = 0
+					k8s_job.ps_placement = []
+					k8s_job.num_workers = 0
+					k8s_job.worker_placement = []
+					k8s_job.dom_share = 0
 				self.node_used_resr_queue.put((np.sum(node_used_resrs), node))  # always put back to avoid blocking in step()
 			else:
-				job.num_workers = 0
-				job.curr_worker_placement = []
+				k8s_job.num_workers = 0
+				k8s_job.worker_placement = []
 				if pm.PS_WORKER:
-					job.num_ps = 0
-					job.curr_ps_placement = []
-				job.dom_share = 0
+					k8s_job.num_ps = 0
+					k8s_job.ps_placement = []
+				k8s_job.dom_share = 0
 
 		if pm.VARYING_SKIP_NUM_WORKERS:
 			self.skip_num_workers = np.random.randint(1, pm.MAX_NUM_WORKERS)
@@ -116,19 +123,17 @@ class RL_Env(Scheduler):
 
 	def _move(self):
 		self._progress()
-		if len(self.completed_jobs) == pm.TOT_NUM_JOBS:
+		# next timeslot
+		self.curr_ts += 1
+		if self.curr_ts == pm.MAX_TS_LEN:
 			self.end = True
-		else:
-			# next timeslot
-			self.curr_ts += 1
-			if self.curr_ts > pm.MAX_TS_LEN:
-				self.logger.error("Exceed the maximal number of timeslot for one trace!")
-				self.logger.error("Results: " + str(self.get_results()))
-				self.logger.error("Stats: " + str(self.get_jobstats()))
-				for job in self.uncompleted_jobs:
-					self.logger.error("Uncompleted job "+ str(job.id) + " tot_epoch: "+str(job.num_epochs) + " prog: " + str(job.progress) + " workers: " + str(job.num_workers))
-				raise RuntimeError
-			self._prepare()
+			self.logger.info("The end timeslot!")
+			self.logger.info("Results: " + str(self.get_results()))
+			self.logger.info("Stats: " + str(self.get_jobstats()))
+			for k8s_job in self.uncompleted_jobs:
+				self.logger.info("Uncompleted job "+ str(k8s_job.name) + " tot_epoch: "+str(k8s_job.num_epochs) + " prog: " + str(k8s_job.progress) + " workers: " + str(k8s_job.num_workers))
+			exit()
+		self._prepare()
 
 	# step forward by one action
 	def step(self, output):
@@ -167,7 +172,6 @@ class RL_Env(Scheduler):
 					if (worker_full or ps_full) and pm.BUNDLE_ACTION:
 						mask[3*i+2] = 0.0
 
-
 		masked_output = np.reshape(output[0]*mask, (1,len(mask)))
 		sum_prob = np.sum(masked_output)
 		action_vec = np.zeros(len(mask))
@@ -187,7 +191,7 @@ class RL_Env(Scheduler):
 				num_worker_ps_str = ""
 				for job in self.window_jobs:
 					if job:
-						num_worker_ps_str += str(job.id) + ": " + str(job.num_ps) + " " + str(job.num_workers) + ","
+						num_worker_ps_str += str(job.name) + ": " + str(job.num_ps) + " " + str(job.num_workers) + ","
 				self.logger.info("Job: " + num_worker_ps_str)
 			self._move()
 		else:
@@ -330,21 +334,23 @@ class RL_Env(Scheduler):
 				else:
 					_, node = self.node_used_resr_queue.get()
 					# get resource requirement of the selected action
+					resr_worker = np.array([job.worker_cpu, job.worker_gpu*4])
+					resr_ps = np.array([job.ps_cpu, job.ps_gpu*4])
 					if pm.PS_WORKER:
 						if pm.BUNDLE_ACTION:
 							if action%3 == 0:
-								resr_reqs = job.resr_worker
+								resr_reqs = resr_worker
 							elif action%3 == 1:
-								resr_reqs = job.resr_ps
+								resr_reqs = resr_ps
 							else:
-								resr_reqs = job.resr_worker + job.resr_ps
+								resr_reqs = resr_worker + resr_ps
 						else:
 							if action%2 == 0:  # worker
-								resr_reqs = job.resr_worker
+								resr_reqs = resr_worker
 							else:
-								resr_reqs = job.resr_ps
+								resr_reqs = resr_ps
 					else:
-						resr_reqs = job.resr_worker
+						resr_reqs = resr_worker
 					succ, node_used_resrs = self.cluster.alloc(resr_reqs, node)
 					if succ:
 						move_on = False
@@ -353,27 +359,27 @@ class RL_Env(Scheduler):
 							if pm.BUNDLE_ACTION:
 								if action%3 == 0:  # worker
 									job.num_workers += 1
-									job.curr_worker_placement.append(node)
+									job.worker_placement.append(pm.CLUSTER_NODES[node])
 								elif action%3 == 1: # ps
 									job.num_ps += 1
-									job.curr_ps_placement.append(node)
+									job.ps_placement.append(pm.CLUSTER_NODES[node])
 								else:  # bundle
 									job.num_ps += 1
-									job.curr_ps_placement.append(node)
+									job.ps_placement.append(pm.CLUSTER_NODES[node])
 									job.num_workers += 1
-									job.curr_worker_placement.append(node)
+									job.worker_placement.append(pm.CLUSTER_NODES[node])
 							else:
 								if action %2 == 0:  # worker
 									job.num_workers += 1
-									job.curr_worker_placement.append(node)
+									job.worker_placement.append(pm.CLUSTER_NODES[node])
 								else: # ps
 									job.num_ps += 1
-									job.curr_ps_placement.append(node)
+									job.ps_placement.append(pm.CLUSTER_NODES[node])
 						else:
 							job.num_workers += 1
-							job.curr_worker_placement.append(node)
+							job.worker_placement.append(pm.CLUSTER_NODES[node])
 
-						job.dom_share = np.max(1.0 * (job.num_workers * job.resr_worker + job.num_ps * job.resr_ps) / self.cluster.CLUSTER_RESR_CAPS)
+						job.dom_share = np.max(1.0 * (job.num_workers * resr_worker + job.num_ps * resr_ps) / self.cluster.CLUSTER_RESR_CAPS)
 						self.node_used_resr_queue.put((np.sum(node_used_resrs), node))
 						self.running_jobs.add(job)
 						valid_state = True
@@ -389,7 +395,7 @@ class RL_Env(Scheduler):
 
 
 	def get_jobstats(self):
-		self.jobstats["duration"] = [(job.end_time - job.arrv_time + 1) for job in self.completed_jobs]
+		self.jobstats["duration"] = [(job.end_time - job.arrival_time) for job in self.completed_jobs]
 		for name, value in self.jobstats.items():
 			self.logger.debug(name + ": length " + str(len(value)) + " " + str(value))
 		return self.jobstats
@@ -421,18 +427,96 @@ class RL_Env(Scheduler):
 
 
 	def _progress(self):
+		# start all jobs with allocated ps/worker
+		for job in self.running_jobs:
+			job.start()
+			if job.progress == 0:
+				job.start_time = time.time()
+				job.start_slot = self.curr_ts
+
 		reward = 0
 		num_ts_completed = 0
-		for job in self.running_jobs:
-			norm_prog = job.step()/job.num_epochs
-			self.job_prog_in_ts[job] = norm_prog
-			reward += norm_prog
-			if job.progress >= job.real_num_epochs:
-				job.end_time = self.curr_ts
-				# self.running_jobs.remove(job) # it means running in this ts, so no need to delete
+		counter = 0
+		ts_finished_jobs = set()
+		while True:
+			# sleep 1 minutes
+			time.sleep(60)
+
+			# read progress
+			for job in self.running_jobs.copy():
+				try:
+					speed_list = job.get_speed()
+					if sum(speed_list) == 0:
+						self.logger.info("speed is 0, continue")
+						continue
+				except Exception as e:
+					self.logger.info("get speed error!" + str(e))
+					continue
+				try:
+					progress_list = job.get_progress()
+				except Exception as e:
+					self.logger.info("get progress error!" + str(e))
+					continue
+				try:
+					(ps_metrics, worker_metrics) = job.get_metrics()
+				except Exception as e:
+					self.logger.info("get metrics error!" + str(e))
+					continue
+
+				# compute cpu usage
+				ps_cpu_usage_list = []
+				for metrics in ps_metrics:
+					ps_cpu_usage_list.append(metrics['cpu/usage_rate'] / 1000.0)
+				worker_cpu_usage_list = []
+				for metrics in worker_metrics:
+					worker_cpu_usage_list.append(metrics['cpu/usage_rate'] / 1000.0)
+
+				progress = 0
+				for epoch, batch in progress_list:
+					progress += epoch
+					progress += 1.0 * batch / job.epoch_size
+				job.progress += progress
+
+				self.logger.info("job name: " + job.name + " model name: " + job.model_name + ", kv_store: " + job.kv_store + \
+				            ", batch_size: " + str(job.tot_batch_size) + \
+				            ", num_ps: " + str(job.num_ps) + ", num_worker: " + str(job.num_worker) + \
+				            ", progress_list: " + str(progress_list) + \
+				            ", total progress: " + str(job.progress) + \
+				            ", total num_epochs: " + str(job.num_epochs) + \
+				            ", speed_list: " + str(speed_list) + ", sum_speed (samples/second): " + str(sum(speed_list)) + \
+				            ", sum_speed(batches/second): " + str(sum(speed_list) / int(job.tot_batch_size)) + \
+				            ", ps cpu usage: " + str(ps_cpu_usage_list) + \
+				            ", worker cpu usage: " + str(worker_cpu_usage_list)
+				            )
+
+				if job.progress >= job.num_epochs:
+					self.logger.info("job " + str(job.name) + " finished!")
+					job.end_time = time.time()
+					job.end_slot = self.curr_ts
+					job.delete(True)
+					ts_finished_jobs.add(job)
+
+			counter += 1
+			if counter == pm.TS_DURATION/60:
+
+
+
+				break
+
+			for job in ts_finished_jobs:
+				self.running_jobs.remove(job)
 				self.uncompleted_jobs.remove(job)
 				self.completed_jobs.add(job)
 				num_ts_completed += 1
+
+
+
+
+
+
+			norm_prog = job.step()/job.num_epochs
+			self.job_prog_in_ts[job] = norm_prog
+			reward += norm_prog
 		self.rewards.append(reward)
 
 		self.jobstats["running"].append(len(self.running_jobs))
@@ -442,6 +526,115 @@ class RL_Env(Scheduler):
 		cpu_util, gpu_util = self.cluster.get_cluster_util()
 		self.jobstats["cpu_util"].append(cpu_util)
 		self.jobstats["gpu_util"].append(gpu_util)
+
+
+	def observe(self):
+		'''
+		existing resource share of each job: 0-1
+		job type 0-8
+		job normalized progress 0-1
+		num of backlogs: percentage of total number of jobs in the trace
+		'''
+		# cluster_state = self.cluster.get_cluster_state()
+		# for test, first use dominant resource share of each job as input state
+		q = Queue.PriorityQueue()
+		for job in self.uncompleted_jobs:
+			if pm.PS_WORKER:
+				if job.num_workers >= pm.MAX_NUM_WORKERS and job.num_ps >= pm.MAX_NUM_WORKERS: # and, not or
+					continue
+			else:
+				if job.num_workers >= pm.MAX_NUM_WORKERS:  # not schedule it any more
+					continue
+			if pm.JOB_SORT_PRIORITY == "Resource":
+				q.put((job.dom_share, job.arrival_slot, job))
+			elif pm.JOB_SORT_PRIORITY == "Arrival":
+				q.put((job.arrival_slot, job.arrival_slot, job))
+			elif pm.JOB_SORT_PRIORITY == "Progress":
+				q.put((1-job.progress/job.num_epochs, job.arrival_slot, job))
+
+		if pm.ZERO_PADDING:
+			state = np.zeros(shape=pm.STATE_DIM)  # zero padding instead of -1
+		else:
+			state = -1*np.ones(shape=pm.STATE_DIM)
+		self.window_jobs = [None for _ in range(pm.SCHED_WINDOW_SIZE)]
+
+		shuffle = np.array([i for i in range(pm.SCHED_WINDOW_SIZE)]) # default keep order
+		if pm.JOB_ORDER_SHUFFLE:
+			shuffle = np.random.choice(pm.SCHED_WINDOW_SIZE, pm.SCHED_WINDOW_SIZE, replace=False)
+
+		# resource share / job arrival / progress
+		for order in shuffle:
+			if not q.empty():
+				_, _, job = q.get()
+				j = 0
+				for (input,enable) in pm.INPUTS_GATE: # INPUTS_GATE=[("TYPE",True), ("STAY",False), ("PROGRESS",False), ("DOM_RESR",False), ("WORKERS",True)]
+					if enable:
+						if input == "TYPE":
+							if not pm.INPUT_RESCALE:
+								if not pm.TYPE_BINARY:
+									state[j][order] = job.type
+								else:
+									bin_str = "{0:b}".format(job.type).zfill(4)
+									for bin_ch in bin_str:
+										state[j][order] = int(bin_ch)
+										j += 1
+									j -= 1
+							else:
+								state[j][order] = float(job.type)/8
+						elif input == "STAY":
+							if not pm.INPUT_RESCALE:
+								state[j][order] = self.curr_ts - job.arrival_slot
+							else:
+								state[j][order] = float(self.curr_ts - job.arrival_slot) / 100
+						elif input == "PROGRESS":
+							state[j][order] = 1 - job.progress/job.num_epochs
+						elif input == "DOM_RESR":
+							state[j][order] = job.dom_share
+						elif input == "WORKERS":
+							if not pm.INPUT_RESCALE:
+								state[j][order] = job.num_workers
+							else:
+								state[j][order] = float(job.num_workers)/pm.MAX_NUM_WORKERS
+						elif input == "PS":
+							if not pm.INPUT_RESCALE:
+								state[j][order] = job.num_ps
+							else:
+								state[j][order] = float(job.num_ps) / pm.MAX_NUM_WORKERS
+						else:
+							raise RuntimeError
+						j += 1
+				self.window_jobs[order] = job
+
+		# backlog = float(max(len(self.uncompleted_jobs) - pm.SCHED_WINDOW_SIZE, 0))/len(pm.TOT_NUM_JOBS)
+		self.logger.debug("ts: " + str(self.curr_ts) \
+						  + " backlog: " + str(max(len(self.uncompleted_jobs) - pm.SCHED_WINDOW_SIZE, 0)) \
+						  + " completed jobs: " + str(len(self.completed_jobs)) \
+						  + " uncompleted jobs: " + str(len(self.uncompleted_jobs)))
+		return state
+
+	def _state(self, label_job_id, role="worker"): # whether this action selection leads to worker increment or ps increment
+		# cluster_state = self.cluster.get_cluster_state()
+		input = self.observe()  #  NN input
+		label = np.zeros(pm.ACTION_DIM)
+		for i in range(pm.SCHED_WINDOW_SIZE):
+			job = self.window_jobs[i]
+			if job and job.id == label_job_id:
+				if pm.PS_WORKER:
+					if pm.BUNDLE_ACTION:
+						if role == "worker":
+							label[i * 3] = 1
+						elif role == "ps":
+							label[i * 3 + 1] = 1
+						elif role == "bundle":
+							label[i * 3 + 2] = 1
+					else:
+						if role == "worker":
+							label[i * 2] = 1
+						elif role == "ps":
+							label[i * 2 + 1] = 1
+				else:
+					label[i] = 1
+		self.data.append((input,label))
 
 
 def test():

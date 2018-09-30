@@ -74,8 +74,8 @@ def draw_sl_loss_funcs():
 
 def draw_vary_sched_window():
 	xticks = ('10', '20', '30', '40', '50')
-	jcts = [8.000, 6.747, 6.082, 5.959, 6.912]
-	std_devs = [0.710, 0.400, 0.414, 0.544, 1.066]
+	jcts = [7.709, 6.958, 6.501, 5.873, 5.816]
+	std_devs = [0.500, 0.606, 0.327, 0.734, 1.046]
 	draw("Sched. window", xticks, jcts, std_devs, "jct_vary_window_size.pdf")
 
 

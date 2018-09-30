@@ -113,6 +113,7 @@ assert TESTBED+LARGE_SCALE < 2
 CLUSTER_NUM_NODES = 48  # should be at least 3 times of maximal number of uncompleted jobs at each ts, default 160
 if TESTBED:
 	CLUSTER_NUM_NODES = 6
+	CLUSTER_NODES = ["10.28.1.18", "10.28.1.19", "10.28.1.20", "10.28.1.21", "10.28.1.22", "10.28.1.23"]
 elif LARGE_SCALE:
 	CLUSTER_NUM_NODES = 100
 NUM_RESR_TYPES = 2  # number of resource types, e.g., cpu,gpu

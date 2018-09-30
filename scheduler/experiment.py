@@ -152,6 +152,46 @@ def get_config(id, exp_name, test_value):
 			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
 			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
 			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
+		elif test_value == "large-4":
+			config["LARGE_SCALE"] = True
+			config["CLUSTER_NUM_NODES"] = 500
+			config["TOT_NUM_JOBS"] = 600
+			config["MAX_NUM_EPOCHS"] = 80000
+			config["MAX_ARRVS_PER_TS"] = 30
+			config["TS_DURATION"] = 1200.0
+			config["MAX_NUM_WORKERS"] = 50
+			window_size = 180
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
+		elif test_value == "large-5":
+			config["LARGE_SCALE"] = True
+			config["CLUSTER_NUM_NODES"] = 500
+			config["TOT_NUM_JOBS"] = 600
+			config["MAX_NUM_EPOCHS"] = 80000
+			config["MAX_ARRVS_PER_TS"] = 30
+			config["TS_DURATION"] = 1200.0
+			config["MAX_NUM_WORKERS"] = 100
+			window_size = 180
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
+		elif test_value == "large-6":
+			config["LARGE_SCALE"] = True
+			config["CLUSTER_NUM_NODES"] = 500
+			config["TOT_NUM_JOBS"] = 600
+			config["MAX_NUM_EPOCHS"] = 80000
+			config["MAX_ARRVS_PER_TS"] = 30
+			config["TS_DURATION"] = 1200.0
+			config["MAX_NUM_WORKERS"] = 100
+			config["VALUE_NET"] = False
+			window_size = 180
+			config["SCHED_WINDOW_SIZE"] = window_size
+			config["STATE_DIM"] = (sum([enable for (_, enable) in pm.INPUTS_GATE]), window_size)
+			config["ACTION_DIM"] = 3 * window_size + pm.SKIP_TS
+			config["NUM_NEURONS_PER_FCN"] = sum([enable for (_, enable) in pm.INPUTS_GATE]) * window_size
 		elif test_value == "small": # by default
 			config["CLUSTER_NUM_NODES"] = 48
 			config["TOT_NUM_JOBS"] = 60
@@ -339,7 +379,7 @@ def main(id):
 		test_values = [False]
 	elif id == 20:
 		exp_name = "cluster_scale"
-		test_values = ["testbed", "small", "large-1", "large-2", "large-3"]
+		test_values = ["large-4", "large-5", "large-6", "large-1", "large-2", "large-3", "testbed", "small"]
 	elif id == 21:
 		exp_name = "job_resr_balance"
 		test_values = [True, False]
