@@ -302,6 +302,7 @@ def est_interference():
     for k, v in cand_jobs.items():
         error = np.abs(np.std(np.array(v))/np.average(np.array(v)))
         errors.append(error)
+    print 'length: ', len(errors)
     print np.average(errors)
     print max(errors)
     print sum([error>=1 for error in errors])/float(len(errors))
@@ -453,8 +454,8 @@ def job_length_pattern():
 # job_arrival_day()
 # job_length()
 # get_number_of_models()
-get_gpu_request()
+# get_gpu_request()
 # fit_resource_speed_curve()
 # job_arrival_pattern()
 # job_length_pattern()
-# est_interference()
+est_interference()

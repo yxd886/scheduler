@@ -1,5 +1,6 @@
 import collections
 import parameters as pm
+import numpy as np
 
 class Job:
 	def __init__(self, id, type, logger=None):
@@ -56,6 +57,8 @@ class Job:
 		if pm.REAL_SPEED_TRACE or not self.training:  # always use real trace for validation
 			if pm.PS_WORKER:
 				epoch = self.speed_func(self.num_ps, self.num_workers) * pm.TS_DURATION / self.epoch_size
+				num_epoch_error = pm.TRAIN_SPEED_ERROR * (2 * np.random.rand() - 1)
+				epoch = (1 + num_epoch_error) * epoch
 			else:
 				epoch = self.speed_func(self.num_workers, self.num_workers) * pm.TS_DURATION / self.epoch_size
 		else:

@@ -72,8 +72,8 @@ def draw(data1, data2, data3):
 
 
 def draw_jct():
-	train_steps, train_jcts, _, _ = process_results("./data/rl_train_jct_changing_workload.txt")
-	valid_steps, valid_jcts, _, _ = process_results("./data/rl_validation.txt")
+	# train_steps, train_jcts, _, _ = process_results("./data/rl_train_jct_changing_workload.txt")
+	valid_steps, valid_jcts, _, _ = process_results("./data/rl_validation_changing_workload.txt")
 
 	# aim (True, ('2.8825+-0.216790028984', '25.34+-0.564269439187', '2.40165523761+-0.0481009935628'))
 	aim_steps = valid_steps
@@ -84,7 +84,7 @@ def draw_jct():
 
 	print valid_steps
 
-	draw((drf_steps, drf_jcts, ""),(valid_steps, valid_jcts, "DL2"), (aim_steps, aim_jcts, "Ideal"))
+	draw((drf_steps, drf_jcts, ""),(valid_steps, valid_jcts, r'$DL^2$'), (aim_steps, aim_jcts, "Ideal"))
 
 
 draw_jct()

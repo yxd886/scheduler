@@ -85,6 +85,7 @@ NUM_RESR_TYPES = 2  # number of resource types, e.g., cpu,gpu
 NUM_RESR_SLOTS = 8  # number of available resource slots on each machine
 
 # dataset
+TRAIN_SPEED_ERROR = 0
 JOB_EPOCH_EST_ERROR = 0
 REAL_SPEED_TRACE = True  # whether to use real traces collected from experiment testbed
 JOB_LEN_PATTERN = "Ali_Trace"  # Ali_Trace, Normal

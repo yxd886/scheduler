@@ -7,7 +7,7 @@ plt.style.use(["seaborn-bright", "single-figure.mplstyle"])
 
 fig, ax = plt.subplots(figsize=(8,4))
 
-x = ["Inception","ResNet-18","ResNet-50","ResNet-101","ResNext-101","ResNet-152","AlexNet","VGG-16"]
+x = ["Inception","ResNet-18","ResNet-50","ResNet-101","ResNeXt-101","ResNet-152","AlexNet","VGG-16"]
 step_1 = [1.41,1.425,1.42,1.371,1.364,1.438,1.295,1.398]
 step_2 = [0.781,0.297,8.01,0.969,0.622,0.916,0.262,0.299]
 step_3 = [19.731,19.546,51.17,42.667,37.548,50.102,98.946,142.843]

@@ -210,6 +210,8 @@ def get_config(id, exp_name, test_value):
 			config["POLICY_NN_MODEL"] = None
 	elif id == 23:
 		config["JOB_EPOCH_EST_ERROR"] = test_value
+	elif id == 25:
+		config["TRAIN_SPEED_ERROR"] = test_value
 	return config
 
 
@@ -393,6 +395,9 @@ def main(id):
 		PARALLELISM = 3
 		exp_name = "number_of_hidden_layers"
 		test_values = [5, 6, 7]
+	elif id == 25:
+		exp_name = "train_speed_error"
+		test_values = [0.05, 0.1, 0.15, 0.2, 0.25, 0.3]
 
 	run(id, exp_name, test_values)
 
@@ -424,5 +429,6 @@ if __name__ == "__main__":
 		print "21: job resource balance"
 		print "22: enable SL or not"
 		print "23: estimation error of epoch number"
+		print "25: train speed error"
 		exit(1)
 	main(int(sys.argv[1]))
