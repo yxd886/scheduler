@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a768f3df-9e02-487b-9dd4-748d8495d82c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testbed-experiments/check-jinja.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testbed-experiments/k8s-mxnet-task-template.jinja" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py" afterPath="$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testbed-experiments/train.py" afterPath="$PROJECT_DIR$/testbed-experiments/train.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -26,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="k8s_rl_env.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="k8s_rl_env.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="362">
+              <caret line="39" column="23" lean-forward="true" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -39,8 +38,8 @@
       <file leaf-file-name="rl_env.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testbed-experiments/rl_env.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="81" column="33" lean-forward="true" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
+            <state relative-caret-position="-3375">
+              <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -49,8 +48,8 @@
       <file leaf-file-name="parameters.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testbed-experiments/parameters.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="817">
-              <caret line="144" column="13" lean-forward="false" selection-start-line="144" selection-start-column="13" selection-end-line="144" selection-end-column="13" />
+            <state relative-caret-position="344">
+              <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -59,8 +58,8 @@
       <file leaf-file-name="k8s_task.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_task.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="451">
-              <caret line="167" column="32" lean-forward="false" selection-start-line="167" selection-start-column="32" selection-end-line="167" selection-end-column="32" />
+            <state relative-caret-position="264">
+              <caret line="156" column="28" lean-forward="true" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -76,11 +75,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="check-jinja.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="check-jinja.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testbed-experiments/check-jinja.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="train.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/testbed-experiments/train.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1782">
+              <caret line="317" column="35" lean-forward="false" selection-start-line="317" selection-start-column="30" selection-end-line="317" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -97,8 +106,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>progress</find>
-      <find>start</find>
       <find>rot</find>
       <find>VAL_IN</find>
       <find>SKIP_FIRST_VAL</find>
@@ -120,13 +127,15 @@
       <find>JOB_EPOCH_EST_ERROR</find>
       <find>TRAIN_SPEED_ERROR</find>
       <find>SELECT_ACTION_MAX_PROB</find>
-      <find>tic</find>
       <find>job_dir</find>
       <find>Task</find>
       <find>GPU</find>
+      <find>jin</find>
       <find>MAX_NUM</find>
       <find>jinja</find>
-      <find>jin</find>
+      <find>INTER</find>
+      <find>VAL</find>
+      <find>tic</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -170,7 +179,6 @@
         <option value="$PROJECT_DIR$/draw/jct_comparison_varying_hyperparameters.py" />
         <option value="$PROJECT_DIR$/draw/time_step.py" />
         <option value="$PROJECT_DIR$/draw/single-figure.mplstyle" />
-        <option value="$PROJECT_DIR$/testbed-experiments/train.py" />
         <option value="$PROJECT_DIR$/testbed-experiments/rl_env.py" />
         <option value="$PROJECT_DIR$/draw/﻿scaling_overhead_comparison.py" />
         <option value="$PROJECT_DIR$/draw/scaling_overhead_comparison.py" />
@@ -184,8 +192,9 @@
         <option value="$PROJECT_DIR$/scheduler/run-all-experiments.py" />
         <option value="$PROJECT_DIR$/testbed-experiments/parameters.py" />
         <option value="$PROJECT_DIR$/testbed-experiments/params_template.py" />
-        <option value="$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py" />
         <option value="$PROJECT_DIR$/testbed-experiments/k8s_job.py" />
+        <option value="$PROJECT_DIR$/testbed-experiments/train.py" />
+        <option value="$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py" />
       </list>
     </option>
   </component>
@@ -655,16 +664,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testbed-experiments/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9826">
-          <caret line="578" column="20" lean-forward="false" selection-start-line="578" selection-start-column="20" selection-end-line="578" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/draw/scaling_overhead.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -815,50 +814,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testbed-experiments/params_template.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="97" column="17" lean-forward="true" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testbed-experiments/rl_env.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="81" column="33" lean-forward="true" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testbed-experiments/parameters.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="144" column="13" lean-forward="false" selection-start-line="144" selection-start-column="13" selection-end-line="144" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s-mxnet-template.jinja">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1690">
           <caret line="8" column="18" lean-forward="false" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_task.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="451">
-          <caret line="167" column="32" lean-forward="false" selection-start-line="167" selection-start-column="32" selection-end-line="167" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -875,6 +834,54 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/params_template.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="97" column="17" lean-forward="true" selection-start-line="97" selection-start-column="17" selection-end-line="97" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_task.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="156" column="28" lean-forward="true" selection-start-line="156" selection-start-column="28" selection-end-line="156" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1782">
+          <caret line="317" column="35" lean-forward="false" selection-start-line="317" selection-start-column="30" selection-end-line="317" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/parameters.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="196" column="0" lean-forward="true" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/rl_env.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3375">
+          <caret line="75" column="0" lean-forward="true" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testbed-experiments/k8s_rl_env.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="39" column="23" lean-forward="true" selection-start-line="39" selection-start-column="23" selection-end-line="39" selection-end-column="23" />
           <folding />
         </state>
       </provider>

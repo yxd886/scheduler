@@ -35,7 +35,7 @@ class K8S_RL_Env(Scheduler):
 
 	def _init_k8s(self):
 		self.logger.info("clear all existing jobs...")
-		os.system("kubectl delete jobs --all")
+		os.system("kubectl delete jobs,daemonsets --all")
 
 	def _prepare(self):
 		# admit new jobs
@@ -449,7 +449,12 @@ class K8S_RL_Env(Scheduler):
 		counter = 0
 		while True:
 			# sleep 1 minutes
-			time.sleep(60)
+			self.logger.info("Sleeping...")
+			try:
+				time.sleep(60)
+			except:
+				self.logger.info("Ctrl+C is pressed, exit.")
+				exit(0)
 
 			# read progress
 			for job in self.running_jobs.copy():

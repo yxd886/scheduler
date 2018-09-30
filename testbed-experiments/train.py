@@ -290,7 +290,7 @@ def central_agent(net_weights_qs, net_gradients_qs, stats_qs):
 					net_weights_qs[i].put(policy_weights)
 
 			# display speed
-			if step % pm.DISP_INTERVAL == 0:
+			if step % 1 == 0:
 				elaps_t = time.time() - start_t
 				speed = step / elaps_t
 				logger.info("Central agent: Step " + str(
