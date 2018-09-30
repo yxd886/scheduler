@@ -333,7 +333,7 @@ def get_gpu_request():
         if start.tm_year == 2018 and start.tm_mon == 9 and start.tm_mday >= 1 and start.tm_mday <= 5:
             candidates.append(job)
     # calculate Sep. 5
-    dt_obj = datetime.datetime(2018, 9, 3, 12, 0, 0) # start from 12:00 noon, so need to adjust xticks
+    dt_obj = datetime.datetime(2018, 9, 3, 0, 0, 0) # start from 12:00 noon, so need to adjust xticks
     ts = time.mktime(dt_obj.timetuple())
 
     for job in candidates:
@@ -379,6 +379,7 @@ def get_gpu_request():
     server_gpu = 2
 
     max_gpu = num_server * server_gpu
+    max_gpu = max(gpus)
     max_cpu = num_server * server_cpu
 
 
@@ -396,8 +397,8 @@ def get_gpu_request():
     ax.set_xticks([6*i for i in range(5)])
     # ax.set_xticks([i*0.01 for i in range(1200,2400)] + [i*0.01 for i in range(1200)])
     #plt.plot(x, mems, 'r--', label="MEM")
-    plt.ylabel("GPU Usage(%)")
-    plt.xlabel("Time(h)")
+    plt.ylabel("GPU Utilization(%)")
+    plt.xlabel("Time (hours)")
     # plt.legend(loc='best', shadow=False)
     plt.gcf().tight_layout()
     plt.show()
@@ -452,8 +453,8 @@ def job_length_pattern():
 # job_arrival_day()
 # job_length()
 # get_number_of_models()
-# get_gpu_request()
+get_gpu_request()
 # fit_resource_speed_curve()
 # job_arrival_pattern()
 # job_length_pattern()
-est_interference()
+# est_interference()

@@ -4,7 +4,7 @@ ENABLE_K8S = False
 
 # random seed
 RANDOMNESS = False  # do not set it to true, otherwise the first trace of all agents are same!!! not know why, sometimes even stuck
-np_seed = 9973  # seed for numpy
+np_seed = 73  # seed for numpy
 tf_seed = 53  # seed for tf
 trace_seed = 103  # seed for trace, not used
 
@@ -19,7 +19,7 @@ TRAINING_MODE = "RL"  # or "RL"
 if TRAINING_MODE == "SL":
 	HEURISTIC = "DRF"  # the heuristic algorithm used for supervised learning
 if TRAINING_MODE == "RL":
-	VALUE_NET = False  # disable/enable critic network
+	VALUE_NET = True  # disable/enable critic network
 else:
 	VALUE_NET = False
 
@@ -142,6 +142,7 @@ if TESTBED:
 	MAX_ARRVS_PER_TS = 5
 	TS_DURATION = 300.0
 	SCHED_WINDOW_SIZE = 4
+	MAX_NUM_WORKERS = 3
 VAL_DATASET = 100  # number of traces for validation in each agent
 MAX_TS_LEN = 1000  # maximal timeslot length for one trace
 

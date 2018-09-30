@@ -204,7 +204,7 @@ class RL_Env(Scheduler):
 									if num_ps_worker < min_num_ps_worker:
 										min_num_ps_worker = num_ps_worker
 										index_min_job = i
-							if max_num_ps_worker and index_min_job != -1 and max_num_ps_worker/min_num_ps_worker > np.random.randint(3,6):
+							if max_num_ps_worker and min_num_ps_worker and index_min_job != -1 and max_num_ps_worker/min_num_ps_worker > np.random.randint(3,6):
 								if masked_output[0][3*index_min_job+2] > pm.MIN_ACTION_PROB_FOR_SKIP and masked_output[0][3*index_min_job] > pm.MIN_ACTION_PROB_FOR_SKIP:
 									if np.random.rand() < 0.5:
 										action = 3*index_min_job+2
