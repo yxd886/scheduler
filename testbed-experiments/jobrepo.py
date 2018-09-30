@@ -49,11 +49,11 @@ job_repos = [('experiment-imagenet', 'resnet-50'), ('experiment-imagenet', 'vgg-
 DEFAULT_NUM_PS = 1
 DEFAULT_NUM_WORKER = 1
 DEFAULT_PS_CPU = 4
-DEFAULT_PS_MEM = 4
+DEFAULT_PS_MEM = 8
 DEFAULT_PS_GPU = 0
 DEFAULT_WORKER_CPU = 2
 DEFAULT_WORKER_GPU = 1  # dssm,ctc does not need any gpu
-DEFAULT_WORKER_MEM = 4
+DEFAULT_WORKER_MEM = 8
 
 
 def set_config(job):

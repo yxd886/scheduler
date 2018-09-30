@@ -85,7 +85,9 @@ class K8SJob(object):
 
 	def info(self):
 		return "Job id: " + str(self.id) + " type: " + str(self.type) + " arrival_slot: " + str(self.arrival_slot) \
-						 + " progress: " + str(self.progress) + " total epochs: " + str(self.num_epochs)
+						 + " progress: " + str(self.progress) + " total epochs: " + str(self.num_epochs) + " ps cpu:" + str(self.ps_cpu) \
+						+ " ps gpu:" + str(self.ps_gpu) + " ps mem: " + str(self.ps_mem) + " worker cpu: " + str(self.worker_cpu) \
+		                + " worker gpu: " + str(self.worker_gpu) + " worker mem: " + str(self.worker_mem)
 
 	def set_ps_resources(self, num_ps, ps_cpu, ps_mem, ps_bw=0, ps_gpu=0):
 		'''resource requirements of parameter servers'''
