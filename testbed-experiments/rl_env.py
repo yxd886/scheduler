@@ -4,7 +4,6 @@ import numpy as np
 import parameters as pm
 from cluster import Cluster
 import log
-import os
 from scheduler_base import Scheduler
 
 
@@ -22,13 +21,8 @@ class RL_Env(Scheduler):
 			self.jobstats[stats_name] = []
 		if pm.PS_WORKER and pm.BUNDLE_ACTION:
 			self.action_freq = [0 for _ in range(3)]
-		self._init_k8s()
 		# prepare for the first timeslot
 		self._prepare()
-
-	def _init_k8s(self):
-		self.logger.info("clear all existing jobs...")
-		os.system("kubectl delete jobs --all")
 
 	def _prepare(self):
 		# admit new jobs
