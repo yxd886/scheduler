@@ -36,7 +36,7 @@ MODEL_DIR = "Models/"  # checkpoint dir
 MAX_NUM_CHECKPOINTS = 10  # max number of saved checkpoints
 CHECKPOINT_INTERVAL = 1000
 if TRAINING_MODE == "SL":
-	CHECKPOINT_INTERVAL = 100
+	CHECKPOINT_INTERVAL = 50
 DISP_INTERVAL = 2  # display frequency
 VISUAL_GW_INTERVAL = 100  # tf log gradients/weights frequency
 NUM_RECORD_AGENTS = 2  # log details of 2 agents in tensorboard and ignore others for saved space
