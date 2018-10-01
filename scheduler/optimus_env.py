@@ -17,13 +17,13 @@ class Optimus_Env(Scheduler):
 		if pm.PS_WORKER and job.num_ps == 0:
 			return (-np.iinfo(np.int32).max, "ps")
 
-		speed = job.step(False) * (1+EST_ERROR*np.random.choice([-1,1],1))
+		speed = job.step(False) * (1+self.error)
 		node_used_resrs, node = self.node_used_resr_queue.get()
 		self.node_used_resr_queue.put((np.sum(node_used_resrs), node))
 
 		job.num_workers += 1
 		job.curr_worker_placement.append(node)
-		speed_2 = job.step(False) * (1+EST_ERROR*np.random.choice([-1,1],1))
+		speed_2 = job.step(False) * (1+self.error)
 		worker_utility = (job.num_epochs - job.progress) / speed - (job.num_epochs - job.progress) / speed_2
 		job.num_workers -= 1
 		job.curr_worker_placement = job.curr_worker_placement[:-1]
@@ -43,6 +43,7 @@ class Optimus_Env(Scheduler):
 			return (-worker_utility, "worker")
 
 	def _schedule(self):
+		self.error = EST_ERROR*(2*np.random.rand()-1)
 		tic = time.time()
 		opt_queue = Queue.PriorityQueue() # initialize all jobs' utility to be 0
 		for job in self.uncompleted_jobs:
