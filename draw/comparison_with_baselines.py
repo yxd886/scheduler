@@ -115,7 +115,7 @@ xticks = ('DL$^2$', 'DRF', 'Tetris', 'Optimus', 'OfflineRL')
 
 # ali trace distribution
 def draw_Alitrace():
-	jcts = [5.724, 10.246, 8.955, 7.318, 9.418]
+	jcts = [5.724, 10.246, 8.955, 7.318, 9.218]
 	std_devs = [0.844, 0.914, 0.226, 0.529, 1.194]
 	draw_jct(xticks, jcts, std_devs, "jct_comparison_Alitrace_workload.pdf")
 

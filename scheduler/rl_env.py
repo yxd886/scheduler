@@ -397,7 +397,10 @@ class RL_Env(Scheduler):
 			self.job_prog_in_ts[job] = norm_prog
 			reward += norm_prog
 			if job.progress >= job.real_num_epochs:
-				job.end_time = self.curr_ts
+				if pm.FINE_GRAIN_JCT:
+					job.end_time = self.curr_ts - 1 + job.get_run_time_in_ts()
+				else:
+					job.end_time = self.curr_ts
 				# self.running_jobs.remove(job) # it means running in this ts, so no need to delete
 				self.uncompleted_jobs.remove(job)
 				self.completed_jobs.add(job)

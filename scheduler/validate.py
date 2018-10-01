@@ -106,9 +106,9 @@ def val_jmr(net, val_traces, logger, global_step, tb_logger):
 					tb_logger.add_text(tag="rl:input+output+action:" + str(global_step) + "_" + str(episode) + "_" + str(ts) + "_" + str(step),
 						value=value, step=global_step)
 			step += 1
-		num_jobs, avg_jct, makespan, reward = env.get_results()
-		stats["jcts"].append(env.get_job_jcts())
-		avg_jct.append(avg_jct)
+		num_jobs, jct, makespan, reward = env.get_results()
+		stats["jcts"].append(env.get_job_jcts().values())
+		avg_jct.append(jct)
 		avg_makespan.append(makespan)
 		avg_reward.append(reward)
 	elapsed_t = time.time() - tic

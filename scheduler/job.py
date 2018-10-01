@@ -36,6 +36,7 @@ class Job:
 		self.dom_share = 0
 		self.speed_func = None
 		self.training = True
+		self.run_time_in_ts = 0 # only valid immediately after step() call
 
 
 	def step(self, flag=True):
@@ -112,11 +113,17 @@ class Job:
 
 		if flag:
 			if self.progress + epoch > self.real_num_epochs:
+				self.run_time_in_ts = (self.real_num_epochs - self.progress) / epoch
 				epoch = self.real_num_epochs - self.progress
 				self.progress = float(self.real_num_epochs)
 			else:
 				self.progress += epoch
+				self.run_time_in_ts = 1
 		return epoch
+
+	def get_run_time_in_ts(self):
+		return self.run_time_in_ts
+
 
 	def reset(self): # reset all, used for validation where the trace should be kept same
 		self.progress = 0.0
