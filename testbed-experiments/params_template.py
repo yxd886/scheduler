@@ -1,5 +1,7 @@
 # experiment use
 EXPERIMENT_NAME = None
+ENABLE_K8S = True
+
 
 # random seed
 RANDOMNESS = False  # do not set it to true, otherwise the first trace of all agents are same!!! not know why, sometimes even stuck

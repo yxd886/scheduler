@@ -76,6 +76,7 @@ VARYING_PS_WORKER_RATIO = True  # explore different ratio of ps over worker
 STEP_TRAIN_CRITIC_NET = 0  # number of steps for pretraining critic network, default 0, not functional
 CHANGING_JOB_TYPES = False
 JOB_RESR_BALANCE = True
+FINE_GRAIN_JCT = True
 
 # cluster
 TESTBED = False

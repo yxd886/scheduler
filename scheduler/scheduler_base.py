@@ -79,7 +79,7 @@ class Scheduler(object):
 			reward += epoch / job.num_epochs
 			if job.progress >= job.real_num_epochs:
 				if pm.FINE_GRAIN_JCT:
-					job.end_time = self.curr_ts - 1 + job.get_run_time_in_ts
+					job.end_time = self.curr_ts - 1 + job.get_run_time_in_ts()
 				else:
 					job.end_time = self.curr_ts
 				# self.running_jobs.remove(job)
