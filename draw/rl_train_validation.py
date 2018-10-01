@@ -59,7 +59,7 @@ def draw(data1, data2, data3):
 	frame.set_facecolor('1')
 
 	ax.set_xlabel('Step')
-	ax.set_ylabel('Avg. Job Completion Time')
+	ax.set_ylabel('Avg. Job Completion Time',fontsize=24)
 	ax.set_ylim(bottom=0)
 	# plt.locator_params(axis='y', nticks=4, tight=True)
 	ax.xaxis.set_major_locator(mtick.MaxNLocator(6))

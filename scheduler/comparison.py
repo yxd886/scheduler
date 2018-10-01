@@ -30,7 +30,7 @@ def drf(job_trace=None):
 	env = drf_env.DRF_Env("DRF", job_trace, None)
 	while not env.end:
 		env.step()
-	return env.get_results()
+	return [env.get_results(), env.get_job_jcts().values()]
 
 
 def srtf(job_trace=None):
@@ -39,7 +39,7 @@ def srtf(job_trace=None):
 	env = srtf_env.SRTF_Env("SRTF", job_trace, None)
 	while not env.end:
 		env.step()
-	return env.get_results()
+	return [env.get_results(), env.get_job_jcts().values()]
 
 def fifo(job_trace=None):
 	if job_trace is None:
@@ -47,7 +47,7 @@ def fifo(job_trace=None):
 	env = fifo_env.FIFO_Env("FIFO", job_trace, None)
 	while not env.end:
 		env.step()
-	return env.get_results()
+	return [env.get_results(), env.get_job_jcts().values()]
 
 def tetris(job_trace=None):
 	if job_trace is None:
@@ -55,7 +55,7 @@ def tetris(job_trace=None):
 	env = tetris_env.Tetris_Env("Tetris", job_trace, None)
 	while not env.end:
 		env.step()
-	return env.get_results()
+	return [env.get_results(), env.get_job_jcts().values()]
 
 def optimus(job_trace=None):
 	if job_trace is None:
@@ -63,7 +63,7 @@ def optimus(job_trace=None):
 	env = optimus_env.Optimus_Env("Optimus", job_trace, None)
 	while not env.end:
 		env.step()
-	return env.get_results()
+	return [env.get_results(), env.get_job_jcts().values()]
 
 
 
@@ -74,6 +74,8 @@ def compare(traces, logger, debug="False"):
 		fifo(traces[0])
 		tetris(traces[0])
 		optimus(traces[0])
+	f = open("DRF_JCTs.txt", 'w')
+	f.close()
 
 	num_schedulers = 5
 	thread_list = [[] for i in range(num_schedulers)]  # a two dimension matrix
@@ -93,7 +95,11 @@ def compare(traces, logger, debug="False"):
 	reward_list = [[] for i in range(num_schedulers)]
 	for i in range(num_schedulers):
 		for j in range(len(thread_list[i])):
-			num_jobs, jct, makespan, reward = thread_list[i][j].get()
+			result, jcts = thread_list[i][j].get()
+			if i == 0: # DRF：
+				with open("DRF_JCTs.txt", 'a') as f:
+					f.write(str(jcts)+'\n')
+			num_jobs, jct, makespan, reward = result
 			jct_list[i].append(jct)
 			makespan_list[i].append(makespan)
 			reward_list[i].append(reward)

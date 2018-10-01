@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 plt.style.use(["seaborn-bright", "single-figure.mplstyle"])
 
-fig, ax = plt.subplots(figsize=(8,4))
+fig, ax = plt.subplots(figsize=(8,3.5))
 
 x = ["Inception","ResNet-18","ResNet-50","ResNet-101","ResNeXt-101","ResNet-152","AlexNet","VGG-16"]
 step_1 = [1.41,1.425,1.42,1.371,1.364,1.438,1.295,1.398]

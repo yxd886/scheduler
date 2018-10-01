@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 plt.style.use(["seaborn-bright", "single-figure.mplstyle"])
 
-fig, ax = plt.subplots(figsize=(8,4))
+fig, ax = plt.subplots(figsize=(8,3.6))
 
 
 def autolabel(rects):
@@ -26,7 +26,7 @@ autolabel(a)
 autolabel(b)
 #for a,b in zip(x,checkpoint):
 #    plt.text(a, b+0.05, '%.d' % b, ha='center', va= 'bottom',fontsize=7)
-plt.legend(loc=(0.02, 0.7), shadow=False)
+plt.legend(loc=(0.0, 0.67), shadow=False)
 plt.xlabel("# of PS added")
 plt.ylabel("Time (s)")
 plt.ylim([0,25])

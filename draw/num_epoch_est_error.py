@@ -39,7 +39,7 @@ def draw(xlabel, xticks, values, std_devs, file):
 	ax.yaxis.set_major_locator(mtick.MaxNLocator(4))
 
 	plt.xlabel(xlabel)
-	plt.ylabel('Avg. Job Completion Time')
+	plt.ylabel('Avg. Job Completion Time', fontsize=24)
 	plt.xticks(index, xticks)
 
 	# plt.gcf().subplots_adjust(bottom=0.15, left=0.2)
@@ -53,8 +53,6 @@ def draw_est_error():
 	jcts = [6.024, 5.948, 6.851, 6.987, 7.217]
 	std_devs = [0.810, 0.853, 0.355, 1.100, 0.595]
 	draw("Error (%)", xticks, jcts, std_devs, "jct_vary_epoch_est_error.pdf")
-
-
 
 
 if __name__ == "__main__":
