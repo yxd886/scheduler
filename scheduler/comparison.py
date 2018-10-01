@@ -96,7 +96,7 @@ def compare(traces, logger, debug="False"):
 	for i in range(num_schedulers):
 		for j in range(len(thread_list[i])):
 			result, jcts = thread_list[i][j].get()
-			if i == 0: # DRF：
+			if i == 0: # DRF
 				with open("DRF_JCTs.txt", 'a') as f:
 					f.write(str(jcts)+'\n')
 			num_jobs, jct, makespan, reward = result

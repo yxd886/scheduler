@@ -2,20 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a768f3df-9e02-487b-9dd4-748d8495d82c" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/draw/train_speed_variation.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/draw/train_speed_est_error.py" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/jct_vary_SL_loss_fun.pdf" afterPath="$PROJECT_DIR$/draw/jct_vary_SL_loss_fun.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/jct_vary_epoch_est_error.pdf" afterPath="$PROJECT_DIR$/draw/jct_vary_epoch_est_error.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/jct_vary_reward_funcs.pdf" afterPath="$PROJECT_DIR$/draw/jct_vary_reward_funcs.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/job_interference_cdf.pdf" afterPath="$PROJECT_DIR$/draw/job_interference_cdf.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/training_process_varying_job_types.pdf" afterPath="$PROJECT_DIR$/draw/training_process_varying_job_types.pdf" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/jct_comparison_varying_hyperparameters.py" afterPath="$PROJECT_DIR$/draw/jct_comparison_varying_hyperparameters.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/num_epoch_est_error.py" afterPath="$PROJECT_DIR$/draw/num_epoch_est_error.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/rl_train_validation.py" afterPath="$PROJECT_DIR$/draw/rl_train_validation.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/scaling_overhead_comparison.py" afterPath="$PROJECT_DIR$/draw/scaling_overhead_comparison.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/draw/scaling_step_timing.py" afterPath="$PROJECT_DIR$/draw/scaling_step_timing.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/comparison.py" afterPath="$PROJECT_DIR$/scheduler/comparison.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/scheduler/validate.py" afterPath="$PROJECT_DIR$/scheduler/validate.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,10 +18,22 @@
       <file leaf-file-name="comparison.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/scheduler/comparison.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="419">
-              <caret line="99" column="44" lean-forward="false" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
+            <state relative-caret-position="413">
+              <caret line="97" column="50" lean-forward="true" selection-start-line="97" selection-start-column="50" selection-end-line="97" selection-end-column="50" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="validate.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scheduler/validate.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="117" column="0" lean-forward="true" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,7 +88,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/trace/ali-v2/job_trace_20180818.csv" />
         <option value="$PROJECT_DIR$/trace/ali-v2/job_trace_20180819.csv" />
         <option value="$PROJECT_DIR$/trace/ali-v2/job_trace_20180820.csv" />
         <option value="$PROJECT_DIR$/trace/ali-v2/job_trace_20180821.csv" />
@@ -139,6 +138,7 @@
         <option value="$PROJECT_DIR$/draw/scaling_step_timing.py" />
         <option value="$PROJECT_DIR$/draw/scaling_overhead_comparison.py" />
         <option value="$PROJECT_DIR$/scheduler/comparison.py" />
+        <option value="$PROJECT_DIR$/scheduler/validate.py" />
       </list>
     </option>
   </component>
@@ -446,13 +446,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/draw/diff_real_simu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-92">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/draw/linear-scalability.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="411">
@@ -842,10 +835,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scheduler/validate.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="117" column="0" lean-forward="true" selection-start-line="117" selection-start-column="0" selection-end-line="117" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scheduler/comparison.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="99" column="44" lean-forward="false" selection-start-line="99" selection-start-column="44" selection-end-line="99" selection-end-column="44" />
+        <state relative-caret-position="413">
+          <caret line="97" column="50" lean-forward="true" selection-start-line="97" selection-start-column="50" selection-end-line="97" selection-end-column="50" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>

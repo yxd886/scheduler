@@ -56,6 +56,9 @@ def val_jmr(net, val_traces, logger, global_step, tb_logger):
 	avg_reward = []
 	step = 0.0
 	tic = time.time()
+	stats = dict()
+	stats["step"] = global_step
+	stats["jcts"] = []
 	for episode in range(len(val_traces)):
 		job_trace = val_traces[episode]
 		env = rl_env.RL_Env("RL", job_trace, logger, False)
@@ -103,11 +106,14 @@ def val_jmr(net, val_traces, logger, global_step, tb_logger):
 					tb_logger.add_text(tag="rl:input+output+action:" + str(global_step) + "_" + str(episode) + "_" + str(ts) + "_" + str(step),
 						value=value, step=global_step)
 			step += 1
-		num_jobs, jct, makespan, reward = env.get_results()
-		avg_jct.append(jct)
+		num_jobs, avg_jct, makespan, reward = env.get_results()
+		stats["jcts"].append(env.get_job_jcts())
+		avg_jct.append(avg_jct)
 		avg_makespan.append(makespan)
 		avg_reward.append(reward)
 	elapsed_t = time.time() - tic
 	logger.info("time for making one decision: " + str(elapsed_t / step) + " seconds")
+	with open("DL2_JCTs.txt", 'a') as f:
+		f.write(str(stats) + '\n')
 
 	return (1.0*sum(avg_jct)/len(avg_jct), 1.0*sum(avg_makespan)/len(avg_makespan), sum(avg_reward)/len(avg_reward))
